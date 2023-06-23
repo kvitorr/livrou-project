@@ -17,7 +17,7 @@ export class ErrorMiddleware implements ExceptionFilter {
       message = exception.getResponse() as string | { message: string };
     } else if (exception instanceof QueryFailedError) {
       status = 400;
-      message = { message: 'Erro de chave estrangeira: a restrição de chave estrangeira falhou.' };
+      message = exception.message;
     }
 
     response.status(status).json({
