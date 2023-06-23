@@ -9,7 +9,7 @@ import { UseGuards } from '@nestjs/common';
 export class AdvertisementController {
   constructor(private readonly advertisementService: AdvertisementService) {}
 
-  @Get()
+  @Post()
   @UseGuards(AuthGuard('jwt')) // Decorator responsável pelo Guard
   create(@Body() createAdvertisementDto: CreateAdvertisementDTO) {
     return this.advertisementService.create(createAdvertisementDto);
