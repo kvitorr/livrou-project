@@ -1,4 +1,4 @@
-import { Injectable, NotAcceptableException, UnauthorizedException } from '@nestjs/common';
+import { Injectable, NotAcceptableException, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { User } from 'src/users/entities/user.entity';
 import { UsersService } from 'src/users/users.service';
@@ -27,14 +27,59 @@ export class AuthService {
   }
 
   async generateToken(payload: User) {
-    return {
-      access_token: this.jwtService.sign(
-        { email: payload.email },
-        {
-          secret: process.env.SECRET_KEY,
-          expiresIn: '50s',
-        },
-      ),
-    };
+    const accessToken = this.jwtService.sign(
+      { email: payload.email },
+      {
+        secret: process.env.SECRET_KEY,
+        expiresIn: '3000s',
+      },
+    );
+
+    const refreshToken = this.jwtService.sign(
+      { email: payload.email },
+      {
+        secret: process.env.SECRET_KEY_REFRESH,
+        expiresIn: '60s',
+      },
+    );
+    return { access_token: accessToken, refresh_token: refreshToken };
   }
+
+async reauthenticate(body: any): Promise<any> {
+  const payload: User = await this.verifyRefreshToken(body);
+  return this.generateToken(payload);
+}
+
+private async verifyRefreshToken(body: any): Promise<User> {
+  const refreshToken: string = body.refresh_token;
+
+  if (!refreshToken) {
+    throw new NotFoundException('Usuário não encontrado');
+  }
+
+  const email: string = this.jwtService.decode(refreshToken)['email'];
+  const usuario: User = await this.usersService.findOneByEmail(email);
+
+  if (!usuario) {
+    throw new NotFoundException('Usuário não encontrado');
+  }
+
+  try {
+    this.jwtService.verify(refreshToken, {
+      secret: process.env.SECRET_KEY_REFRESH,
+    });
+    return usuario;
+  } catch (err) {
+    if (err.name === 'JsonWebTokenError') {
+      throw new UnauthorizedException('Assinatura Inválida');
+    }
+    if (err.name === 'TokenExpiredError') {
+      throw new UnauthorizedException('Token Expirado');
+    }
+    throw new UnauthorizedException(err.name);
+  }
+}
+
+
+
 }
