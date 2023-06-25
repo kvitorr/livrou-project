@@ -15,6 +15,7 @@ import { AdPlaceModule } from './ad_place/ad_place.module';
 import { LocationModule } from './location/location.module';
 import { ConservationModule } from './conservation/conservation.module';
 import { TransactionTypeModule } from './transaction-type/transaction-type.module';
+import { BookReviewModule } from './book-review/book-review.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { TransactionTypeModule } from './transaction-type/transaction-type.modul
     LocationModule,
     ConservationModule,
     TransactionTypeModule,
+    BookReviewModule,
   ],
   controllers: [AppController],
   providers: [

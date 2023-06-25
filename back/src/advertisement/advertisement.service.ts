@@ -5,7 +5,9 @@ import { Repository } from 'typeorm';
 import { Location } from 'src/location/entities/location.entity';
 import { Advertisement } from './entities/advertisement.entity';
 import { CreateAdvertisementDTO } from './dto/create-advertisement.dto';
-import { NotFoundErrror } from 'errors/api-error';
+import { UnauthorizedException } from '@nestjs/common';
+import { User } from 'src/users/entities/user.entity';
+import { NotFoundException } from '@nestjs/common/exceptions';
 
 @Injectable()
 export class AdvertisementService {
@@ -28,7 +30,7 @@ export class AdvertisementService {
       let locationEntity: Location = await this.locationRepository.findOne({ where: { city: location.city, state: location.state } });
 
       if (!locationEntity) {
-        throw new NotFoundErrror('Localização não existe', 400);
+        throw new NotFoundException('Localização não existe');
       }
 
       locationsArray.push(locationEntity);
@@ -40,18 +42,39 @@ export class AdvertisementService {
   }
 
   findAll() {
-    return `This action returns all advertisement`;
+    return this.advertisementRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} advertisement`;
+  async findOne(id: number): Promise<Advertisement> {
+    return await this.advertisementRepository.findOneBy({advertisement_id : id});
+
   }
 
-  update(id: number, updateAdvertisementDto: UpdateAdvertisementDto) {
-    return `This action updates a #${id} advertisement`;
-  }
+  async update(id: number, updateAdvertisementDto: UpdateAdvertisementDto, user: User): Promise<Advertisement> {
+    console.log(id)
+    const advertisement: Advertisement = await this.findOne(id);
 
-  remove(id: number) {
-    return `This action removes a #${id} advertisement`;
+    if (advertisement.userId !== user.user_id) {
+      throw new UnauthorizedException();
+    }
+
+    updateAdvertisementDto.userId = user.user_id;
+    return this.advertisementRepository.save(updateAdvertisementDto);
+  }
+  
+  
+
+  async remove(id: number, user: User){
+
+    const advertisement: Advertisement = await this.findOne(id);
+
+  
+    if (advertisement.userId !== user.user_id) {
+      throw new UnauthorizedException();
+    }
+    return this.advertisementRepository.delete(id);
   }
 }
+
+
+

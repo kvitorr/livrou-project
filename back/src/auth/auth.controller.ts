@@ -7,6 +7,13 @@ export class AuthController {
 
   @Post('auth/login')
   async login(@Body() body) {
-    return this.authService.validateUser(body.username, body.pass);
+    console.log(body)
+    return this.authService.validateUser(body.email, body.password);
   }
+
+  @Post('auth/refresh')
+  reauthenticate(@Body() body) {
+    return this.authService.reauthenticate(body); //este método será implementado abaixo, portanto é esperado que de erro.
+  }
+
 }
