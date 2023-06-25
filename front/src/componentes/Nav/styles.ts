@@ -1,4 +1,4 @@
-import { styled } from "styled-components";
+import styled from 'styled-components';
 import { theme } from "../../styles/theme";
 
 
@@ -97,6 +97,52 @@ export const NavWrapper = styled.nav`
     .iconOption > img {
         width: 100%;
     }
+
+    .buttonNavWrapper {
+        cursor: pointer;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: .65rem;
+        width: 200px;
+
+        padding: .5rem 0 .5rem 1rem;
+        margin: 0 auto 0 auto;
+        transition: .1s;
+        border-radius: 5px;
+    }
+
+    .buttonNavWrapper:hover {
+        background-color: rgba(128, 128, 128, 0.3);
+    } 
+    
+    .buttonNav {
+        border: none;
+        background-color: transparent;
+        cursor: pointer;
+        font-size: .9rem;
+    }
+
+    .registerButtonWrapper {
+        gap: .7rem;
+        width: 200px;
+
+        padding: .5rem 0 .5rem 0rem;
+        margin: 0 auto;
+        transition: .1s;
+        border-radius: 5px;
+        cursor: pointer;
+        background-color: rgba(26, 43, 136);
+        color: white;
+        border: none;
+        text-align: center;
+        font-weight: 600;
+    }
+
+    .registerButtonWrapper:hover {
+        background-color: rgba(26, 20, 300, 1);
+    }
+
 
     @media (max-width: 464px) {
         width: 80%;
