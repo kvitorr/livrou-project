@@ -1,4 +1,4 @@
-import { styled } from "styled-components";
+import styled from 'styled-components';
 import { theme } from "../../styles/theme";
 
 export const BoxWrapper = styled.header`
@@ -11,7 +11,6 @@ export const BoxWrapper = styled.header`
 
     text-align: center;
     border-bottom: 1px solid #d3d3d3;
-    z-index: 1;
 
     padding: 1rem 2rem;
     background-color: #FFFFFF;
