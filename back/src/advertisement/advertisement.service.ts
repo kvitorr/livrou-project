@@ -5,10 +5,9 @@ import { Repository } from 'typeorm';
 import { Location } from 'src/location/entities/location.entity';
 import { Advertisement } from './entities/advertisement.entity';
 import { CreateAdvertisementDTO } from './dto/create-advertisement.dto';
-import { NotFoundErrror } from 'errors/api-error';
 import { UnauthorizedException } from '@nestjs/common';
 import { User } from 'src/users/entities/user.entity';
-
+import { NotFoundException } from '@nestjs/common/exceptions';
 
 @Injectable()
 export class AdvertisementService {
@@ -31,7 +30,7 @@ export class AdvertisementService {
       let locationEntity: Location = await this.locationRepository.findOne({ where: { city: location.city, state: location.state } });
 
       if (!locationEntity) {
-        throw new NotFoundErrror('Localização não existe', 400);
+        throw new NotFoundException('Localização não existe');
       }
 
       locationsArray.push(locationEntity);
