@@ -1,4 +1,4 @@
-import { useContext} from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { ShowMenuContext } from './contexts/MenuContext'
 
 import { theme } from './styles/theme'
@@ -14,6 +14,8 @@ import { FormModal } from './componentes/FormModal'
 import LoginForm from './componentes/LoginForm'
 import RegisterForm from './componentes/RegisterForm'
 import { ShowRegisterModalContext } from './contexts/RegisterModalContext'
+import { AuthContext } from './contexts/AuthContext'
+import { axiosPublic } from './utils/api'
 
 
 
@@ -22,6 +24,8 @@ function App() {
   const { showMenu } = useContext(ShowMenuContext);
   const { showLoginModal, setShowLoginModal } = useContext(ShowLoginModalContext);
   const { showRegisterModal, setShowRegisterModal } = useContext(ShowRegisterModalContext);
+  const { setLoggedIn } = useContext(AuthContext);
+
 
   return (
     <S.App>

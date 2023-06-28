@@ -74,14 +74,14 @@ export const Nav = () => {
           </li>
         </Link>
 
-        <Link to="#">
+        { false && <Link to="#">
           <li className='navOption'>
             <div className='iconOption'>
             <IoLibraryOutline size="25"/>
             </div>
             <p>Acervo</p>
           </li>
-        </Link>
+        </Link> }
 
         <Link to="/reviews">
           <li className='navOption'>
@@ -92,7 +92,7 @@ export const Nav = () => {
           </li>
         </Link>
 
-        { authContext?.user && 
+        { authContext.loggedIn && 
           <li className='navOption'>
             <div className='iconOption'>
               <img src={newAdIcon} alt="" />
@@ -102,7 +102,7 @@ export const Nav = () => {
         }
 
         <Line></Line>
-        { authContext?.user && 
+        { authContext.loggedIn && 
           <li className='navOption'>
             <div className='iconOption'>
               <img src={logoutIcon} alt="" />
@@ -111,7 +111,7 @@ export const Nav = () => {
           </li> 
         } 
 
-        { !authContext?.user && 
+        { !authContext.loggedIn && 
           <div className='buttonNavWrapper' onClick={() => { setShowLoginModal(true)}}>
             <BiLogIn size="27"/>
             <button className='buttonNav'>
@@ -120,7 +120,7 @@ export const Nav = () => {
           </div>
         }
 
-        { authContext?.user?.isAdmin && 
+        { authContext.isAdmin && 
           <li className='navOption'>
             <div className='iconOption'>
               <img src={logoutIcon} alt="" />
@@ -129,7 +129,7 @@ export const Nav = () => {
           </li> 
         }
 
-        { authContext?.user && 
+        { authContext.loggedIn && 
           <li className='navOption'>
             <div className='iconOption'>
               <AiOutlineSetting size={24}/>
@@ -139,7 +139,7 @@ export const Nav = () => {
         }
         </UlNav>
 
-      { authContext?.user &&
+      { authContext.loggedIn &&
         <Profile>
           <img className='profileImg' src={vitorIcon} alt="" />
           <p>Vitor</p>
@@ -147,7 +147,7 @@ export const Nav = () => {
         </Profile> 
       }
 
-      { !authContext?.user &&
+      { !authContext.loggedIn &&
           <button className='registerButtonWrapper' onClick={() => { setShowRegisterModal(true) } }>
             Cadastre-se
           </button>

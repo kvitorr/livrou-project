@@ -3,11 +3,11 @@ import * as S from './styles'
 export type BookAdProps = {
     title?: string
     urlImage?: string
-    transactionType?: string
     value?: string
+    autor: string
 }
 
-export const BookAd: React.FC<BookAdProps> = ({ title, urlImage, transactionType, value }) => {
+export const BookAd: React.FC<BookAdProps> = ({ title, urlImage, value, autor }) => {
   return (
     <S.BookAdWrapper>
       <S.ImgWrapper>
@@ -17,16 +17,16 @@ export const BookAd: React.FC<BookAdProps> = ({ title, urlImage, transactionType
       <S.AdDescription>
         <div>
         <S.BookTitle>
-          Amor e Gelato
+          {title}
         </S.BookTitle>
 
         <S.BookAuthor>
-          Jenna Evans Welch
+          {autor}
         </S.BookAuthor>
         </div>
 
         <S.BookTradeDescription>
-          <p>R$ 15,00</p>
+          <p>R$ {value}</p>
         </S.BookTradeDescription>
       </S.AdDescription>
     </S.BookAdWrapper>

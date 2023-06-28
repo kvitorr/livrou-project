@@ -1,5 +1,5 @@
-import { createContext, useState, useEffect, ReactNode } from 'react';
-import axios from 'axios'
+import { createContext, useState, ReactNode } from 'react';
+import { axiosPublic } from '../utils/api';
 
 
 interface UserLogin {
@@ -7,74 +7,54 @@ interface UserLogin {
     password: string;
 }
 
-interface User {
-    id: number;
-    name: string;
-    email: string;
-    phone: string;
-    
-    birthDate: Date;
-    registrationDate: Date;
-    
-    isAdmin: boolean;
-    authToken: string;
-}
-
 interface AuthContextProps {
-  user: User | null;
+  loggedIn: boolean;
+  isAdmin: boolean;
+  setLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
   login: (userData: UserLogin) => Promise<void>;
   logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextProps>({
-  user: null,
-  login: async (userData: UserLogin) => {},
+  loggedIn: false,
+  isAdmin: false,
+  setLoggedIn: () => {},
+  login: async () => {},
   logout: () => {}
 });
+
+
 
 interface AuthProviderProps {
   children: ReactNode;
 }
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [user, setUser] = useState<User | null>(null);
-
-  useEffect(() => {
-    // Verifica se há um usuário logado no localStorage ao carregar o aplicativo
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-  }, []);
+  const [loggedIn, setLoggedIn] = useState<boolean>(false);
+  const [isAdmin, setisAdmin] = useState<boolean>(false);
 
   const login = async (userData: UserLogin) => {
-    console.log(userData)
     try {
-      //const response = await axios.post('https://api.example.com/login', userData);
+
+      const response = await axiosPublic.post('auth/login', userData);
+
+      localStorage.setItem('access_token', response.data.access_token);
+      localStorage.setItem('refresh_token', response.data.refresh_token);
+      setLoggedIn(true)
   
-      
     } catch (error) {
       console.error(error);
     }
-
-    // Simula uma autenticação bem-sucedida
-    // Aqui você deve realizar sua lógica de autenticação real, como fazer uma requisição para um servidor
-    // Após a autenticação, você receberia as informações do usuário e chamaria setUser com os dados do usuário
-    
-    
-    //setUser(userData);
-    // Armazena o usuário no localStorage para persistência
-    //localStorage.setItem('user', JSON.stringify(userData));
   };
 
   const logout = () => {
     // Limpa as informações do usuário do estado e do localStorage
-    setUser(null);
-    localStorage.removeItem('user');
+    setLoggedIn(false);
+    setisAdmin(false);
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ loggedIn, isAdmin, setLoggedIn, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
