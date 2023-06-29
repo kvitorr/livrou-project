@@ -27,10 +27,7 @@ export const AdFilter = () => {
               </S.SelectOptions>
 
               <p className='label-input'>Preço Máximo</p>
-              <input type="text" />
-              <p className='label-input'>Preço Mínimo</p>
-              <input type="text" />
-
+              <input className='preco-maximo' type="text" />
 
               <button className='button-search'>
                 Buscar

@@ -1,4 +1,4 @@
-import styled from 'styled-components';;
+import styled from 'styled-components';
 import { theme } from "../../../styles/theme";
 
 
@@ -8,13 +8,13 @@ export const BookAdWrapper = styled.div`
     Define como o elemento irá crescer ou diminuir
     em relação aos outros elementos e o tamanho inicial
     de 180px*/
-    flex: 1 1 180px;
     
     /* 
     D
     */
+
     width: 100%;
-    max-width: 224px;
+    
     
     margin-bottom: .4rem;
     overflow: hidden;

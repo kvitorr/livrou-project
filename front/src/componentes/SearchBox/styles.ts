@@ -72,11 +72,9 @@ export const BoxWrapper = styled.header`
         font-weight: ${theme.font.weight.medium};
     }
 
-    @media (max-width: 1200px) {
-
+    @media (max-width: 1250px) {
         position: fixed;
-
-
+        top: 0;
         .MenuIcon {
             display: flex;
         }

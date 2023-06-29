@@ -31,7 +31,7 @@ export const LogoWrapper = styled.div`
         display: none;
     }
 
-    @media (max-width: 1200px) {
+    @media (max-width: 1250px) {
         .closeIcon {
             display: block;
         }
@@ -56,10 +56,9 @@ export const NavWrapper = styled.nav`
 
     background-color: #FFFFFF;
     position: fixed;
+    left: calc((100%/2) - (1250px/2));
 
-    @media (min-width: 1700px) {
-        left: calc((100%/2) - (1200px/2) - 250px);
-    }
+   
 
     .navOption {
         display: flex;
@@ -141,11 +140,6 @@ export const NavWrapper = styled.nav`
 
     .registerButtonWrapper:hover {
         background-color: rgba(26, 20, 300, 1);
-    }
-
-
-    @media (max-width: 464px) {
-        width: 80%;
     }
 `
 

@@ -1,5 +1,6 @@
-import styled from 'styled-components';;
+import styled from 'styled-components';
 import { theme } from "../../styles/theme";
+import { Link } from 'react-router-dom';
 
 
 export const TimelineWrapper = styled.main`
@@ -10,8 +11,10 @@ export const TimelineWrapper = styled.main`
     display: flex;
     flex-direction: column;
 
-    @media (max-width: 1200px) {
+    @media (max-width: 1250px) {
         margin-top: 70px;
+
+        background-color: red;
     }
 `
 
@@ -23,6 +26,7 @@ export const TimelineTitle = styled.h2`
 export const TimelineAdWrapper = styled.div`
     height: 100%;
     width: 100%;
+
     padding-inline: 1rem;
 
     display: flex;
@@ -30,3 +34,11 @@ export const TimelineAdWrapper = styled.div`
     flex-wrap: wrap;
     gap: 1rem;
 `
+
+export const StyledLink = styled(Link)`
+    //text-decoration: none;
+    //color: blue;
+
+    flex: 1 1 180px;
+    max-width: 230px;
+`;
