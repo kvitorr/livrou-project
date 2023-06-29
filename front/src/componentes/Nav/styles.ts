@@ -24,18 +24,6 @@ export const LogoWrapper = styled.div`
         width: 150px;
         margin: 0 auto;
     }
-
-    .closeIcon {
-        cursor: pointer;
-
-        display: none;
-    }
-
-    @media (max-width: 1250px) {
-        .closeIcon {
-            display: block;
-        }
-    }
 `
 
 export const LogoImg = styled.img`
@@ -140,6 +128,11 @@ export const NavWrapper = styled.nav`
 
     .registerButtonWrapper:hover {
         background-color: rgba(26, 20, 300, 1);
+    }
+
+
+    @media (max-width: 1250px) {
+        display: none;
     }
 `
 
