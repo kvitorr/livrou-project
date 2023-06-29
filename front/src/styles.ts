@@ -22,6 +22,7 @@ export const Content = styled.div`
 
 export const MainContent = styled.main`
     width: 100%;
+    min-height: 100vh;
     border-right: 1px solid #d3d3d3;
 
 
