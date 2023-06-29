@@ -5,6 +5,7 @@ import { BookAds } from "./componentes/BookAds";
 import { BookDetails } from "./componentes/BookDetails";
 import { Reviews } from "./componentes/Reviews";
 import { Timeline } from "./componentes/Timeline";
+import Announcement from "./componentes/Announcement";
 
 
 export const router = createBrowserRouter([
@@ -17,6 +18,7 @@ export const router = createBrowserRouter([
             { path: "/bookads", element: <BookAds/> },
             { path: "/bookdetails", element: <BookDetails/> },
             { path: "/reviews", element: <Reviews/> },
+            { path: "/anuncios/:id", element: <Announcement/> },
         ]
     }
 ])
