@@ -3,12 +3,11 @@ import styled from 'styled-components';
 
 
 export const App = styled.div`
-    max-width: 1250px;
+    max-width: 2250px;
     margin: 0 auto;
 `
 
 export const Content = styled.div`
-    max-width: 1000px;
     margin-left: 250px;
 
     position: relative;

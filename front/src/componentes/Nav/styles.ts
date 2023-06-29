@@ -44,7 +44,7 @@ export const NavWrapper = styled.nav`
 
     background-color: #FFFFFF;
     position: fixed;
-    left: calc((100%/2) - (1250px/2));
+    left: 0;
 
    
 
