@@ -22,15 +22,15 @@ export class AdvertisementController {
   }
 
   @Get()
-  findAll() {
-    return this.advertisementService.findAll();
+  findValidAdvertisements() {
+    return this.advertisementService.findValidAdvertisements();
   }
 
   @Get(':id')
-  async findOne(
+  async findOneValid(
     @Param('id') id: string
   ) {
-      return this.advertisementService.findOne(+id);
+      return this.advertisementService.findOneValid(+id);
 
   }
 

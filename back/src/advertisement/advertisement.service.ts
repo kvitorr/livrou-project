@@ -2,12 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { UpdateAdvertisementDto } from './dto/update-advertisement.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Location } from 'src/location/entities/location.entity';
 import { Advertisement } from './entities/advertisement.entity';
 import { CreateAdvertisementDTO } from './dto/create-advertisement.dto';
-import { UnauthorizedException } from '@nestjs/common';
+import { UnauthorizedException, ForbiddenException } from '@nestjs/common';
 import { User } from 'src/users/entities/user.entity';
 import { NotFoundException } from '@nestjs/common/exceptions';
+import { Location } from 'src/location/entities/location.entity';
 
 @Injectable()
 export class AdvertisementService {
@@ -45,10 +45,27 @@ export class AdvertisementService {
     return this.advertisementRepository.find();
   }
 
+  async findValidAdvertisements(): Promise<Advertisement[]> {
+    const ads: Advertisement[] = await this.advertisementRepository.find({ where: { removed: false}});
+      if(!!ads || ads.length === 0){
+        throw new  ForbiddenException()
+      }
+    return ads;
+  }
+
   async findOne(id: number): Promise<Advertisement> {
     return await this.advertisementRepository.findOneBy({advertisement_id : id});
 
   }
+
+  async findOneValid(id: number): Promise<Advertisement> {
+      const ads: Advertisement = await this.advertisementRepository.findOne({ where: {advertisement_id : id, removed: false}});
+      if(!ads){
+        throw new ForbiddenException()
+      }
+
+      return ads;
+    }  
 
   async update(id: number, updateAdvertisementDto: UpdateAdvertisementDto, user: User): Promise<Advertisement> {
     console.log(id)
@@ -57,6 +74,8 @@ export class AdvertisementService {
     if (advertisement.userId !== user.user_id) {
       throw new UnauthorizedException();
     }
+
+    
 
     updateAdvertisementDto.userId = user.user_id;
     return this.advertisementRepository.save(updateAdvertisementDto);
