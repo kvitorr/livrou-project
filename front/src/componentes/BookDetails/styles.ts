@@ -1,10 +1,12 @@
-import styled from 'styled-components';;
+import styled from 'styled-components';
 import { theme } from "../../styles/theme";
 
 export const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+
+    max-height: calc(100vh);
 
     @media (max-width: 768px) {
         margin-right: 0;
@@ -29,7 +31,7 @@ export const DetailsContainer = styled.div`
     display: flex;
     align-items: center;
     gap: 2rem;
-    padding: 0rem 1rem 1rem 1rem;
+    padding: 0rem 3rem 0rem 3rem;
 
     @media (max-width: 768px) {
         margin-right: 0;
@@ -135,9 +137,10 @@ export const Button = styled.button`
 
 export const ReviewContainerBottom = styled.div`
     width: 100%; 
+    overflow-y: auto;
     font-size: 2rem; 
     font-weight: ${theme.font.weight.medium};
-    padding-inline: 1rem;
+    padding-inline: 3rem;
 `;
 
 
@@ -153,12 +156,12 @@ export const SuspenseValidationButton  = styled.button`
 export const Line = styled.div`
     height: 1px;
     width: 100%;
-    margin-block: 1rem;
+    margin: 1rem 0rem 0rem 0rem;
     border-bottom: 1px solid #d3d3d3;
 `
 export const ReviewsTitle = styled.h2`
     font-size: 1.5rem;
-    padding: 1rem 5rem 0 5rem; 
+    padding: 2rem 3rem 0 3rem; 
     font-weight: ${theme.font.weight.medium};
     margin-bottom: 1rem;
 `
@@ -166,11 +169,17 @@ export const ReviewsTitle = styled.h2`
 export const SelectOptions = styled.select`
     border: none;
     outline: none;
-    padding: 0.5rem 2rem 0.5rem 0rem;
+
+    width: 400px;
+    margin: 1rem 0 1rem 3rem;
 
     font-size: 1.3rem;
     font-weight: ${theme.font.weight.bold};
     font-family: 'Poppins';
 
     border-bottom: 1px solid black;
+`
+
+export const ReviewsContainer = styled.div`
+    overflow-y: scroll;
 `
