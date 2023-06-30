@@ -76,9 +76,7 @@ const anuncios = [{
 export const Timeline = () => {
   return (
     <S.TimelineWrapper>
-      <S.TimelineTitle>
-        Anúncios
-      </S.TimelineTitle>
+      <S.TimelineTitle>Anúncios</S.TimelineTitle>
 
       <S.TimelineAdWrapper>
       {anuncios.map((anuncio) => (

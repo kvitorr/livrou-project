@@ -5,30 +5,22 @@ import { Link } from 'react-router-dom';
 
 export const TimelineWrapper = styled.main`
     margin: auto;
-    padding-inline: 2rem;
+    padding-inline: 3rem;
 
 
     display: flex;
     flex-direction: column;
-
-    @media (max-width: 1250px) {
-        margin-top: 70px;
-
-        background-color: red;
-    }
 `
 
 export const TimelineTitle = styled.h2`
-    padding: 1rem 1rem;
+    padding: 1rem 0;
     font-weight: ${theme.font.weight.semibold};
 `
 
 export const TimelineAdWrapper = styled.div`
     height: 100%;
     width: 100%;
-
-    padding-inline: 1rem;
-
+    
     display: flex;
     justify-content: flex-start;
     flex-wrap: wrap;

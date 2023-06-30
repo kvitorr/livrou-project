@@ -10,17 +10,16 @@ export const BoxWrapper = styled.header`
     gap: 1rem;
 
     text-align: center;
-    border-bottom: 1px solid #d3d3d3;
+    border-bottom: 1px solid #B3DBDB;
 
-    padding: 1rem 2rem;
+    padding: 1rem 3rem;
     background-color: #FFFFFF;
 
     position: relative;
 
     .HeaderContainer {
         width: clamp(200px, 100%, 600px);
-
-        margin-right: 170px;
+        margin-right: 210px;
     }
 
     .MenuIcon, .FilterIcon {
@@ -77,6 +76,7 @@ export const BoxWrapper = styled.header`
         top: 0;
         .MenuIcon {
             display: flex;
+            margin-right: 50px;
         }
     }
 `
@@ -86,7 +86,7 @@ export const ButtonWrapper = styled.button`
     display: flex;
     align-items: center;
     gap: 1rem;
-    right: 2rem;
+    right: 3rem;
    
     font-size: .9rem;
 

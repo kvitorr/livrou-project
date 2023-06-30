@@ -1,13 +1,11 @@
-import styled from 'styled-components';;
+import styled from 'styled-components';
 
 export const SearchBarWrapper = styled.form`
     display: flex;
     flex-direction: row;
     align-items: center;
 
-    width: 80%;
-    margin: auto;
-
+    width: 100%;
     .inputSearch {
         width: 100%;
         padding: .64rem 1.5rem;
