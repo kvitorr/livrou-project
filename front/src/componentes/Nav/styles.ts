@@ -39,7 +39,7 @@ export const NavWrapper = styled.nav`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    border-right: 1px solid #d3d3d3;
+    border-right: 1px solid #B3DBDB;
 
 
     background-color: #FFFFFF;
