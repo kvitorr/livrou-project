@@ -6,4 +6,6 @@ export class CreateUserDto {
     phone: number;
     email: string;
     password: string;
+    removed: boolean;
+    isAdmin: boolean;
   }

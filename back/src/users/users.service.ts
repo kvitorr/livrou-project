@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -24,12 +24,36 @@ export class UsersService {
     return this.userRepository.find()   
   }
 
-  findOne(id: number) {
-    return this.userRepository.findOneBy({user_id: id}) ; 
+  async findOne(id: number) {
+    return await this.userRepository.findOneBy({user_id: id}) ; 
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return this.userRepository.delete(id);
+  async update(idUserUpdated: number, updateUserDto: UpdateUserDto, userReq: User) {
+   
+    const userUpdated: User = await this.findOne(idUserUpdated);
+
+    updateUserDto.user_id = idUserUpdated;
+
+    if(userReq.user_id == userUpdated.user_id){
+        if(userUpdated.removed){
+          throw new UnauthorizedException();
+        }
+        updateUserDto.isAdmin = userUpdated.isAdmin;
+        updateUserDto.removed = false;
+
+    }else{
+      console.log(userReq)
+      if(!userReq.isAdmin){
+        throw new UnauthorizedException();
+      }
+      if(userUpdated.isAdmin){
+        updateUserDto.isAdmin = true;
+        updateUserDto.removed = false;
+      }
+    }
+
+    return this.userRepository.save(updateUserDto);
+
   }
 
   remove(id: number) {

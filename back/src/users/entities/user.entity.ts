@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne } from 'typeorm';
 
 @Entity({ name: 'user_table' })
 export class User {
@@ -25,5 +25,8 @@ export class User {
 
   @Column()
   password: string;
+
+  @Column({name: 'is_admin', default: false })
+  isAdmin: boolean;
 
 }
