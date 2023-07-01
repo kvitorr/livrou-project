@@ -17,5 +17,5 @@ export class AdPlace {
 
   @ManyToOne(() => Location, location => location.location_id)
   @JoinColumn({ name: 'location_id' })
-  location: Location[];
+  locations: Location[];
 }
