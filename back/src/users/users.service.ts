@@ -20,17 +20,25 @@ export class UsersService {
     return this.userRepository.save(user);
   }
 
-  findAll() {
-    return this.userRepository.find()   
+  findAll(user: User) {
+    if(user.isAdmin){
+      return this.userRepository.find()   
+    }
+    throw new UnauthorizedException();
   }
 
-  async findOne(id: number) {
-    return await this.userRepository.findOneBy({user_id: id}) ; 
+  async findOne(id: number, user: User) {
+    if(user.isAdmin || user.user_id == id){
+      return await this.userRepository.findOneBy({user_id: id}) ; 
+    }
+
+    throw new UnauthorizedException();
+
   }
 
   async update(idUserUpdated: number, updateUserDto: UpdateUserDto, userReq: User) {
    
-    const userUpdated: User = await this.findOne(idUserUpdated);
+    const userUpdated: User = await this.findOne(idUserUpdated, userReq);
 
     updateUserDto.user_id = idUserUpdated;
 

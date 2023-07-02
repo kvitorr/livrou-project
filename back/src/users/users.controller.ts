@@ -21,13 +21,17 @@ export class UsersController {
   
 
   @Get()
-  findAll() {
-    return this.usersService.findAll();
+  @UseGuards(AuthGuard('jwt'))
+  findAll(@Req() request: Request) {
+    const user: User = request.user as User;
+    return this.usersService.findAll(user);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
+  @UseGuards(AuthGuard('jwt'))
+  findOne(@Param('id') id: string, @Req() request: Request) {
+    const user: User = request.user as User;
+    return this.usersService.findOne(+id,user);
   }
 
   @Patch(':id')
@@ -37,9 +41,9 @@ export class UsersController {
     return this.usersService.update(+id, updateUserDto, user);
   }
 
-  @Delete(':id')
+  /*@Delete(':id')
   @UseGuards(AuthGuard('jwt'))
   remove(@Param('id') id: string) {
     return this.usersService.remove(+id);
-  }
+  }*/
 }

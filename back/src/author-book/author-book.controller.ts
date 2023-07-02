@@ -18,18 +18,4 @@ export class AuthorBookController {
     return this.authorBookService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.authorBookService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAuthorBookDto: UpdateAuthorBookDto) {
-    return this.authorBookService.update(+id, updateAuthorBookDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.authorBookService.remove(+id);
-  }
 }
