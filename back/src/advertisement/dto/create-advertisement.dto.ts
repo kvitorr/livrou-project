@@ -30,6 +30,8 @@ export class CreateAdvertisementDTO {
   @IsNotEmpty()
   @IsBooleanString()
   removed: boolean;
+  
+  postingDate: Date;
 
   @IsNotEmpty()
   @IsArray()

@@ -17,7 +17,7 @@ export class AdvertisementService {
     private readonly advertisementRepository: Repository<Advertisement>,
     @InjectRepository(Location)
     private readonly locationRepository: Repository<Location>,
-  ){}
+  ) { }
 
   async create(createAdvertisementDto: CreateAdvertisementDTO): Promise<Advertisement> {
     const { locations, ...advertisementData } = createAdvertisementDto;
@@ -47,54 +47,79 @@ export class AdvertisementService {
 
   async findValidAdvertisements(): Promise<Advertisement[]> {
     const ads: Advertisement[] = await this.advertisementRepository.find({ where: { removed: false } });
-  
+
     if (!ads || ads.length === 0) {
       throw new ForbiddenException();
     }
-  
+
     return ads;
   }
-  
+
 
   async findOne(id: number): Promise<Advertisement> {
-    return await this.advertisementRepository.findOneBy({advertisement_id : id});
+    return await this.advertisementRepository.findOneBy({ advertisement_id: id });
 
   }
 
   async findOneValid(id: number): Promise<Advertisement> {
-      const ads: Advertisement = await this.advertisementRepository.findOne({ where: {advertisement_id : id, removed: false}});
-      if(!ads){
-        throw new ForbiddenException()
-      }
-
-      return ads;
-    }  
-
-  async update(id: number, updateAdvertisementDto: UpdateAdvertisementDto, user: User): Promise<Advertisement> {
-    console.log(id)
-    const advertisement: Advertisement = await this.findOne(id);
-
-    if (advertisement.userId !== user.user_id) {
-      throw new UnauthorizedException();
+    const ads: Advertisement = await this.advertisementRepository.findOne({ where: { advertisement_id: id, removed: false } });
+    if (!ads) {
+      throw new ForbiddenException()
     }
 
-    
+    return ads;
+  }
 
-    updateAdvertisementDto.userId = user.user_id;
+  async update(id: number, updateAdvertisementDto: UpdateAdvertisementDto, userReq: User): Promise<Advertisement> {
+    const advertisement: Advertisement = await this.findOne(id);
+
+    if (!advertisement) {
+      throw new NotFoundException();
+    }
+    updateAdvertisementDto.userId = advertisement.userId;
+    updateAdvertisementDto.postingDate = advertisement.postingDate;
+
+    if (!userReq.isAdmin) {
+      if (advertisement.userId === userReq.user_id) {
+        updateAdvertisementDto.removed = advertisement.removed;
+      } else {
+        throw new UnauthorizedException();
+      }
+    }
+
     return this.advertisementRepository.save(updateAdvertisementDto);
   }
-  
-  
 
-  async remove(id: number, user: User){
+  async markAsDone(id: number, userReq: User): Promise<Advertisement> {
+    const advertisement: Advertisement = await this.findOne(id);
+    if (!advertisement) {
+      throw new NotFoundException();
+    }
+    if (!userReq.isAdmin) {
+      if (advertisement.userId !== userReq.user_id) {
+        throw new UnauthorizedException();
+      }
+    }
+
+    advertisement.completionDate = new Date();
+
+    return this.advertisementRepository.save(advertisement);
+  }
+
+  async remove(id: number, user: User) {
 
     const advertisement: Advertisement = await this.findOne(id);
-
-  
-    if (advertisement.userId !== user.user_id) {
-      throw new UnauthorizedException();
+    if (!advertisement) {
+      throw new NotFoundException();
     }
-    return this.advertisementRepository.delete(id);
+    if (!user.isAdmin) {
+      if (advertisement.userId !== user.user_id) {
+        throw new UnauthorizedException();
+      }
+    }
+
+    advertisement.removed = true;
+    return this.advertisementRepository.save(advertisement);
   }
 
 
@@ -130,7 +155,7 @@ export class AdvertisementService {
 
     return await queryBuilder.getMany();
   }
-  
+
 }
 
 

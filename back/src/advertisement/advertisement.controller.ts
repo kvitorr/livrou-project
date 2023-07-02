@@ -35,8 +35,6 @@ export class AdvertisementController {
     @Query('conservation') conservation?: string,
     @Query('maxPrice') maxPrice?: string,
   ) {
-    console.log('Rota /advertisement/filter foi chamada');
-    console.log('Parâmetros:', { state, city, saleType: transactionType, condition: conservation, maxPrice });
   
     const parsedMaxPrice = maxPrice ? parseFloat(maxPrice) : undefined;
     if (isNaN(parsedMaxPrice)) {
@@ -78,12 +76,16 @@ export class AdvertisementController {
   
   }
 
-
-  @Delete(':id')
-  @UseGuards(AuthGuard('jwt')) // Decorator responsável pelo Guard
-  async remove ( @Param('id') id: string,@Req() request: Request) {
+  
+  @Patch(':id/complete')
+  @UseGuards(AuthGuard('jwt'))
+  async markAsDone(
+    @Param('id') id: string,
+    @Req() request: Request
+  ) {
     const user: User = request.user as User;
-    return this.advertisementService.remove(+id, user);
+    return this.advertisementService.markAsDone(+id, user);
+  
   }
 
   
