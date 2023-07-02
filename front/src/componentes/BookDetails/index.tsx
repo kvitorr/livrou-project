@@ -2,8 +2,30 @@ import * as S from "./styles.ts";
 import { Link } from "react-router-dom";
 import urlImage from "/images/ponteParaTerabia.jpg";
 import { ReviewBottom } from "./ReviewBottom/index.tsx";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { axiosPublic } from "../../utils/api.ts";
+import { BookProps } from "../Collection/BookAd/index.tsx";
+
 
 export const BookDetails = () => {
+  const { id } = useParams();
+  const [bookDetails, setBookDetails] = useState<BookProps>()
+
+  useEffect(() => {
+    
+    const fetchBookDetails = async () => {
+      const response = await axiosPublic(`/books/${id}`)
+      const data = response.data
+      setBookDetails(data)
+
+      console.log(response)
+    }
+
+    fetchBookDetails()
+  }, [])
+
+
   return (
     <S.Wrapper>
         <S.ReviewsTitle>
@@ -12,25 +34,18 @@ export const BookDetails = () => {
           
       <S.DetailsContainer>
         <S.BookAdWrapper>
-          <img src={urlImage} alt="" />
+          <img src={bookDetails?.imageUrl} alt="" />
         </S.BookAdWrapper>
 
         <S.DetailsContent>
           <S.BookTitle>
-            Ponte para Terabítia
+            {bookDetails?.title}
           </S.BookTitle>
           <S.BookAuthor>
             Katherine Paterson
           </S.BookAuthor>
           <S.BookSinopse>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-            Assumenda debitis nesciunt sapiente, nostrum dolore nemo voluptates
-            voluptas doloribus? Inventore illo dolorem unde expedita quo
-            accusantium vero omnis harum magnam sequi! Lorem ipsum dolor sit
-            amet consectetur adipisicing elit. Pariatur voluptates praesentium
-            quisquam odio iusto tempora ipsam provident ut perferendis
-            voluptatum, id, repellat ducimus quaerat iure libero fugiat
-            blanditiis, culpa debitis.
+            {bookDetails?.synopsis}
           </S.BookSinopse>
 
           <S.ButtonWrapper>

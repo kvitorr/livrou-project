@@ -1,17 +1,19 @@
 import * as S from './styles'
 
-export type BookAdProps = {
-    title?: string
-    urlImage?: string
-    value?: string
-    autor: string
+export type BookProps = {
+    book_id: string
+    editionCount: string
+    imageUrl: string
+    publish_year: string
+    synopsis: string
+    title: string
 }
 
-export const BookAd: React.FC<BookAdProps> = ({ title, urlImage, value, autor }) => {
+export const BookAd: React.FC<BookProps> = ({ book_id, editionCount, imageUrl, publish_year, synopsis, title }) => {
   return (
     <S.BookAdWrapper>
       <S.ImgWrapper>
-        <img src={urlImage} alt="" />
+        <img src={imageUrl} alt="" />
       </S.ImgWrapper>
 
       <S.AdDescription>
@@ -21,7 +23,7 @@ export const BookAd: React.FC<BookAdProps> = ({ title, urlImage, value, autor })
         </S.BookTitle>
 
         <S.BookAuthor>
-          {autor}
+         
         </S.BookAuthor>
         </div>
       </S.AdDescription>

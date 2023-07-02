@@ -14,7 +14,7 @@ export const BookAdWrapper = styled.div`
     */
 
     width: 100%;
-    
+    height: 360px;    
     
     margin-bottom: .4rem;
     overflow: hidden;
@@ -30,16 +30,18 @@ export const ImgWrapper = styled.div`
     justify-content: center;
     align-items: center;
 
+    width: 100%;
+    height: 80%;
+
 
     img {
-        max-width: 100%;
-        height: 100%;
+        width: 100%;
     }
 `
 
 
 export const AdDescription = styled.div`
-    padding: .5rem 1rem;
+    padding: .5rem 0.5rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;

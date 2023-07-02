@@ -1,78 +1,41 @@
+import { useEffect, useState } from 'react'
 import * as S from './styles'
-import { BookAd } from './BookAd'
+import { BookAd, BookProps } from './BookAd'
 
-import urlImage from '/images/ponteParaTerabia.jpg'
-
-
-export type BookAdProps = {
-  id: string
-  title?: string
-  urlImage?: string
-  value?: string
-  autor: string
-}
-
-const livros = [{
-  id: 1,
-  title: "Amor e gelato",
-  urlImage: urlImage,
-  value: "15",
-  autor: "Katherine Patterson"
-},
-{
-  id: 2,
-  title: "Amor e gelato",
-  urlImage: urlImage,
-  value: "15",
-  autor: "Katherine Patterson"
-},
-{
-  id: 3,
-  title: "Amor e gelato",
-  urlImage: urlImage,
-  value: "15",
-  autor: "Katherine Patterson"
-},
-{
-  id: 4,
-  title: "Amor e gelato",
-  urlImage: urlImage,
-  value: "15",
-  autor: "Katherine Patterson"
-},
-{
-  id: 5,
-  title: "Amor e gelato",
-  urlImage: urlImage,
-  value: "15",
-  autor: "Katherine Patterson"
-},
-{
-  id: 6,
-  title: "Amor e gelato",
-  urlImage: urlImage,
-  value: "15",
-  autor: "Katherine Patterson"
-},
-{
-  id: 7,
-  title: "Amor e gelato",
-  urlImage: urlImage,
-  value: "15",
-  autor: "Katherine Patterson"
-}]
+import { axiosPublic } from '../../utils/api'
 
 
 export const Collection = () => {
+
+  const [books, setBooks] = useState<BookProps[]>([])
+
+  useEffect(() => {
+    const fetchBooks = async () => {
+      const response = await axiosPublic('books/')
+      const data = response.data
+      console.log(data)
+      setBooks(data)
+    }
+
+    fetchBooks()
+  }, [])
+
+
+
+
+
+
+
+
   return (
     <S.CollectionWrapper>
       <S.CollectionTitle>Acervo</S.CollectionTitle>
 
       <S.CollectionAdWrapper>
-      {livros.map((livro) => (
-        <S.StyledLink key={livro.id} to={`/livro/${livro.id}`}>
-          <BookAd {...livro}/>
-        </S.StyledLink>))}
+      {books.map((book) => (
+        <S.StyledLink key={book.book_id} to={`/livro/${book.book_id}`}>
+          <BookAd {...book}/>
+      </S.StyledLink>))}
       </S.CollectionAdWrapper>
 
     </S.CollectionWrapper>
