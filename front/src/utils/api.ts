@@ -21,7 +21,7 @@ axiosPublic.interceptors.request.use(
     }
   );
 
-const refreshToken = async () => {
+export const verifyRefreshToken = async () => {
     try {
         const refresh_token= localStorage.getItem("refresh_token");
 
@@ -48,7 +48,7 @@ axiosPublic.interceptors.response.use(
         const originalRequest = error.config
       if (error.response && error.response.status === 401 && !originalRequest.sent) {
         originalRequest.sent = true;
-        const data = await refreshToken();
+        const data = await verifyRefreshToken();
 
         if(data) {
             console.log("novos tokens gerados: ", data)
