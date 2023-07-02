@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException, ForbiddenException } from '@nestjs/common';
+import { Injectable, UnauthorizedException, NotFoundException } from '@nestjs/common';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -6,6 +6,8 @@ import { Book } from './entities/book.entity';
 import { Repository } from 'typeorm';
 import { Author } from 'src/authors/entities/author.entity';
 import { User } from 'src/users/entities/user.entity';
+import { IPaginationOptions } from 'nestjs-typeorm-paginate/dist/interfaces';
+import { Pagination, paginate } from 'nestjs-typeorm-paginate';
 
 @Injectable()
 export class BooksService {
@@ -42,15 +44,80 @@ export class BooksService {
     book.authors = authors;
     return this.bookRepository.save(book);
   }
+
+  async paginate(options: IPaginationOptions): Promise<Pagination<Book>> {
+    const paginationResult = await paginate<Book>(this.bookRepository, options, {
+      join: {
+        alias: 'book',
+        leftJoinAndSelect: {
+          authors: 'book.authors',
+        },
+      },
+    });
   
-
-  findAll() {
-    return this.bookRepository.find();
+    const booksWithAuthors = paginationResult.items.map(book => {
+      const authors = book.authors.map(author => {
+        return {
+          author_id: author.author_id,
+          name: author.name,
+        };
+      });
+  
+      return {
+        ...book,
+        authors: authors,
+      };
+    });
+  
+    return {
+      ...paginationResult,
+      items: booksWithAuthors,
+    };
   }
 
-  async findOne(id: number): Promise<Book>{
-    return await this.bookRepository.findOneBy({ book_id: id })
+  async findAll() {
+    const books = await this.bookRepository
+    .createQueryBuilder('book')
+    .leftJoinAndSelect('book.authors', 'author') // Carrega os dados dos autores associados
+    .getMany();
+
+  const booksWithAuthors = books.map(book => {
+    const authors = book.authors.map(author => {
+      return {
+        author_id: author.author_id, 
+        name: author.name, 
+      };
+    });
+  })
+}
+
+  
+async findOne(id: number): Promise<Book> {
+  const book = await this.bookRepository
+    .createQueryBuilder('book')
+    .leftJoinAndSelect('book.authors', 'author') // Carrega os dados dos autores associados
+    .where('book.book_id = :id', { id })
+    .getOne();
+
+  if (!book) {
+    throw new NotFoundException(`Livro com o ID ${id} não encontrado`);
   }
+
+  const authors = book.authors.map(author => {
+    return {
+      author_id: author.author_id,
+      name: author.name,
+    };
+  });
+
+  return {
+    ...book,
+    authors: authors,
+  };
+}
+
+
+
 
   update(id: number, updateBookDto: UpdateBookDto, user: User) {
     if(!user.isAdmin){
