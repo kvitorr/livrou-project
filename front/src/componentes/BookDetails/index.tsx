@@ -18,12 +18,10 @@ export const BookDetails = () => {
       const response = await axiosPublic(`/books/${id}`)
       const data = response.data
       setBookDetails(data)
-
-      console.log(response)
     }
 
     fetchBookDetails()
-  }, [])
+  }, [id])
 
 
   return (
