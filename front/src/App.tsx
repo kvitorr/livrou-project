@@ -16,6 +16,7 @@ import RegisterForm from './componentes/RegisterForm'
 import { ShowRegisterModalContext } from './contexts/RegisterModalContext'
 import { AuthContext } from './contexts/AuthContext'
 import { axiosPublic } from './utils/api'
+import { NavMobile } from './componentes/NavMobile'
 
 
 
@@ -31,8 +32,9 @@ function App() {
     <S.App>
       <ThemeProvider theme={theme}>
           <S.Content>  
+            
             <Nav/>
-            {showMenu && true}
+            {showMenu && <NavMobile/>}
 
             <S.MainContent>
               <SearchBox/>

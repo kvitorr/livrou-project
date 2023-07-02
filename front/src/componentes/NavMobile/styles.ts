@@ -6,7 +6,7 @@ export const UlNav = styled.ul`
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        gap: 1.5rem;
+        gap: 0.1rem;
 
         width: 100%;
         margin: 0 auto 0rem auto;
@@ -28,24 +28,27 @@ export const LogoWrapper = styled.div`
 
 export const LogoImg = styled.img`
     width: 100%;
-
+    @media (max-width: 1250px) {
+        display: none;
+    }
 `
 
 export const NavWrapper = styled.nav`
     width: 250px;
     height: 100%;
 
-    padding: 1rem 0;
+    padding: 1rem 0 10rem 0;
 
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
     border-right: 1px solid #B3DBDB;
 
 
-    background-color: #FFFFFF;
     position: fixed;
     left: 0;
+
+    background-color: #FFFFFF;
 
    
 
@@ -54,22 +57,31 @@ export const NavWrapper = styled.nav`
         justify-content: flex-start;
         align-items: center;
         gap: .7rem;
-        width: 200px;
+        width: 100%;
 
-        padding: .5rem 0 .5rem 1rem;
         margin: 0 auto 0 auto;
         transition: .1s;
         border-radius: 5px;
+        
+        margin-top: .5rem;
+
+        border-block: 1px solid #d3d3d3;
+
     } 
 
     .navOption:hover {
         background-color: rgba(128, 128, 128, 0.3);
     } 
 
-    .navOption > p {
-        font-size: .9rem;
+    .navOption > button {
+        font-size: 1.2rem;
         font-weight: ${theme.font.weight.reegular};
         font-family: 'Poppins';
+        margin: auto;
+        width: 100%;
+        padding: .5rem 0 .5rem 1rem;
+        background-color: transparent;
+        border: none;
     }
 
     .navOption > * {
@@ -107,8 +119,9 @@ export const NavWrapper = styled.nav`
     .buttonNav {
         border: none;
         background-color: transparent;
+        width: 100%;
         cursor: pointer;
-        font-size: .9rem;
+        font-size: 1.2rem;
     }
 
     .registerButtonWrapper {
@@ -133,7 +146,7 @@ export const NavWrapper = styled.nav`
 
 
     @media (max-width: 1250px) {
-        display: none;
+        width: 100%;
     }
 `
 
@@ -161,11 +174,4 @@ export const Profile = styled.div`
         font-family: 'Poppins';
         margin-right: 2rem;
     }
-`
-
-export const Line = styled.div`
-    height: 1px;
-    width: 176px;
-    margin: 0 auto;
-    border-bottom: 1px dashed #d3d3d3;
 `

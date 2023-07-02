@@ -1,14 +1,7 @@
-import { LogoWrapper, Line, LogoImg, NavWrapper, Profile, UlNav } from './styles'
-import { AiOutlineSetting, AiOutlineEllipsis} from 'react-icons/ai'
-import { BiLogIn } from 'react-icons/bi'
-import { IoLibraryOutline } from 'react-icons/io5'
+import { NavWrapper, Profile, UlNav } from './styles'
+import { AiOutlineEllipsis} from 'react-icons/ai'
 
-import homeIcon from '/images/homeIcon.svg'
-import reviewIcon from '/images/reviewIcon.svg'
-import newAdIcon from '/images/newAdIcon.svg'
 import { Link } from 'react-router-dom';
-import livrouLogo from '/images/livrouLogo2.svg'
-import logoutIcon from '/images/logoutIcon.svg'
 import vitorIcon from '/images/vitorIcon.png'
 import { useContext, useEffect } from 'react'
 import { AuthContext } from '../../contexts/AuthContext'
@@ -16,6 +9,7 @@ import { ShowLoginModalContext } from '../../contexts/LoginModalContext'
 import { ShowRegisterModalContext } from '../../contexts/RegisterModalContext'
 
 import jwt_decode from "jwt-decode";
+import { ShowMenuContext } from '../../contexts/MenuContext';
 
 
 
@@ -49,11 +43,12 @@ const authLogged = {
 }
 
 
-export const Nav = () => {
+export const NavMobile = () => {
   const authContext  = useContext(AuthContext);
 
   const { setShowLoginModal } = useContext(ShowLoginModalContext)
   const { setShowRegisterModal } = useContext(ShowRegisterModalContext)
+  const { setShowMenu } = useContext(ShowMenuContext)
 
 
   useEffect(() => { 
@@ -101,54 +96,35 @@ export const Nav = () => {
 
   return (
     <NavWrapper>
-      <LogoWrapper>
-        <div className='ImgWrapper'>
-          <LogoImg src={livrouLogo}/>
-        </div>
-      </LogoWrapper>
-
       <UlNav>
         <Link to="/">
           <li className='navOption'>
-            <div className='iconOption'>
-              <img src={homeIcon} alt="" />
-            </div>
-            <p>Home</p>
+            <button onClick={() => setShowMenu(false)}>Home</button>
           </li>
         </Link>
 
          <Link to="/acervo">
           <li className='navOption'>
-            <div className='iconOption'>
-            <IoLibraryOutline size="25"/>
-            </div>
-            <p>Acervo</p>
+            <button onClick={() => setShowMenu(false)}>Acervo</button>
           </li>
         </Link>
 
         <Link to="#">
           <li className='navOption'>
-            <div className='iconOption'>
-            <img src={reviewIcon} alt="" />
-            </div>
-            <p>Reviews</p>
+            
+            <button onClick={() => setShowMenu(false)}>Reviews</button>
           </li>
         </Link>
 
         { authContext.loggedIn && 
           <li className='navOption'>
-            <div className='iconOption'>
-              <img src={newAdIcon} alt="" />
-            </div>
-            <p>Criar Anúncio</p>
+            <button onClick={() => setShowMenu(false)}>Criar Anúncio</button>
           </li> 
         }
 
-        <Line></Line>
         { authContext.loggedIn && 
 
           <div className='buttonNavWrapper' onClick={() => { authContext.logout() }}>
-            <BiLogIn size="27"/>
             <button className='buttonNav'>
               Logout
             </button>
@@ -156,8 +132,7 @@ export const Nav = () => {
         } 
 
         { !authContext.loggedIn && 
-          <div className='buttonNavWrapper' onClick={() => { setShowLoginModal(true)}}>
-            <BiLogIn size="27"/>
+          <div className='navOption' onClick={() => { setShowLoginModal(true)}}>
             <button className='buttonNav'>
               Login
             </button>
@@ -166,22 +141,17 @@ export const Nav = () => {
 
         { authContext.isAdmin && 
           <li className='navOption'>
-            <div className='iconOption'>
-              <img src={logoutIcon} alt="" />
-            </div>
-            <p>Alertas</p>
+            <button onClick={() => setShowMenu(false)}>Alertas</button>
           </li> 
         }
 
         { authContext.loggedIn && 
           <li className='navOption'>
-            <div className='iconOption'>
-              <AiOutlineSetting size={24}/>
-            </div>
-            <p>Configurações</p>
+            <button onClick={() => setShowMenu(false)}>Configurações</button>
           </li>
         }
         </UlNav>
+
 
       { authContext.loggedIn &&
         <Profile>
@@ -192,10 +162,12 @@ export const Nav = () => {
       }
 
       { !authContext.loggedIn &&
-          <button className='registerButtonWrapper' onClick={() => { setShowRegisterModal(true) } }>
-            Cadastre-se
-          </button>
-      }
+          <div className='navOption' onClick={() => { setShowRegisterModal(true)}}>
+            <button className='buttonNav'>
+              Cadastre-se
+            </button>
+          </div>
+        }
 
     </NavWrapper>
   )
