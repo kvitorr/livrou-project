@@ -33,47 +33,6 @@ export const BookAds = () => {
           <BookAd/>
           <BookAd/>
       </S.ReviewsContainer>
-    
-      <S.FilterContainer>
-        <S.FormFilterContainer>
-          <div className='title'>
-            <p>Filtrar Busca</p>
-          </div>
-            <S.FormFilter>
-              
-              <p className='label-input'>Estado: </p>
-              <S.SelectOptions>
-                <option value="mais curtidas">Piauí</option>
-                <option value="mais recentes">Ceará</option>
-              </S.SelectOptions>
-
-              <p className='label-input'>Cidade: </p>
-              <S.SelectOptions>
-                <option value="mais curtidas">Teresina</option>
-                <option value="mais recentes">Piracuruca</option>
-              </S.SelectOptions>
-
-              <p className='label-input'>Tipo de venda: </p>
-              <S.SelectOptions>
-                <option value="mais curtidas">Apenas venda</option>
-                <option value="mais recentes">Apenas troca</option>
-                <option value="mais recentes">Venda e troca</option>
-              </S.SelectOptions>
-
-              <p className='label-input'>Estado de conservacao: </p>
-              <S.SelectOptions>
-                <option value="mais curtidas">Novo</option>
-                <option value="mais curtidas">Seminovo</option>
-                <option value="mais curtidas">Usado</option>
-              </S.SelectOptions>
-
-              <button className='button-search'>
-                Buscar
-              </button>
-            </S.FormFilter>
-        </S.FormFilterContainer>
-
-      </S.FilterContainer>
     </S.Wrapper>
   )
 }
