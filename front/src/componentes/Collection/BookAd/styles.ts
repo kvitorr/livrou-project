@@ -56,14 +56,3 @@ export const BookTitle = styled.p`
 export const BookAuthor = styled.p`
     font-size: .875rem;
 `
-
-export const BookTradeDescription = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;    
-    p {
-        font-size: 1rem;
-        font-weight: ${theme.font.weight.semibold};
-        width: 100%;
-    }
-`

@@ -9,6 +9,7 @@ export const BookDetails = () => {
         <S.ReviewsTitle>
               Detalhes do Livro
           </S.ReviewsTitle>
+          
       <S.DetailsContainer>
         <S.BookAdWrapper>
           <img src={urlImage} alt="" />
@@ -42,15 +43,14 @@ export const BookDetails = () => {
       <S.Line></S.Line>
 
 
-      <S.ReviewContainerBottom>
           <S.SelectOptions>
                   <option value="melhores avaliacoes">Melhores Avaliações</option>
                   <option value="anuncios mais Recentes">Anúncios mais Recentes</option>
           </S.SelectOptions>
-        <ReviewBottom />
-        <ReviewBottom />
-        <ReviewBottom />
-        <ReviewBottom />
+      <S.ReviewContainerBottom>
+            <ReviewBottom />
+            <ReviewBottom />
+            <ReviewBottom />
       </S.ReviewContainerBottom>
     </S.Wrapper>
   );

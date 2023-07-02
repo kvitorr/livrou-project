@@ -31,7 +31,8 @@ function App() {
     <S.App>
       <ThemeProvider theme={theme}>
           <S.Content>  
-            {showMenu && <Nav/>}
+            <Nav/>
+            {showMenu && true}
 
             <S.MainContent>
               <SearchBox/>
