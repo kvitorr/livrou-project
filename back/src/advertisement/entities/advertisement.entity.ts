@@ -57,14 +57,10 @@ export class Advertisement {
   @ManyToMany(() => Location, location => location.advertisements)
   @JoinTable({
     name: 'ad_place',
-    joinColumn: {
-      name: 'advertisement_id',
-      referencedColumnName: 'advertisement_id',
-    },
-    inverseJoinColumn: {
-      name: 'location_id',
-      referencedColumnName: 'location_id',
-    },
+    joinColumns: [{ name: 'advertisement_id', referencedColumnName: 'advertisement_id' }],
+    inverseJoinColumns: [{ name: 'location_id', referencedColumnName: 'location_id' }],
   })
-  locations?: Location[];
+  locations: Location[];
+  
+
 }
