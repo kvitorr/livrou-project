@@ -10,12 +10,12 @@ interface ShowMenuProviderProps {
 }
 
 const ShowMenuContext = createContext<ShowMenuContextProps>({
-    showMenu: true,
+    showMenu: false,
     setShowMenu: () => {}
 });
 
 const ShowMenuProvider: React.FC<ShowMenuProviderProps> = ({ children }) => {
-  const [showMenu, setShowMenu] = useState(true);
+  const [showMenu, setShowMenu] = useState(false);
 
   return (
     <ShowMenuContext.Provider value={{ showMenu, setShowMenu }}>

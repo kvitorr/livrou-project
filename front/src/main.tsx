@@ -7,19 +7,22 @@ import { ShowFilterProvider } from './contexts/FilterContext';
 import { AuthProvider } from './contexts/AuthContext';
 import { ShowLoginModalProvider } from './contexts/LoginModalContext';
 import { ShowRegisterModalProvider } from './contexts/RegisterModalContext';
+import { FilterQueryProvider } from './contexts/FilterQueryContext';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <AuthProvider>
-      <ShowRegisterModalProvider>
-        <ShowLoginModalProvider>
-          <ShowMenuProvider>
-            <ShowFilterProvider>
-              <RouterProvider router={router}/>
-            </ShowFilterProvider>
-          </ShowMenuProvider>
-        </ShowLoginModalProvider>
-      </ShowRegisterModalProvider>
+      <FilterQueryProvider>
+        <ShowRegisterModalProvider>
+          <ShowLoginModalProvider>
+            <ShowMenuProvider>
+              <ShowFilterProvider>
+                <RouterProvider router={router}/>
+              </ShowFilterProvider>
+            </ShowMenuProvider>
+          </ShowLoginModalProvider>
+        </ShowRegisterModalProvider>
+      </FilterQueryProvider>
     </AuthProvider>
   </React.StrictMode>,
 )

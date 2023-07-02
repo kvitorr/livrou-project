@@ -11,6 +11,7 @@ interface AuthContextProps {
   loggedIn: boolean;
   isAdmin: boolean;
   setLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsAdmin: React.Dispatch<React.SetStateAction<boolean>>;
   login: (userData: UserLogin) => Promise<void>;
   logout: () => void;
 }
@@ -19,6 +20,7 @@ const AuthContext = createContext<AuthContextProps>({
   loggedIn: false,
   isAdmin: false,
   setLoggedIn: () => {},
+  setIsAdmin: () => {},
   login: async () => {},
   logout: () => {}
 });
@@ -31,7 +33,9 @@ interface AuthProviderProps {
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
-  const [isAdmin, setisAdmin] = useState<boolean>(false);
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+
+  
 
   const login = async (userData: UserLogin) => {
     try {
@@ -48,13 +52,15 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   const logout = () => {
-    // Limpa as informações do usuário do estado e do localStorage
+    console.log("chamou logout")
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
     setLoggedIn(false);
-    setisAdmin(false);
+    setIsAdmin(false);
   };
 
   return (
-    <AuthContext.Provider value={{ loggedIn, isAdmin, setLoggedIn, login, logout }}>
+    <AuthContext.Provider value={{ loggedIn, isAdmin, setLoggedIn, setIsAdmin, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
