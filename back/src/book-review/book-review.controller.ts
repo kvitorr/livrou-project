@@ -1,10 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Req, UseGuards,   Query} from '@nestjs/common';
 import { BookReviewService } from './book-review.service';
 import { UpdateBookReviewDto } from './dto/update-book-review.dto';
 import { CreateBookReviewDto } from './dto/create-book-review.dto';
 import { Request } from 'express';
 import { User } from 'src/users/entities/user.entity';
 import { AuthGuard } from '@nestjs/passport';
+import{IPaginationOptions, Pagination } from 'nestjs-typeorm-paginate';
+import { BookReview } from './entities/book-review.entity';
+
 
 @Controller('books/:bookId/book-review')
 export class BookReviewController {
@@ -19,11 +22,20 @@ export class BookReviewController {
   }
 
   @Get()
-  findAll(@Param('bookId') bookId: string){
-    return this.bookReviewService.findAll(bookId);
+  async findAll(@Param('bookId') bookId: string,
+    @Query('page') page = 1,
+    @Query('limit') limit = 3,
+  ): Promise<Pagination<BookReview>> {
+    limit = Math.min(3, limit); // Defina um limite máximo para a quantidade de itens por página
+
+    const options: IPaginationOptions = {
+      page,
+      limit,
+    };
+
+    return this.bookReviewService.paginate(options, bookId);
   }
 
-   
 
-
+  
 }
