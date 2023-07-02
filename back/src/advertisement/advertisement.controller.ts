@@ -1,4 +1,4 @@
-import { Query, Controller, Get, Post, Body, Patch, Param, Delete, UnauthorizedException } from '@nestjs/common';
+import { Query, Controller, Get, Post, Body, Patch, Param, Delete, UnauthorizedException, Options } from '@nestjs/common';
 import { AdvertisementService } from './advertisement.service';
 import { CreateAdvertisementDTO } from './dto/create-advertisement.dto';
 import { UpdateAdvertisementDto } from './dto/update-advertisement.dto';
@@ -25,22 +25,21 @@ export class AdvertisementController {
 
 
   @Get()
-async findValidAdvertisements(
-  @Query('page') page = 1,
-  @Query('limit') limit = 20,
-): Promise<Pagination<Advertisement>> {
-  limit = Math.min(20, limit);
+  async findValidAdvertisements(
+    @Query('page') page = 1,
+    @Query('limit') limit = 20,
+  ): Promise<Pagination<Advertisement>> {
+    limit = Math.min(20, limit);
 
-  const options: IPaginationOptions = {
-    page,
-    limit,
-    route: 'advertisements',
-  };
+    const options: IPaginationOptions = {
+      page,
+      limit,
+      route: 'advertisements',
+    };
 
-  return this.advertisementService.paginate(options);
-}
+    return this.advertisementService.findAllPaginate(options);
+  }
 
-  
 
   @Get('filter')
   findAdvertisements(
@@ -49,8 +48,16 @@ async findValidAdvertisements(
     @Query('type') transactionType?: string,
     @Query('conservation') conservation?: string,
     @Query('maxPrice') maxPrice?: string,
-  ) {
-  
+    @Query('page') page = 1,
+    @Query('limit') limit = 20,
+  ): Promise<Pagination<Advertisement>> {
+
+    const options: IPaginationOptions = {
+      page,
+      limit,
+      route: 'advertisements',
+    };
+
     const parsedMaxPrice = maxPrice ? parseFloat(maxPrice) : undefined;
     if (isNaN(parsedMaxPrice)) {
       return this.advertisementService.findAdvertisementsByFilter({
@@ -58,48 +65,48 @@ async findValidAdvertisements(
         city,
         transactionType: transactionType,
         conservation: conservation,
-      });
+      }, options);
     }
-  
+
     return this.advertisementService.findAdvertisementsByFilter({
       state,
       city,
       transactionType: transactionType,
       conservation: conservation,
       maxPrice: parsedMaxPrice,
-    });
+    }, options);
   }
 
   @Get(':id')
   async findOneValid(
     @Param('id') id: string
   ) {
-      return this.advertisementService.findOneValid(+id);
+    return this.advertisementService.findOneValid(+id);
 
   }
 
-  
+
 
   @Get(':id/details')
   async findOneComplete(
     @Param('id') id: string
   ) {
-      return this.advertisementService.getAdvertisementDetails(+id);
+    return this.advertisementService.getAdvertisementDetails(+id);
 
   }
 
 
-  
+
   @Get(':id/contact')
   @UseGuards(AuthGuard('jwt')) // Decorator responsável pelo Guard
   async findContact(
     @Param('id') id: string
   ) {
-      return this.advertisementService.getContactNumber(+id);
+    return this.advertisementService.getContactNumber(+id);
 
   }
 
-  
+
   @Patch(':id')
   @UseGuards(AuthGuard('jwt'))
   async update(
@@ -109,10 +116,10 @@ async findValidAdvertisements(
   ) {
     const user: User = request.user as User;
     return this.advertisementService.update(+id, updateAdvertisementDto, user);
-  
+
   }
 
-  
+
   @Patch(':id/complete')
   @UseGuards(AuthGuard('jwt'))
   async markAsDone(
@@ -121,11 +128,11 @@ async findValidAdvertisements(
   ) {
     const user: User = request.user as User;
     return this.advertisementService.markAsDone(+id, user);
-  
+
   }
 
-  
-  
-  
-  
+
+
+
+
 }
