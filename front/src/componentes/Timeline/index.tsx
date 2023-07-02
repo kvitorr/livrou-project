@@ -1,10 +1,9 @@
-import React from 'react'
+import React, { useEffect, useContext } from 'react'
 import * as S from './styles'
 import { BookAd } from './BookAd'
 
 import urlImage from '/images/ponteParaTerabia.jpg'
-import { Link } from 'react-router-dom'
-import Announcement from '../Announcement'
+import { FilterQueryContext } from '../../contexts/FilterQueryContext'
 
 
 export type BookAdProps = {
@@ -74,6 +73,13 @@ const anuncios = [{
 
 
 export const Timeline = () => {
+
+  const { filterQuery, setFilterQuery } = useContext(FilterQueryContext)
+
+  useEffect(()=> {
+    console.log(filterQuery)
+  }, [filterQuery])
+
   return (
     <S.TimelineWrapper>
       <S.TimelineTitle>Anúncios</S.TimelineTitle>

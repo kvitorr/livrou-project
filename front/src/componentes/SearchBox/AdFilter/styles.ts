@@ -38,6 +38,12 @@ export const FormFilterContainer = styled.div`
 
         background-color: #DCE0F9;
     }
+
+    .messageError {
+        color: red;
+        font-weight: 500;
+        font-size: .9rem;
+    }
    
 `
 
