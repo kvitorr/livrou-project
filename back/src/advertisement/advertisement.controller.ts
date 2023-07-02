@@ -6,6 +6,9 @@ import { AuthGuard } from '@nestjs/passport';
 import { UseGuards, Req } from '@nestjs/common';
 import { User } from 'src/users/entities/user.entity';
 import { Request } from 'express';
+import { Pagination, IPaginationOptions } from 'nestjs-typeorm-paginate';
+import { Advertisement } from './entities/advertisement.entity';
+
 
 @Controller('advertisement')
 export class AdvertisementController {
@@ -20,10 +23,22 @@ export class AdvertisementController {
     return this.advertisementService.create(createAdvertisementDto);
   }
 
+
   @Get()
-  findValidAdvertisements() {
-    return this.advertisementService.findValidAdvertisements();
-  }
+async findValidAdvertisements(
+  @Query('page') page = 1,
+  @Query('limit') limit = 20,
+): Promise<Pagination<Advertisement>> {
+  limit = Math.min(20, limit);
+
+  const options: IPaginationOptions = {
+    page,
+    limit,
+    route: 'advertisements',
+  };
+
+  return this.advertisementService.paginate(options);
+}
 
   
 
@@ -60,6 +75,27 @@ export class AdvertisementController {
     @Param('id') id: string
   ) {
       return this.advertisementService.findOneValid(+id);
+
+  }
+
+  
+
+  @Get(':id/details')
+  async findOneComplete(
+    @Param('id') id: string
+  ) {
+      return this.advertisementService.getAdvertisementDetails(+id);
+
+  }
+
+
+  
+  @Get(':id/contact')
+  @UseGuards(AuthGuard('jwt')) // Decorator responsável pelo Guard
+  async findContact(
+    @Param('id') id: string
+  ) {
+      return this.advertisementService.getContactNumber(+id);
 
   }
 

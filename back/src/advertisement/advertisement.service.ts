@@ -8,6 +8,10 @@ import { UnauthorizedException, ForbiddenException } from '@nestjs/common';
 import { User } from 'src/users/entities/user.entity';
 import { NotFoundException } from '@nestjs/common/exceptions';
 import { Location } from 'src/location/entities/location.entity';
+import { AdvertisementDetailsDto } from './dto/advertisement-details.dto';
+import { ContatoDto } from './dto/contato.dto';
+import { Pagination, IPaginationOptions,paginate } from 'nestjs-typeorm-paginate';
+
 
 @Injectable()
 export class AdvertisementService {
@@ -41,25 +45,94 @@ export class AdvertisementService {
     return this.advertisementRepository.save(advertisement);
   }
 
+
   findAll() {
     return this.advertisementRepository.find();
   }
 
-  async findValidAdvertisements(): Promise<Advertisement[]> {
-    const ads: Advertisement[] = await this.advertisementRepository.find({ where: { removed: false } });
+  async paginate(options: IPaginationOptions): Promise<Pagination<Advertisement>> {
+    const queryBuilder = this.advertisementRepository.createQueryBuilder('advertisement');
 
-    if (!ads || ads.length === 0) {
-      throw new ForbiddenException();
-    }
+    queryBuilder.where('advertisement.removed = :removed', { removed: false });
 
-    return ads;
+    const paginatedResults = await paginate(queryBuilder, options);
+
+    return paginatedResults;
   }
+
+
 
 
   async findOne(id: number): Promise<Advertisement> {
     return await this.advertisementRepository.findOneBy({ advertisement_id: id });
 
   }
+
+  async getAdvertisementDetails(id: number): Promise<AdvertisementDetailsDto> {
+
+
+    const advertisement: Advertisement = await this.advertisementRepository
+      .createQueryBuilder('advertisement')
+      .leftJoinAndSelect('advertisement.transactionType', 'transactionType') // Carrega os dados do tipo de anúncio
+      .leftJoinAndSelect('advertisement.conservation', 'conservation') // Carrega os dados da conservação
+      .leftJoinAndSelect('advertisement.locations', 'adPlace')
+      .leftJoinAndSelect('advertisement.book', 'book') // Carrega os dados do livro
+      .leftJoinAndSelect('book.authors', 'author') // Carrega os dados dos autores do livro
+      .leftJoinAndSelect('advertisement.user', 'user_table') // Carrega os dados do anunciante
+      .where('advertisement.advertisement_id = :id', { id })
+      .getOne();
+
+    if (!advertisement) {
+      // Trata o caso em que o anúncio não é encontrado
+      throw new Error(`Advertisement with ID ${id} not found`);
+    }
+
+    const advertisementDetails: AdvertisementDetailsDto = {
+      advertisementId: advertisement.advertisement_id,
+      description: advertisement.description,
+      advertisementType: advertisement.transactionType.transactionType,
+      condition: advertisement.conservation.conservationState,
+      locations: advertisement.locations ? advertisement.locations.map(location => `${location.city}, ${location.state}`) : [],
+      bookId: advertisement.book.book_id,
+      bookTitle: advertisement.book.title,
+      authors: advertisement.book.authors.map(author => author.name),
+      synopsis: advertisement.book.synopsis,
+      bookImageUrl: advertisement.book.imageUrl,
+      price: advertisement.value || null,
+      advertiserImageUrl: advertisement.book.imageUrl || null,
+      advertiserName: advertisement.user.name,
+      accountCreationDate: advertisement.user.registration_date,
+      contactNumber: advertisement.user.phone,
+    };
+
+    return advertisementDetails;
+
+  }
+
+  async getContactNumber(id: number): Promise<ContatoDto> {
+
+
+    const advertisement: Advertisement = await this.advertisementRepository
+      .createQueryBuilder('advertisement')
+      .leftJoinAndSelect('advertisement.user', 'user_table') // Carrega os dados do anunciante
+      .where('advertisement.advertisement_id = :id', { id })
+      .getOne();
+
+    if (!advertisement) {
+      // Trata o caso em que o anúncio não é encontrado
+      throw new Error(`Advertisement with ID ${id} not found`);
+    }
+
+    
+    const advertisementContact: ContatoDto = {
+      contactNumber: advertisement.user.phone,
+    };
+
+    return advertisementContact;
+
+  }
+
+
 
   async findOneValid(id: number): Promise<Advertisement> {
     const ads: Advertisement = await this.advertisementRepository.findOne({ where: { advertisement_id: id, removed: false } });

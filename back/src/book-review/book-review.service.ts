@@ -5,8 +5,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { BookReview } from './entities/book-review.entity';
 import { Repository } from 'typeorm';
 import { Book } from 'src/books/entities/book.entity';
-import { BooksService } from 'src/books/books.service';
-import { Author } from 'src/authors/entities/author.entity';
+import{IPaginationOptions, Pagination, paginate} from 'nestjs-typeorm-paginate';
+
 
 @Injectable()
 export class BookReviewService {
@@ -27,6 +27,16 @@ export class BookReviewService {
   
     const bookReview = this.bookReviewRepository.create(createBookReviewDto);
     return this.bookReviewRepository.save(bookReview);
+  }
+
+  async paginate(options: IPaginationOptions, bookId: string): Promise<Pagination<BookReview>> {
+    const queryBuilder = this.bookReviewRepository.createQueryBuilder('book_review');
+
+    queryBuilder.where('book_review.book_id = :book_id', { book_id: Number(bookId) });
+
+    const paginatedResults = await paginate(queryBuilder, options);
+
+    return paginatedResults;
   }
   
 

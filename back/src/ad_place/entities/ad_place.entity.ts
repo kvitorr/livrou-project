@@ -11,11 +11,12 @@ export class AdPlace {
   advertisementId: number;
 
 
-  @ManyToOne(() => Advertisement, advertisement => advertisement.advertisement_id)
+  @ManyToOne(() => Advertisement, advertisement => advertisement.locations)
   @JoinColumn({ name: 'advertisement_id' })
-  advertisement: Advertisement[];
+  advertisement: Advertisement;
 
-  @ManyToOne(() => Location, location => location.location_id)
+  @ManyToOne(() => Location, location => location.advertisements)
   @JoinColumn({ name: 'location_id' })
-  locations: Location[];
+  location: Location;
+
 }

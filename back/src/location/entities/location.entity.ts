@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, Index, ManyToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, Index, ManyToMany, JoinTable } from 'typeorm';
 import { AdPlace } from 'src/ad_place/entities/ad_place.entity';
 import { Advertisement } from 'src/advertisement/entities/advertisement.entity';
 
@@ -14,9 +14,7 @@ export class Location {
   @Column()
   state: string;
 
-  @ManyToMany(() => AdPlace, adPlace => adPlace.locations)
-  adPlaces?: AdPlace[];
-
-  @ManyToMany(() => Advertisement, advertisement => advertisement.locations)
+  @ManyToMany(() => Advertisement, ad => ad.locations)
   advertisements?: Advertisement[];
+
 }
