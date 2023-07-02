@@ -1,4 +1,4 @@
-const fetch = require('node-fetch').default;
+import fetch from 'node-fetch'
 
 const books = 
     [
@@ -9,7 +9,7 @@ const books =
           "subject": "Ficção, Fantasia",
           "editionCount": 1,
          "publishYear": 1997,
-          "imageUrl": "https://covers.openlibrary.org/b/olid/OL26474711M-L.jpg"
+          "imageUrl": "https://covers.openlibrary.org/b/olid/OL15571091M-L.jpg"
         },
         {
           "title": "O Senhor dos Anéis: A Sociedade do Anel",
@@ -18,7 +18,7 @@ const books =
           "subject": "Ficção, Fantasia",
           "editionCount": 1,
          "publishYear": 1954,
-          "imageUrl": "https://covers.openlibrary.org/b/olid/OL24327495M-L.jpg"
+          "imageUrl": "https://covers.openlibrary.org/b/olid/OL9158209M-L.jpg"
         },
         {
           "title": "1984",
@@ -27,7 +27,7 @@ const books =
           "subject": "Ficção, Distopia",
           "editionCount": 1,
          "publishYear": 1949,
-          "imageUrl": "https://covers.openlibrary.org/b/olid/OL394412W-L.jpg"
+          "imageUrl": "https://covers.openlibrary.org/b/olid/OL31977013M-L.jpg"
         },
         {
           "title": "Orgulho e Preconceito",
@@ -36,7 +36,7 @@ const books =
           "subject": "Ficção, Romance",
           "editionCount": 1,
          "publishYear": 1813,
-          "imageUrl": "https://covers.openlibrary.org/b/olid/OL6974919M-L.jpg"
+          "imageUrl": "https://covers.openlibrary.org/b/olid/OL26396974M-L.jpg"
         },
         {
           "title": "Dom Quixote",
@@ -45,7 +45,7 @@ const books =
           "subject": "Ficção, Aventura",
           "editionCount": 1,
          "publishYear": 1605,
-          "imageUrl": "https://covers.openlibrary.org/b/olid/OL7131480M-L.jpg"
+          "imageUrl": "https://covers.openlibrary.org/b/olid/OL9155387M-L.jpg"
         },
         {
           "title": "Cem Anos de Solidão",
@@ -54,7 +54,7 @@ const books =
           "subject": "Ficção, Realismo Mágico",
           "editionCount": 1,
          "publishYear": 1967,
-          "imageUrl": "https://covers.openlibrary.org/b/olid/OL26474745M-L.jpg"
+          "imageUrl": "https://covers.openlibrary.org/b/olid/OL9155429M-L.jpg"
         },
         {
           "title": "A Metamorfose",
@@ -63,7 +63,7 @@ const books =
           "subject": "Ficção, Surrealismo",
           "editionCount": 1,
          "publishYear": 1915,
-          "imageUrl": "https://covers.openlibrary.org/b/olid/OL24327556M-L.jpg"
+          "imageUrl": "https://covers.openlibrary.org/b/olid/OL27826797M-L.jpg"
         },
         {
           "title": "Moby Dick",
@@ -72,7 +72,7 @@ const books =
           "subject": "Ficção, Aventura",
           "editionCount": 1,
          "publishYear": 1851,
-          "imageUrl": "https://covers.openlibrary.org/b/olid/OL24327555M-L.jpg"
+          "imageUrl": "https://covers.openlibrary.org/b/olid/OL29558397M-L.jpg"
         },
         {
           "title": "O Sol é para Todos",
@@ -81,7 +81,7 @@ const books =
           "subject": "Ficção, Drama",
           "editionCount": 1,
          "publishYear": 1960,
-          "imageUrl": "https://covers.openlibrary.org/b/olid/OL26475046M-L.jpg"
+          "imageUrl": "https://covers.openlibrary.org/b/olid/OL35672277M-L.jpg"
         },
         {
           "title": "O Grande Gatsby",
@@ -90,7 +90,7 @@ const books =
           "subject": "Ficção, Drama",
           "editionCount": 1,
          "publishYear": 1925,
-          "imageUrl": "https://covers.openlibrary.org/b/olid/OL26475211M-L.jpg"
+          "imageUrl": "https://covers.openlibrary.org/b/olid/OL9181134M-L.jpg"
         },
         {
           "title": "Ulisses",
@@ -99,7 +99,7 @@ const books =
           "subject": "Ficção, Modernismo",
           "editionCount": 1,
          "publishYear": 1922,
-          "imageUrl": "https://covers.openlibrary.org/b/olid/OL24327557M-L.jpg"
+          "imageUrl": "https://covers.openlibrary.org/b/olid/OL15306918M-L.jpg"
         },
         {
           "title": "O Apanhador no Campo de Centeio",
@@ -108,7 +108,7 @@ const books =
           "subject": "Ficção, Coming-of-Age",
           "editionCount": 1,
          "publishYear": 1951,
-          "imageUrl": "https://covers.openlibrary.org/b/olid/OL26475096M-L.jpg"
+          "imageUrl": "https://covers.openlibrary.org/b/olid/OL35663922M-L.jpg"
         },
         {
           "title": "O Pequeno Príncipe",
@@ -117,7 +117,7 @@ const books =
           "subject": "Ficção, Filosofia",
           "editionCount": 1,
          "publishYear": 1943,
-          "imageUrl": "https://covers.openlibrary.org/b/olid/OL7285455M-L.jpg"
+          "imageUrl": "https://covers.openlibrary.org/b/olid/OL24375637M-L.jpg"
         },
         {
           "title": "Romeu e Julieta",
@@ -126,7 +126,7 @@ const books =
           "subject": "Drama, Romance",
           "editionCount": 1,
          "publishYear": 1597,
-          "imageUrl": "https://covers.openlibrary.org/b/olid/OL24313477M-L.jpg"
+          "imageUrl": "https://covers.openlibrary.org/b/olid/OL26512065M-L.jpg"
         },
         {
           "title": "Crime e Castigo",
@@ -135,7 +135,7 @@ const books =
           "subject": "Ficção, Psicológico",
           "editionCount": 1,
          "publishYear": 1866,
-          "imageUrl": "https://covers.openlibrary.org/b/olid/OL24313956M-L.jpg"
+          "imageUrl": "https://covers.openlibrary.org/b/olid/OL35665371M-L.jpg"
         },
         {
           "title": "O Morro dos Ventos Uivantes",
@@ -144,7 +144,7 @@ const books =
           "subject": "Ficção, Romance Gótico",
           "editionCount": 1,
          "publishYear": 1847,
-          "imageUrl": "https://covers.openlibrary.org/b/olid/OL6945717M-L.jpg"
+          "imageUrl": "https://covers.openlibrary.org/b/olid/OL35664438M-L.jpg"
         },
         {
           "title": "O Retrato de Dorian Gray",
@@ -153,7 +153,7 @@ const books =
           "subject": "Ficção, Filosofia",
           "editionCount": 1,
          "publishYear": 1890,
-          "imageUrl": "https://covers.openlibrary.org/b/olid/OL24313892M-L.jpg"
+          "imageUrl": "https://covers.openlibrary.org/b/olid/OL46984115M-L.jpg"
         },
         {
           "title": "O Conde de Monte Cristo",
@@ -162,7 +162,7 @@ const books =
           "subject": "Ficção, Aventura",
           "editionCount": 1,
          "publishYear": 1844,
-          "imageUrl": "https://covers.openlibrary.org/b/olid/OL24313857M-L.jpg"
+          "imageUrl": "https://covers.openlibrary.org/b/olid/OL35664323M-L.jpg"
         },
         {
           "title": "A Guerra dos Tronos",
@@ -171,7 +171,7 @@ const books =
           "subject": "Ficção, Fantasia",
           "editionCount": 1,
          "publishYear": 1996,
-          "imageUrl": "https://covers.openlibrary.org/b/olid/OL24338455M-L.jpg"
+          "imageUrl": "https://covers.openlibrary.org/b/olid/OL25226226M-L.jpg"
         },
         {
           "title": "Amor & Gelato",
@@ -180,14 +180,14 @@ const books =
           "subject": "Ficção, Romance",
           "editionCount": 1,
          "publishYear": 2016,
-          "imageUrl": "https://covers.openlibrary.org/b/olid/OL27138350M-L.jpg"
+          "imageUrl": "https://covers.openlibrary.org/b/olid/OL46849901M-L.jpg"
         }
       ]
       
 
 
 async function sendBookData() {
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkZWxpYUBleGFtcGxlLmNvbSIsImlhdCI6MTY4ODI2OTUwMCwiZXhwIjoxNjg4MjcyNTAwfQ.JTqON9pvRVx40L7mS1Kki6L9-dadNQj0X2mLUDD85g0"
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imt2aXRvcnNhbnRvc0Bob3RtYWlsLmNvbSIsImlhdCI6MTY4ODI3OTgwMywiZXhwIjoxNjg4MjgyODAzfQ.ey-ZKiXsWPc5PNvbVSuHKZ9R8ic6hUpe1-S-1l33LK0"
    try{ for (let i = 0; i < books.length; i++) {
       const book = books[i];
       const response = await fetch('http://localhost:3000/books/', {
