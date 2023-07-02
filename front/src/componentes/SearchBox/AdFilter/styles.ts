@@ -24,6 +24,20 @@ export const FormFilterContainer = styled.div`
         font-size: 1rem;
         font-weight: ${theme.font.weight.bold};
     }
+
+    .preco-maximo {
+        color: #1A2B88;
+        font-weight: ${theme.font.weight.bold};
+        border-radius: 10px;
+        border: 1px solid black;
+
+        padding: 0.3rem 2rem 0.3rem 0.5rem;
+        margin-bottom: 0.4rem;
+
+        font-size: .8rem;
+
+        background-color: #DCE0F9;
+    }
    
 `
 

@@ -24,18 +24,6 @@ export const LogoWrapper = styled.div`
         width: 150px;
         margin: 0 auto;
     }
-
-    .closeIcon {
-        cursor: pointer;
-
-        display: none;
-    }
-
-    @media (max-width: 1200px) {
-        .closeIcon {
-            display: block;
-        }
-    }
 `
 
 export const LogoImg = styled.img`
@@ -51,15 +39,14 @@ export const NavWrapper = styled.nav`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    border-right: 1px solid #d3d3d3;
+    border-right: 1px solid #B3DBDB;
 
 
     background-color: #FFFFFF;
     position: fixed;
+    left: 0;
 
-    @media (min-width: 1700px) {
-        left: calc((100%/2) - (1200px/2) - 250px);
-    }
+   
 
     .navOption {
         display: flex;
@@ -144,8 +131,8 @@ export const NavWrapper = styled.nav`
     }
 
 
-    @media (max-width: 464px) {
-        width: 80%;
+    @media (max-width: 1250px) {
+        display: none;
     }
 `
 

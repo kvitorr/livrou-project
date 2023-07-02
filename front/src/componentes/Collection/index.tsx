@@ -1,10 +1,7 @@
-import React from 'react'
 import * as S from './styles'
 import { BookAd } from './BookAd'
 
 import urlImage from '/images/ponteParaTerabia.jpg'
-import { Link } from 'react-router-dom'
-import Announcement from '../Announcement'
 
 
 export type BookAdProps = {
@@ -15,7 +12,7 @@ export type BookAdProps = {
   autor: string
 }
 
-const anuncios = [{
+const livros = [{
   id: 1,
   title: "Amor e gelato",
   urlImage: urlImage,
@@ -63,29 +60,22 @@ const anuncios = [{
   urlImage: urlImage,
   value: "15",
   autor: "Katherine Patterson"
-},
-{
-  id: 8,
-  title: "Amor e gelato",
-  urlImage: urlImage,
-  value: "15",
-  autor: "Katherine Patterson"
 }]
 
 
-export const Timeline = () => {
+export const Collection = () => {
   return (
-    <S.TimelineWrapper>
-      <S.TimelineTitle>Anúncios</S.TimelineTitle>
+    <S.CollectionWrapper>
+      <S.CollectionTitle>Acervo</S.CollectionTitle>
 
-      <S.TimelineAdWrapper>
-      {anuncios.map((anuncio) => (
-        <S.StyledLink key={anuncio.id} to={`/anuncios/${anuncio.id}`}>
-          <BookAd {...anuncio}/>
+      <S.CollectionAdWrapper>
+      {livros.map((livro) => (
+        <S.StyledLink key={livro.id} to={`/livro/${livro.id}`}>
+          <BookAd {...livro}/>
         </S.StyledLink>))}
-      </S.TimelineAdWrapper>
+      </S.CollectionAdWrapper>
 
-    </S.TimelineWrapper>
+    </S.CollectionWrapper>
 
   )
 }

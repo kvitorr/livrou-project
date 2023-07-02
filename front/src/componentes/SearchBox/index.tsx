@@ -14,7 +14,6 @@ export const SearchBox = () => {
 
   return (
     <BoxWrapper>
-
       <div onClick={() => setShowMenu(!showMenu)} className='MenuIcon'>
           <AiOutlineMenu size={28}/>
       </div>

@@ -55,10 +55,6 @@ export const Nav = () => {
   return (
     <NavWrapper>
       <LogoWrapper>
-        <div onClick={() => setShowMenu(false)} className='closeIcon'>
-          <AiOutlineClose size={28}/>
-        </div>
-
         <div className='ImgWrapper'>
           <LogoImg src={livrouLogo}/>
         </div>
@@ -74,16 +70,16 @@ export const Nav = () => {
           </li>
         </Link>
 
-        { false && <Link to="#">
+         <Link to="/acervo">
           <li className='navOption'>
             <div className='iconOption'>
             <IoLibraryOutline size="25"/>
             </div>
             <p>Acervo</p>
           </li>
-        </Link> }
+        </Link>
 
-        <Link to="/reviews">
+        <Link to="#">
           <li className='navOption'>
             <div className='iconOption'>
             <img src={reviewIcon} alt="" />
