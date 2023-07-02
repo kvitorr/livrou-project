@@ -2,7 +2,6 @@ import { IsNotEmpty, IsNumber, IsString, IsArray, ValidateNested, IsBooleanStrin
 import { Type } from 'class-transformer';
 import { CreateLocationDto } from 'src/location/dto/create-location.dto';
 
-
 export class CreateAdvertisementDTO {
   @IsNotEmpty()
   @IsNumber()
@@ -31,6 +30,8 @@ export class CreateAdvertisementDTO {
   @IsNotEmpty()
   @IsBooleanString()
   removed: boolean;
+  
+  postingDate: Date;
 
   @IsNotEmpty()
   @IsArray()

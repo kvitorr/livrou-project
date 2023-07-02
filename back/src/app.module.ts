@@ -12,10 +12,11 @@ import { APP_FILTER } from '@nestjs/core';
 import { ErrorMiddleware } from './middleware/logger.middleware';
 import { AdvertisementModule } from './advertisement/advertisement.module';
 import { AdPlaceModule } from './ad_place/ad_place.module';
-import { LocationModule } from './location/location.module';
 import { ConservationModule } from './conservation/conservation.module';
 import { TransactionTypeModule } from './transaction-type/transaction-type.module';
 import { BookReviewModule } from './book-review/book-review.module';
+import { LocationModule } from './location/location.module';
+import { LikesModule } from './likes/likes.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { BookReviewModule } from './book-review/book-review.module';
     ConservationModule,
     TransactionTypeModule,
     BookReviewModule,
+    LikesModule,
   ],
   controllers: [AppController],
   providers: [

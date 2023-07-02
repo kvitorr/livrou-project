@@ -1,26 +1,38 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, MethodNotAllowedException } from '@nestjs/common';
 import { CreateAuthorBookDto } from './dto/create-author-book.dto';
 import { UpdateAuthorBookDto } from './dto/update-author-book.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { AuthorBook } from './entities/author-book.entity';
 
 @Injectable()
 export class AuthorBookService {
-  create(createAuthorBookDto: CreateAuthorBookDto) {
-    return 'This action adds a new authorBook';
+  constructor(
+    @InjectRepository(AuthorBook)
+    private readonly authorBookRepository: Repository<AuthorBook>,
+  ) {}
+
+  async create(createAuthorBookDto: CreateAuthorBookDto): Promise<AuthorBook> {
+    throw new MethodNotAllowedException();
+
   }
 
-  findAll() {
-    return `This action returns all authorBook`;
+  async findAll(): Promise<AuthorBook[]> {
+    return this.authorBookRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} authorBook`;
+  async findOne(id: number): Promise<AuthorBook> {
+    throw new MethodNotAllowedException();
   }
 
-  update(id: number, updateAuthorBookDto: UpdateAuthorBookDto) {
-    return `This action updates a #${id} authorBook`;
+  async update(
+    id: number,
+    updateAuthorBookDto: UpdateAuthorBookDto,
+  ): Promise<AuthorBook> {
+    throw new MethodNotAllowedException();
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} authorBook`;
+  async remove(id: number): Promise<boolean> {
+    throw new MethodNotAllowedException();
   }
 }

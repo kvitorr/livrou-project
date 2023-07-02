@@ -11,17 +11,16 @@ export class Book {
 
   @Column({ length: 255, nullable: false })
   title: string;
-/*
-  @Column('int')
-  edition_count: number;
 
-  @Column('simple-date')
-  publish_date: string[];
+  @Column({type: 'int', nullable: true, name: 'edition_count'})
+  editionCount: number;
 
+  @Column({nullable: true, name: 'publish_year'})
+  publishYear: number;
 
-  @Column()
-  coverUrl: string;
-*/
+  @Column({name: 'image-url',nullable: true})
+  imageUrl: string;
+
   @ManyToMany(() => Author, author => author.books)
   @JoinTable({
     name: 'author_book',

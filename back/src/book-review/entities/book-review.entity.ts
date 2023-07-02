@@ -16,7 +16,7 @@ export class BookReview {
     @Column({ name: 'content', nullable: false})
     content: string;
 
-    @Column({default: 0})
+    @Column({name: 'amount_likes', default: 0})
     amountLikes: number;
 
     @Column({ name: 'removed', default: false })

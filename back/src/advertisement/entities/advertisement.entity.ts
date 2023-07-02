@@ -20,7 +20,7 @@ export class Advertisement {
   @Column({ name: 'conservation_id' })
   conservationId: number;
 
-  @Column({ name: 'value', type: 'real'})
+  @Column({ name: 'value', type: 'real' })
   value: number; 
 
   @Column({ name: 'description' })
@@ -54,8 +54,7 @@ export class Advertisement {
   @JoinColumn({ name: 'conservation_id' })
   conservation: Conservation;
 
-
-  @ManyToMany(() => Location, location => location.adPlaces)
+  @ManyToMany(() => Location, location => location.advertisements)
   @JoinTable({
     name: 'ad_place',
     joinColumn: {

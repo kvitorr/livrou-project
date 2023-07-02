@@ -9,8 +9,15 @@ export class CreateBookDto {
   @IsString()
   title: string;
 
+  edition_count: number;
+  publish_date: Date;
+  imageUrl: string;
 
   @ArrayNotEmpty()
   @IsString({ each: true })
   authorNames: string[]; // Array of author names
 }
+
+
+import { Author } from 'src/authors/entities/author.entity';
+

@@ -2,12 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { UpdateAdvertisementDto } from './dto/update-advertisement.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Location } from 'src/location/entities/location.entity';
 import { Advertisement } from './entities/advertisement.entity';
 import { CreateAdvertisementDTO } from './dto/create-advertisement.dto';
-import { UnauthorizedException } from '@nestjs/common';
+import { UnauthorizedException, ForbiddenException } from '@nestjs/common';
 import { User } from 'src/users/entities/user.entity';
 import { NotFoundException } from '@nestjs/common/exceptions';
+import { Location } from 'src/location/entities/location.entity';
 
 @Injectable()
 export class AdvertisementService {
@@ -17,7 +17,7 @@ export class AdvertisementService {
     private readonly advertisementRepository: Repository<Advertisement>,
     @InjectRepository(Location)
     private readonly locationRepository: Repository<Location>,
-  ){}
+  ) { }
 
   async create(createAdvertisementDto: CreateAdvertisementDTO): Promise<Advertisement> {
     const { locations, ...advertisementData } = createAdvertisementDto;
@@ -45,35 +45,117 @@ export class AdvertisementService {
     return this.advertisementRepository.find();
   }
 
+  async findValidAdvertisements(): Promise<Advertisement[]> {
+    const ads: Advertisement[] = await this.advertisementRepository.find({ where: { removed: false } });
+
+    if (!ads || ads.length === 0) {
+      throw new ForbiddenException();
+    }
+
+    return ads;
+  }
+
+
   async findOne(id: number): Promise<Advertisement> {
-    return await this.advertisementRepository.findOneBy({advertisement_id : id});
+    return await this.advertisementRepository.findOneBy({ advertisement_id: id });
 
   }
 
-  async update(id: number, updateAdvertisementDto: UpdateAdvertisementDto, user: User): Promise<Advertisement> {
-    console.log(id)
-    const advertisement: Advertisement = await this.findOne(id);
-
-    if (advertisement.userId !== user.user_id) {
-      throw new UnauthorizedException();
+  async findOneValid(id: number): Promise<Advertisement> {
+    const ads: Advertisement = await this.advertisementRepository.findOne({ where: { advertisement_id: id, removed: false } });
+    if (!ads) {
+      throw new ForbiddenException()
     }
 
-    updateAdvertisementDto.userId = user.user_id;
+    return ads;
+  }
+
+  async update(id: number, updateAdvertisementDto: UpdateAdvertisementDto, userReq: User): Promise<Advertisement> {
+    const advertisement: Advertisement = await this.findOne(id);
+
+    if (!advertisement) {
+      throw new NotFoundException();
+    }
+    updateAdvertisementDto.userId = advertisement.userId;
+    updateAdvertisementDto.postingDate = advertisement.postingDate;
+
+    if (!userReq.isAdmin) {
+      if (advertisement.userId === userReq.user_id) {
+        updateAdvertisementDto.removed = advertisement.removed;
+      } else {
+        throw new UnauthorizedException();
+      }
+    }
+
     return this.advertisementRepository.save(updateAdvertisementDto);
   }
-  
-  
 
-  async remove(id: number, user: User){
+  async markAsDone(id: number, userReq: User): Promise<Advertisement> {
+    const advertisement: Advertisement = await this.findOne(id);
+    if (!advertisement) {
+      throw new NotFoundException();
+    }
+    if (!userReq.isAdmin) {
+      if (advertisement.userId !== userReq.user_id) {
+        throw new UnauthorizedException();
+      }
+    }
+
+    advertisement.completionDate = new Date();
+
+    return this.advertisementRepository.save(advertisement);
+  }
+
+  async remove(id: number, user: User) {
 
     const advertisement: Advertisement = await this.findOne(id);
-
-  
-    if (advertisement.userId !== user.user_id) {
-      throw new UnauthorizedException();
+    if (!advertisement) {
+      throw new NotFoundException();
     }
-    return this.advertisementRepository.delete(id);
+    if (!user.isAdmin) {
+      if (advertisement.userId !== user.user_id) {
+        throw new UnauthorizedException();
+      }
+    }
+
+    advertisement.removed = true;
+    return this.advertisementRepository.save(advertisement);
   }
+
+
+  async findAdvertisementsByFilter(filter: {
+    state?: string;
+    city?: string;
+    transactionType?: string;
+    conservation?: string;
+    maxPrice?: number;
+  }): Promise<Advertisement[]> {
+    const { state, city, transactionType, conservation, maxPrice } = filter;
+
+
+    const queryBuilder = this.advertisementRepository.createQueryBuilder('advertisement');
+
+    queryBuilder.leftJoinAndSelect('advertisement.locations', 'adPlace');
+
+    if (state) {
+      queryBuilder.andWhere('adPlace.state = :state', { state });
+    }
+    if (city) {
+      queryBuilder.andWhere('adPlace.city = :city', { city });
+    }
+    if (transactionType) {
+      queryBuilder.andWhere('advertisement.transactionType = :transactionType', { transactionType });
+    }
+    if (conservation) {
+      queryBuilder.andWhere('advertisement.conservation = :conservation', { conservation });
+    }
+    if (maxPrice) {
+      queryBuilder.andWhere('advertisement.value<= :maxPrice', { maxPrice });
+    }
+
+    return await queryBuilder.getMany();
+  }
+
 }
 
 

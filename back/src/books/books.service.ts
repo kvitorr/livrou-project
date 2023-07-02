@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Book } from './entities/book.entity';
 import { Repository } from 'typeorm';
 import { Author } from 'src/authors/entities/author.entity';
+import { User } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class BooksService {
@@ -17,7 +18,11 @@ export class BooksService {
   ) {}
 
  
-  async create(createBookDto: CreateBookDto): Promise<Book> {
+  async create(createBookDto: CreateBookDto, user: User): Promise<Book> {
+    if(!user.isAdmin){
+      throw new UnauthorizedException();
+    }
+
     const { authorNames, ...bookData } = createBookDto;
   
     const book = this.bookRepository.create(bookData);
@@ -48,11 +53,17 @@ export class BooksService {
     return 'a'
   }
 
-  update(id: number, updateBookDto: UpdateBookDto) {
+  update(id: number, updateBookDto: UpdateBookDto, user: User) {
+    if(!user.isAdmin){
+      throw new UnauthorizedException();
+    }
     return `This action updates a #${id} book`;
   }
 
-  remove(id: number) {
+  remove(id: number, user: User) {
+    if(!user.isAdmin){
+      throw new UnauthorizedException();
+    }
     return `This action removes a #${id} book`;
   }
 }
