@@ -30,7 +30,8 @@ export const CollectionAdWrapper = styled.div`
 export const StyledLink = styled(Link)`
     //text-decoration: none;
     //color: blue;
-
+    display: flex;
     flex: 1 1 180px;
     max-width: 230px;
+    min-height: 400px;
 `;
