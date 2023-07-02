@@ -1,14 +1,21 @@
 import axios from "axios";
 
-export const axiosPublic = axios.create({
+export const axiosPrivate = axios.create({
     baseURL: "http://localhost:3000/",
     headers: {
         "Content-Type": "application/json",
     }
 });
 
+export const axiosPublic = axios.create({
+  baseURL: "http://localhost:3000/",
+  headers: {
+      "Content-Type": "application/json",
+  }
+});
 
-axiosPublic.interceptors.request.use(
+
+axiosPrivate.interceptors.request.use(
     async (config) => {
       const accessToken = localStorage.getItem("access_token");
       if (accessToken) {
@@ -42,7 +49,7 @@ export const verifyRefreshToken = async () => {
     }
 };
 
-axiosPublic.interceptors.response.use(
+axiosPrivate.interceptors.response.use(
     response => response,
     async function (error) {
         const originalRequest = error.config
@@ -59,7 +66,7 @@ axiosPublic.interceptors.response.use(
             originalRequest.headers[
               "Authorization"
             ] = `Bearer ${data.access_token}`;
-            return axiosPublic(originalRequest);
+            return axiosPrivate(originalRequest);
         } else {
             // Refresh token expirado também
             localStorage.removeItem("access_token")
