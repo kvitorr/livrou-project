@@ -116,7 +116,17 @@ async findOne(id: number): Promise<Book> {
   };
 }
 
+async findBooksByFilter(filter: {
+  title?: string;
+}): Promise<Book[]> {
+  const { title } = filter;
 
+
+  const books = await this.bookRepository.createQueryBuilder('book').where("title ilike :title", { title: '%' + title + '%' }).getMany();
+ 
+  
+  return books;
+}
 
 
   update(id: number, updateBookDto: UpdateBookDto, user: User) {

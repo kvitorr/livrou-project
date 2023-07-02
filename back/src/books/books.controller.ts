@@ -38,6 +38,15 @@ export class BooksController {
     return this.booksService.paginate(options);
   }
 
+  @Get('filter')
+  findBooksByTitle(
+    @Query ('title') title?: string,
+  ) {
+    return this.booksService.findBooksByFilter({
+      title
+    });
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.booksService.findOne(+id);

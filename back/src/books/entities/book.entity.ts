@@ -18,7 +18,7 @@ export class Book {
   @Column({nullable: true, name: 'publish_year'})
   publishYear: number;
 
-  @Column({name: 'image-url',nullable: true})
+  @Column({name: 'image_url',nullable: true})
   imageUrl: string;
 
   @ManyToMany(() => Author, author => author.books)
