@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException, ForbiddenException } from '@nestjs/common';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -48,9 +48,8 @@ export class BooksService {
     return this.bookRepository.find();
   }
 
-  findOne(id: number){
-    this.bookRepository.findOneBy
-    return 'a'
+  async findOne(id: number): Promise<Book>{
+    return await this.bookRepository.findOneBy({ book_id: id })
   }
 
   update(id: number, updateBookDto: UpdateBookDto, user: User) {
