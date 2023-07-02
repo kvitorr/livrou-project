@@ -15,7 +15,6 @@ import LoginForm from './componentes/LoginForm'
 import RegisterForm from './componentes/RegisterForm'
 import { ShowRegisterModalContext } from './contexts/RegisterModalContext'
 import { AuthContext } from './contexts/AuthContext'
-import { axiosPublic } from './utils/api'
 import { NavMobile } from './componentes/NavMobile'
 
 

@@ -1,5 +1,5 @@
 import { createContext, useState, ReactNode } from 'react';
-import { axiosPublic } from '../utils/api';
+import { axiosPrivate } from '../utils/api';
 
 
 interface UserLogin {
@@ -40,7 +40,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   const login = async (userData: UserLogin) => {
     try {
 
-      const response = await axiosPublic.post('auth/login', userData);
+      const response = await axiosPrivate.post('auth/login', userData);
 
       localStorage.setItem('access_token', response.data.access_token);
       localStorage.setItem('refresh_token', response.data.refresh_token);
