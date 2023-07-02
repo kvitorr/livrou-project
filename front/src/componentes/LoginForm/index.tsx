@@ -42,6 +42,7 @@ const LoginForm = () => {
 
   const handleSubmitData: SubmitHandler<ILoginInput> = async (data) => { 
     await login(data)
+    setShowLoginModal(false)
   };
   
   return (

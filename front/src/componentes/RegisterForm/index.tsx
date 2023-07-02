@@ -6,13 +6,14 @@ import { ShowRegisterModalContext } from '../../contexts/RegisterModalContext'
 import { ShowLoginModalContext } from '../../contexts/LoginModalContext'
 import { useContext } from 'react'
 import { AiOutlineClose } from 'react-icons/ai'
+import axios from 'axios'
 
 const IRegisterSchema = z.object({
   name: z.string()
     .trim()
     .nonempty({ message: "Seu nome não pode ficar vazio" })
     .min(3, { message: "Seu nome deve ter ao menos 3 caracteres" })
-    .max(20, { message: "Seu nome deve ter no máximo 20 caracteres" })
+    .max(30, { message: "Seu nome deve ter no máximo 20 caracteres" })
     .regex(
       /^[a-zA-ZÀ-ú ]+$/,
       { message: "Seu nome não pode conter caracteres especiais" }
@@ -33,7 +34,11 @@ const IRegisterSchema = z.object({
 
   phone: z.string()
     .trim()
-    .min(8, 'Número de telefone deve ter ao menos 8 números')
+    .min(8, 'Número de telefone deve ter ao menos 8 números'),
+
+  birth_date: z.preprocess((arg) => {
+    if (typeof arg == "string" || arg instanceof Date) return new Date(arg);
+  }, z.date())
 
 }).refine((fields) => fields.password === fields.confirmPassword, {
   path: ['confirmPassword'],
@@ -61,8 +66,15 @@ const RegisterForm = () => {
     resolver: zodResolver(IRegisterSchema)
   })
 
-  const handleSubmitData: SubmitHandler<IRegisterInput> = data => {
-    console.log(data)
+  const handleSubmitData: SubmitHandler<IRegisterInput> = async (data) => {
+    const response = await axios.post('users', data,{
+      baseURL: "http://localhost:3000/",
+      headers: {
+          "Content-Type": "application/json",
+      }
+  })
+
+  setShowRegisterModal(false)
   }
   
   return (
@@ -97,6 +109,14 @@ const RegisterForm = () => {
           <div className='inputs'>
             <label htmlFor="phone">Celular</label>
             <input {...register('phone')} type="text" id="phone" placeholder='Digite seu número de phone' />
+            {errors.phone?.message && (
+              <p className='errorMessage'>{errors.phone.message}</p>
+            )}
+          </div>
+
+          <div className='inputs'>
+            <label htmlFor="birth_date">Data de Nascimento</label>
+            <input {...register('birth_date')} type="date" id="birth_date" />
             {errors.phone?.message && (
               <p className='errorMessage'>{errors.phone.message}</p>
             )}

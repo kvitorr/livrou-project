@@ -8,7 +8,6 @@ export const LoginContainer = styled.div`
     background-color: white;
     width: 550px;
     height: 650px;
-    margin: 1rem;
 
 
     .closeIcon {

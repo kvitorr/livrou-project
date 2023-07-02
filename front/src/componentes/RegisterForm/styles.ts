@@ -8,7 +8,6 @@ export const RegisterContainer = styled.div`
     background-color: white;
     width: 570px;
     height: 700px;
-    margin: 1rem;
 
     overflow-y: auto;
 
