@@ -48,7 +48,7 @@ export class UsersController {
   }
 
 
-  @Get(':id/bookreviews')
+  @Get(':id/book-reviews')
   @UseGuards(AuthGuard('jwt'))
   findBookReviewsByUserId(@Param('id') id: string, @Req() request: Request,
   @Query('page') page = 1,
