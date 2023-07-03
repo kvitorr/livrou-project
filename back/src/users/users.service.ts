@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { ForbiddenException, Injectable, UnauthorizedException, BadRequestException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -27,6 +27,10 @@ export class UsersService {
   async create(createUserDto: CreateUserDto): Promise<User> {
     const { password, ...userData } = createUserDto;
     userData.removed = false;
+
+    if(!this.isPasswordSecure(password)){
+      throw new BadRequestException('A senha fornecida não atende aos critérios de segurança.');
+    }
     const hashedSenha: string = bcrypt.hashSync(password, 10);
     const user: User = this.userRepository.create({ ...userData, password: hashedSenha });
     return this.userRepository.save(user);
@@ -140,6 +144,29 @@ export class UsersService {
   }
 
   findOneByEmail(username: string) {
+    
+    
     return this.userRepository.findOneBy({ email: username });
+  }
+
+  isPasswordSecure(password: string): boolean {
+    const regexSpecialChar = /[!@#$%^&*(),.?":{}|<>]/;
+    const regexLowercase = /[a-z]/;
+    const regexUppercase = /[A-Z]/;
+    const regexNumber = /[0-9]/;
+  
+    const hasMinLength = password.length >= 8;
+    const hasSpecialChar = regexSpecialChar.test(password);
+    const hasLowercase = regexLowercase.test(password);
+    const hasUppercase = regexUppercase.test(password);
+    const hasNumber = regexNumber.test(password);
+  
+    return (
+      hasMinLength &&
+      hasSpecialChar &&
+      hasLowercase &&
+      hasUppercase &&
+      hasNumber
+    );
   }
 }
