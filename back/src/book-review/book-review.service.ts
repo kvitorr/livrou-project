@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateBookReviewDto } from './dto/create-book-review.dto';
 import { UpdateBookReviewDto } from './dto/update-book-review.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -6,6 +6,7 @@ import { BookReview } from './entities/book-review.entity';
 import { Repository } from 'typeorm';
 import { Book } from 'src/books/entities/book.entity';
 import{IPaginationOptions, Pagination, paginate} from 'nestjs-typeorm-paginate';
+import { User } from 'src/users/entities/user.entity';
 
 
 @Injectable()
@@ -20,9 +21,12 @@ export class BookReviewService {
   async create(
     createBookReviewDto: CreateBookReviewDto,
     bookId: string,
-    userId: number,
-  ) {
-    createBookReviewDto.userId = userId;
+    user: User  ) {
+
+    if(user.removed){
+      throw new ForbiddenException();
+    }
+    createBookReviewDto.userId = user.user_id;
     createBookReviewDto.bookId = Number(bookId);
   
     const bookReview = this.bookReviewRepository.create(createBookReviewDto);

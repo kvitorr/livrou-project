@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -48,7 +48,10 @@ export class UsersService {
   }
 
   async findAdsByUserIdPaginate(id: number, user: User,options: IPaginationOptions): Promise<Pagination<Advertisement>> {
-    console.log(user)
+    if(user.removed){
+      throw new ForbiddenException();
+    }
+
     if(user.isAdmin || user.user_id == id){
       const queryBuilder = this.advertisementRepository.createQueryBuilder('advertisement');
 
@@ -59,11 +62,14 @@ export class UsersService {
 
     }
 
-    throw new UnauthorizedException();
+    throw new ForbiddenException();
 
   }
 
   async findBookReviewByUserIdPaginate(id: number, user: User,options: IPaginationOptions): Promise<Pagination<BookReview>> {
+    if(user.removed){
+      throw new ForbiddenException();
+    }
     if(user.isAdmin || user.user_id == id){
       const queryBuilder = this.bookReviewRepository.createQueryBuilder('bookReview');
 
@@ -74,7 +80,7 @@ export class UsersService {
 
     }
 
-    throw new UnauthorizedException();
+    throw new ForbiddenException();
 
   }
 
@@ -87,8 +93,8 @@ export class UsersService {
     updateUserDto.user_id = idUserUpdated;
 
     if(userReq.user_id == userUpdated.user_id){
-        if(userUpdated.removed){
-          throw new UnauthorizedException();
+        if(userReq.removed){
+          throw new ForbiddenException();
         }
         updateUserDto.isAdmin = userUpdated.isAdmin;
         updateUserDto.removed = false;
@@ -96,7 +102,7 @@ export class UsersService {
     }else{
       console.log(userReq)
       if(!userReq.isAdmin){
-        throw new UnauthorizedException();
+        throw new ForbiddenException();
       }
       if(userUpdated.isAdmin){
         updateUserDto.isAdmin = true;

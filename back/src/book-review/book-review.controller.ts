@@ -18,7 +18,7 @@ export class BookReviewController {
   create(@Param('bookId') bookId: string, @Body() createBookReviewDto: CreateBookReviewDto,
   @Req() request: Request) {
     const user: User = request.user as User;
-    return this.bookReviewService.create(createBookReviewDto, bookId, user.user_id);
+    return this.bookReviewService.create(createBookReviewDto, bookId, user);
   }
 
   @Get()

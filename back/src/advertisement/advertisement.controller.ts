@@ -20,7 +20,7 @@ export class AdvertisementController {
     const user: User = request.user as User;
     createAdvertisementDto.userId = user.user_id;
 
-    return this.advertisementService.create(createAdvertisementDto);
+    return this.advertisementService.create(createAdvertisementDto, user);
   }
 
 

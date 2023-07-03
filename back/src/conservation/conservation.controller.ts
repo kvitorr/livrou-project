@@ -6,7 +6,7 @@ import { UpdateConservationDto } from './dto/update-conservation.dto';
 @Controller('conservation')
 export class ConservationController {
   constructor(private readonly conservationService: ConservationService) {}
-
+/*
   @Post()
   create(@Body() createConservationDto: CreateConservationDto) {
     return this.conservationService.create(createConservationDto);
@@ -30,5 +30,5 @@ export class ConservationController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.conservationService.remove(+id);
-  }
+  }*/
 }

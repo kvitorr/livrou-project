@@ -15,8 +15,7 @@ export class LikesController {
   create(@Param('bookReviewId') bookReviewId: string,@Req() request: Request) {
     const user: User = request.user as User; 
     
-    console.log(user)
-    return this.adLikesService.create(user.user_id, bookReviewId);
+    return this.adLikesService.create(user, bookReviewId);
   }
 
   @Get()
@@ -29,7 +28,7 @@ export class LikesController {
   @UseGuards(AuthGuard('jwt'))
   findOne(@Param('bookReviewId') id: string, @Req() request: Request) {
     const user: User = request.user as User;
-    return this.adLikesService.findOne(Number(id),user.user_id);
+    return this.adLikesService.findOne(Number(id),user);
   }
 
   @Patch()
@@ -41,6 +40,6 @@ export class LikesController {
   @UseGuards(AuthGuard('jwt'))
   remove(@Param('bookReviewId') id: string, @Req() request: Request) {
     const user: User = request.user as User;
-    return this.adLikesService.remove(Number(id),user.user_id);
+    return this.adLikesService.remove(Number(id),user);
   }
 }

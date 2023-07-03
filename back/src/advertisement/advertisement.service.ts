@@ -25,7 +25,11 @@ export class AdvertisementService {
     private readonly locationRepository: Repository<Location>,
   ) { }
 
-  async create(createAdvertisementDto: CreateAdvertisementDTO): Promise<Advertisement> {
+  async create(createAdvertisementDto: CreateAdvertisementDTO, user: User): Promise<Advertisement> {
+    if(user.removed){
+      throw new ForbiddenException();
+    }
+    
     const { locations, ...advertisementData } = createAdvertisementDto;
 
     const advertisement = this.advertisementRepository.create(advertisementData);
@@ -161,11 +165,14 @@ export class AdvertisementService {
     updateAdvertisementDto.userId = advertisement.userId;
     updateAdvertisementDto.postingDate = advertisement.postingDate;
 
+    if(userReq.removed){
+      throw new ForbiddenException();
+    }
     if (!userReq.isAdmin) {
       if (advertisement.userId === userReq.user_id) {
         updateAdvertisementDto.removed = advertisement.removed;
       } else {
-        throw new UnauthorizedException();
+        throw new ForbiddenException();
       }
     }
 
@@ -177,9 +184,13 @@ export class AdvertisementService {
     if (!advertisement) {
       throw new NotFoundException();
     }
+
+    if(userReq.removed){
+      throw new ForbiddenException();
+    }
     if (!userReq.isAdmin) {
       if (advertisement.userId !== userReq.user_id) {
-        throw new UnauthorizedException();
+        throw new ForbiddenException();
       }
     }
 
@@ -193,6 +204,10 @@ export class AdvertisementService {
     const advertisement: Advertisement = await this.findOne(id);
     if (!advertisement) {
       throw new NotFoundException();
+    }
+
+    if(user.removed){
+      throw new ForbiddenException();
     }
     if (!user.isAdmin) {
       if (advertisement.userId !== user.user_id) {
