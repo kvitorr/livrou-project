@@ -7,6 +7,9 @@ export class BookReview {
     @PrimaryGeneratedColumn({ name: 'book_review_id' })
     bookReviewId: number;
 
+    @Column({ nullable: true})
+    title: string;
+
     @Column({ name: 'book_id' })
     bookId: number;
   
