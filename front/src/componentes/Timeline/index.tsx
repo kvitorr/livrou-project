@@ -30,6 +30,8 @@ export const Timeline = () => {
 
   const { filterQuery } = useContext(FilterQueryContext)
   const [anuncios, setAnuncios] = useState<BookAdProps[]>([])
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(()=> {
     const fetchAd = async () => {
@@ -39,11 +41,22 @@ export const Timeline = () => {
 
       console.log(data)
 
+      setCurrentPage(data.meta.currentPage)
+      setTotalPages(data.meta.totalPages)
       setAnuncios(data.items)
     }
 
     fetchAd()
   }, [filterQuery])
+
+  const fetchNewAnuncios = async (pageNumber: number) => {
+    const response = await axiosPublic(`advertisement/filter?${filterQuery}&page=${pageNumber}`)
+    const data = response.data
+    const currentAnuncios = anuncios.concat(data.items)
+
+    setAnuncios(currentAnuncios)
+    setCurrentPage(data.meta.currentPage)
+}
 
   
 
@@ -58,6 +71,10 @@ export const Timeline = () => {
        </S.StyledLink>))
     }
       </S.TimelineAdWrapper>
+
+      {currentPage < totalPages && <S.ButtonAd onClick={() => fetchNewAnuncios(currentPage + 1)}>
+        Carregar mais
+      </S.ButtonAd>}
 
     </S.TimelineWrapper>
 

@@ -21,7 +21,7 @@ export const Reviews = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  useEffect(() => { //preciso de uma rota que retorne os autores
+  useEffect(() => { 
     const fetchBookDetails = async () => {
       const response = await axiosPublic(`/books/${id}`)
       const data = response.data

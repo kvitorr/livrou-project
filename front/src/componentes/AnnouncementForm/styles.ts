@@ -8,9 +8,10 @@ export const AnnouncementFormContainer = styled.div`
     background-color: white;
 
     width: 550px;
-    height: 700px;
+    min-height: 650px;
 
     position: relative;
+    overflow-y: auto;
 
 
     .closeIcon {

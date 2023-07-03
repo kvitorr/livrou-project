@@ -183,13 +183,28 @@ const books =
           "imageUrl": "https://covers.openlibrary.org/b/olid/OL46849901M-L.jpg"
         }
       ]
+
+      const books2 = 
+    [
+        {
+          "title": "Tartarugas até lá embaixo",
+          "authorNames": ["John Green"],
+          "synopsis": `A história acompanha a jornada de Aza Holmes, uma menina de 16 anos que sai em busca de um bilionário misteriosamente desaparecido – quem encontrá-lo receberá uma polpuda recompensa em dinheiro – enquanto tenta lidar com o próprio transtorno obsessivo-compulsivo (TOC).
+
+          Repleto de referências da vida do autor – entre elas, a tão marcada paixão pela cultura pop e o TOC, distúrbio mental que o afeta desde a infância –, Tartarugas até lá embaixo tem tudo o que fez de John Green um dos mais queridos autores contemporâneos. Um livro incrível, recheado de frases sublinháveis, que fala de amizades duradouras e reencontros inesperados, fan-fics de Star Wars e – por que não? – peculiares répteis neozelandeses.`,
+          "subject": "Ficção, Fantasia",
+          "editionCount": 1,
+         "publishYear": 2017,
+          "imageUrl": "https://covers.openlibrary.org/b/id/14345601-L.jpg"
+        }
+      ]
       
 
 
 async function sendBookData() {
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imt2aXRvcnNhbnRvc0Bob3RtYWlsLmNvbSIsImlhdCI6MTY4ODI3OTgwMywiZXhwIjoxNjg4MjgyODAzfQ.ey-ZKiXsWPc5PNvbVSuHKZ9R8ic6hUpe1-S-1l33LK0"
-   try{ for (let i = 0; i < books.length; i++) {
-      const book = books[i];
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imt2aXRvcnNhbnRvc0Bob3RtYWlsLmNvbSIsImlhdCI6MTY4ODQyNDI3NCwiZXhwIjoxNjg4NDI3Mjc0fQ.z39zP9dxNDuvTNCnpSY5bXLD7UDeXtker062k34Doyk"
+   try{ for (let i = 0; i < books2.length; i++) {
+      const book = books2[i];
       const response = await fetch('http://localhost:3000/books/', {
         method: 'POST',
         headers: {
@@ -198,6 +213,8 @@ async function sendBookData() {
           },
         body: JSON.stringify(book)
       });
+
+      console.log(response)
 
       if (response.ok) {
         console.log(`Livro "${book.title}" enviado com sucesso!`);

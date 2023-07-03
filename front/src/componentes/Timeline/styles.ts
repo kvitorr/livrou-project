@@ -10,6 +10,7 @@ export const TimelineWrapper = styled.main`
 
     display: flex;
     flex-direction: column;
+    padding-bottom: 4rem;
 `
 
 export const TimelineTitle = styled.h2`
@@ -35,3 +36,13 @@ export const StyledLink = styled(Link)`
     max-width: 230px;
     min-height: 400px;
 `;
+
+export const ButtonAd= styled.button`
+    width: 120px;
+    margin: auto;
+    color: white;
+    background-color: #1A2B88;
+    border-radius: 10px;
+    padding: .3rem;
+    cursor: pointer;
+`

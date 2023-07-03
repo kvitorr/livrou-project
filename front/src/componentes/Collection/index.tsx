@@ -10,6 +10,8 @@ export const Collection = () => {
   const [books, setBooks] = useState<BooksProps[]>([])
   const [queryExists, setQueryExists] = useState(false)
   const [searchParams] = useSearchParams();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     let url = 'books/'
@@ -25,13 +27,33 @@ export const Collection = () => {
     const fetchBooks = async () => {
       const response = await axiosPublic(url)
       const data = await response.data
+      console.log(data)
       if(query) setBooks(data.items)
       else setBooks(data.items)
+      setCurrentPage(data.meta.currentPage)
+      setTotalPages(data.meta.totalPages)
     }
 
     fetchBooks()
   }, [searchParams])
 
+  const fetchNewBooks = async (pageNumber: number) => {
+    let url = 'books'
+    const query = searchParams.get('query');
+
+    if(query) {
+      url += `/filter?title=${encodeURIComponent(query)}&page=${pageNumber}` 
+    }  else {
+      url += `?page=${pageNumber}` 
+    }
+    
+    const response = await axiosPublic(url)
+    const data = response.data
+    const currentBooks = books.concat(data.items)
+
+    setBooks(currentBooks)
+    setCurrentPage(data.meta.currentPage)
+  }
 
   return (
     <S.CollectionWrapper>
@@ -44,6 +66,11 @@ export const Collection = () => {
             <BookAd {...book}/>
           </S.StyledLink>))}
       </S.CollectionAdWrapper>
+
+
+      {currentPage < totalPages && <S.ButtonBook onClick={() => fetchNewBooks(currentPage + 1)}>
+        Carregar mais
+      </S.ButtonBook>}
 
     </S.CollectionWrapper>
 

@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 export const CollectionWrapper = styled.main`
     margin: auto;
     padding-inline: 3rem;
+    padding-bottom: 2rem;
 
 
     display: flex;
@@ -35,3 +36,13 @@ export const StyledLink = styled(Link)`
     max-width: 230px;
     min-height: 400px;
 `;
+
+export const ButtonBook= styled.button`
+    width: 120px;
+    margin: auto;
+    color: white;
+    background-color: #1A2B88;
+    border-radius: 10px;
+    padding: .3rem;
+    cursor: pointer;
+`

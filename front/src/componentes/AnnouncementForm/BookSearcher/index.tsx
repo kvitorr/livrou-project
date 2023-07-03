@@ -47,7 +47,7 @@ export const BookSearcher: React.FC<IBookSearcherProps> = ({ choosenBook, setCho
         <>
             <S.SearchBarWrapper>
                 <div className='searcherContainer'>
-                    <input id='searchBooks' className='inputSearch' value={search} onChange={handleSearch} placeholder='Procure um livro...' type="text" />
+                    <input required id='searchBooks' className='inputSearch' value={search} onChange={handleSearch} placeholder='Procure um livro...' type="text" />
                 </div> 
                 <S.TitlesWrapper>
                     {books.map(book => (

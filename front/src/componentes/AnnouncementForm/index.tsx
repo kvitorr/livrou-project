@@ -27,6 +27,8 @@ const AnnouncementForm = () => {
   const [estado, setEstado] = useState('');
   const [cidade, setCidade] = useState('');
 
+  const [showValue, setShowValue] = useState(false)
+
 
   const handleEstadoChange = (event: any) => {
     const { value } = event.target;
@@ -40,6 +42,8 @@ const AnnouncementForm = () => {
 
   const handleTipoVendaChange = (event: any) => {
     const { value } = event.target;
+    if(value === '' || value === '2') setShowValue(false)
+    else setShowValue(true)
     setTipoVenda(value);
   };
 
@@ -76,10 +80,6 @@ const AnnouncementForm = () => {
     const response = await axiosPrivate.post('advertisement', book)
 }
 
-
-
-
-
   return (
 
       <AnnouncementFormContainer>
@@ -110,7 +110,7 @@ const AnnouncementForm = () => {
         }
       <form>
         <p className='label-input'>Tipo de Venda</p>
-          <SelectOptions value={tipoVenda} onChange={handleTipoVendaChange}>
+          <SelectOptions required value={tipoVenda} onChange={handleTipoVendaChange}>
             <option value=""></option>
             <option value="1">Venda</option>
             <option value="2">Troca</option>
@@ -118,28 +118,28 @@ const AnnouncementForm = () => {
           </SelectOptions>
 
           <p className='label-input'>Estado de Conservação</p>
-          <SelectOptions value={estadoConservacao} onChange={handleEstadoConservacaoChange}>
+          <SelectOptions required value={estadoConservacao} onChange={handleEstadoConservacaoChange}>
             <option value=""></option>
             <option value="1">Novo</option>
             <option value="2">Seminovo</option>
             <option value="3">Com muitas marcas de uso</option>
           </SelectOptions>
 
-          { value != '2' && 
+          { showValue && 
             <>
               <p className='label-input'>Preço</p>
-              <input className='input-style' value={value} onChange={handleValueChange} type="text" placeholder='Digite o preço...'/>
+              <input required className='input-style' value={value} onChange={handleValueChange} type="number" placeholder='Digite o preço...'/>
             </>
           } 
 
             <p className='label-input'>Descrição</p>
-            <input className='input-style' value={description} onChange={handleDescriptionChange} type="text" placeholder='Digite o descrição...'/>
+            <input required className='input-style' value={description} onChange={handleDescriptionChange} type="text" placeholder='Digite o descrição...'/>
 
             <p className='label-input'>Estado</p>
-            <input className='input-style' value={estado} onChange={handleEstadoChange} type="text" placeholder='Digite o estado ...'/>
+            <input required className='input-style' value={estado} onChange={handleEstadoChange} type="text" placeholder='Digite o estado ...'/>
 
             <p className='label-input'>Cidade</p>
-            <input className='input-style' value={cidade} onChange={handleCidadeChange} type="text" placeholder='Digite a cidade...'/>
+            <input required className='input-style' value={cidade} onChange={handleCidadeChange} type="text" placeholder='Digite a cidade...'/>
 
           
         <button className='buttonType' id='buttonPublish' onClick={handleSubmit} type='button'>Publicar</button>
