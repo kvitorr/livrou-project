@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import { UpdateAdvertisementDto } from './dto/update-advertisement.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -29,6 +29,10 @@ export class AdvertisementService {
   async create(createAdvertisementDto: CreateAdvertisementDTO, user: User): Promise<Advertisement> {
     if(user.removed){
       throw new ForbiddenException();
+    }
+
+    if(!createAdvertisementDto.value && createAdvertisementDto.transactionTypeId !== 2){
+      throw new BadRequestException('O parâmetro value é obrigatório e não pode ser nulo');
     }
     
     const { locations, ...advertisementData } = createAdvertisementDto;

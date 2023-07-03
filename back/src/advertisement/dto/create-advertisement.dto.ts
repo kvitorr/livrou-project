@@ -15,7 +15,6 @@ export class CreateAdvertisementDTO {
   @IsNumber()
   conservationId: number;
 
-  @IsNotEmpty()
   @IsNumber()
   value: number;
 
