@@ -6,10 +6,12 @@ import { User } from './entities/user.entity';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthService } from 'src/auth/auth.service';
 import { JwtStrategy } from 'src/auth/strategies/jwt-strategy';
+import { Advertisement } from 'src/advertisement/entities/advertisement.entity';
+import { BookReview } from 'src/book-review/entities/book-review.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User, Advertisement, BookReview]),
     JwtModule.register({}),
   ],
   controllers: [UsersController],
