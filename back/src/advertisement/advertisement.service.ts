@@ -182,6 +182,11 @@ export class AdvertisementService {
       }
     }
 
+    
+    if(!updateAdvertisementDto.value && updateAdvertisementDto.transactionTypeId !== 2){
+      throw new BadRequestException('O parâmetro value é obrigatório e não pode ser nulo');
+    }
+
     return this.advertisementRepository.save(updateAdvertisementDto);
   }
 
