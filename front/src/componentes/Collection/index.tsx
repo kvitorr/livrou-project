@@ -25,7 +25,7 @@ export const Collection = () => {
     const fetchBooks = async () => {
       const response = await axiosPublic(url)
       const data = await response.data
-      if(query) setBooks(data)
+      if(query) setBooks(data.items)
       else setBooks(data.items)
     }
 

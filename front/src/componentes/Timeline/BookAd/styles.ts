@@ -32,6 +32,7 @@ export const ImgWrapper = styled.div`
     width: 100%;
     height: 80%;
 
+
     img {
         width: 100%;
     }
@@ -39,7 +40,7 @@ export const ImgWrapper = styled.div`
 
 
 export const AdDescription = styled.div`
-    padding: .5rem 1rem;
+    padding: .5rem 0.5rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -56,6 +57,7 @@ export const BookTitle = styled.p`
 export const BookAuthor = styled.p`
     font-size: .875rem;
 `
+
 
 export const BookTradeDescription = styled.div`
     display: flex;
