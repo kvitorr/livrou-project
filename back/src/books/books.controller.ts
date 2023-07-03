@@ -7,8 +7,7 @@ import { Request } from 'express';
 import { User } from 'src/users/entities/user.entity';
 import { Book } from './entities/book.entity';
 import { Pagination, IPaginationOptions } from 'nestjs-typeorm-paginate';
-
-
+import { Advertisement } from 'src/advertisement/entities/advertisement.entity';
 
 
 @Controller('books')
@@ -41,10 +40,33 @@ export class BooksController {
   @Get('filter')
   findBooksByTitle(
     @Query ('title') title?: string,
-  ) {
-    return this.booksService.findBooksByFilter({
-      title
-    });
+    @Query('page') page = 1,
+    @Query('limit') limit = 20,
+  ): Promise<Pagination<Book>>{
+    limit = Math.min(20, limit);
+
+
+
+    const options: IPaginationOptions = {
+      page,
+      limit,
+    };
+    return this.booksService.findBooksByFilter({title}, options);
+  }
+
+
+  @Get(':id/ads')
+  findAdsByBookId(@Param('id') id: string,
+  @Query('page') page = 1,
+  @Query('limit') limit = 20,
+): Promise<Pagination<Advertisement>>{
+  limit = Math.min(20, limit);
+
+  const options: IPaginationOptions = {
+    page,
+    limit,
+  };
+    return this.booksService.findAdsByBoodId(+id, options);
   }
 
   @Get(':id')

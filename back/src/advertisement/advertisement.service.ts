@@ -11,6 +11,8 @@ import { Location } from 'src/location/entities/location.entity';
 import { AdvertisementDetailsDto } from './dto/advertisement-details.dto';
 import { ContatoDto } from './dto/contato.dto';
 import { Pagination, IPaginationOptions,paginate } from 'nestjs-typeorm-paginate';
+import { SelectQueryBuilder } from 'typeorm';
+
 
 
 @Injectable()
@@ -23,7 +25,11 @@ export class AdvertisementService {
     private readonly locationRepository: Repository<Location>,
   ) { }
 
-  async create(createAdvertisementDto: CreateAdvertisementDTO): Promise<Advertisement> {
+  async create(createAdvertisementDto: CreateAdvertisementDTO, user: User): Promise<Advertisement> {
+    if(user.removed){
+      throw new ForbiddenException();
+    }
+    
     const { locations, ...advertisementData } = createAdvertisementDto;
 
     const advertisement = this.advertisementRepository.create(advertisementData);
@@ -50,12 +56,17 @@ export class AdvertisementService {
     return this.advertisementRepository.find();
   }
 
-  async paginate(options: IPaginationOptions): Promise<Pagination<Advertisement>> {
+  async paginate(queryBuilder: SelectQueryBuilder<Advertisement>, options: IPaginationOptions): Promise<Pagination<Advertisement>> {
+    const paginatedResults = await paginate(queryBuilder, options);
+    return paginatedResults;
+  }
+
+  async findAllPaginate(options: IPaginationOptions): Promise<Pagination<Advertisement>> {
     const queryBuilder = this.advertisementRepository.createQueryBuilder('advertisement');
 
     queryBuilder.where('advertisement.removed = :removed', { removed: false });
 
-    const paginatedResults = await paginate(queryBuilder, options);
+    const paginatedResults = await this.paginate(queryBuilder, options);
 
     return paginatedResults;
   }
@@ -80,6 +91,8 @@ export class AdvertisementService {
       .leftJoinAndSelect('book.authors', 'author') // Carrega os dados dos autores do livro
       .leftJoinAndSelect('advertisement.user', 'user_table') // Carrega os dados do anunciante
       .where('advertisement.advertisement_id = :id', { id })
+      .andWhere('advertisement.completionDate IS NULL') 
+      .andWhere('advertisement.removed = false') 
       .getOne();
 
     if (!advertisement) {
@@ -152,11 +165,14 @@ export class AdvertisementService {
     updateAdvertisementDto.userId = advertisement.userId;
     updateAdvertisementDto.postingDate = advertisement.postingDate;
 
+    if(userReq.removed){
+      throw new ForbiddenException();
+    }
     if (!userReq.isAdmin) {
       if (advertisement.userId === userReq.user_id) {
         updateAdvertisementDto.removed = advertisement.removed;
       } else {
-        throw new UnauthorizedException();
+        throw new ForbiddenException();
       }
     }
 
@@ -168,9 +184,13 @@ export class AdvertisementService {
     if (!advertisement) {
       throw new NotFoundException();
     }
+
+    if(userReq.removed){
+      throw new ForbiddenException();
+    }
     if (!userReq.isAdmin) {
       if (advertisement.userId !== userReq.user_id) {
-        throw new UnauthorizedException();
+        throw new ForbiddenException();
       }
     }
 
@@ -184,6 +204,10 @@ export class AdvertisementService {
     const advertisement: Advertisement = await this.findOne(id);
     if (!advertisement) {
       throw new NotFoundException();
+    }
+
+    if(user.removed){
+      throw new ForbiddenException();
     }
     if (!user.isAdmin) {
       if (advertisement.userId !== user.user_id) {
@@ -202,14 +226,12 @@ export class AdvertisementService {
     transactionType?: string;
     conservation?: string;
     maxPrice?: number;
-  }): Promise<Advertisement[]> {
+  }, options: IPaginationOptions): Promise<Pagination<Advertisement>> {
     const { state, city, transactionType, conservation, maxPrice } = filter;
-
-
+  
     const queryBuilder = this.advertisementRepository.createQueryBuilder('advertisement');
-
     queryBuilder.leftJoinAndSelect('advertisement.locations', 'adPlace');
-
+  
     if (state) {
       queryBuilder.andWhere('adPlace.state = :state', { state });
     }
@@ -223,11 +245,15 @@ export class AdvertisementService {
       queryBuilder.andWhere('advertisement.conservation = :conservation', { conservation });
     }
     if (maxPrice) {
-      queryBuilder.andWhere('advertisement.value<= :maxPrice', { maxPrice });
+      queryBuilder.andWhere('advertisement.value <= :maxPrice', { maxPrice });
     }
-
-    return await queryBuilder.getMany();
+  
+    queryBuilder.andWhere('advertisement.completionDate IS NULL');
+    queryBuilder.andWhere('advertisement.removed = false');
+  
+    return await this.paginate(queryBuilder, options);
   }
+  
 
 }
 

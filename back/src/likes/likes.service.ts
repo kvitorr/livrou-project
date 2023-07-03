@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, MethodNotAllowedException } from '@nestjs/common';
+import { Injectable, NotFoundException, MethodNotAllowedException, ForbiddenException, UnauthorizedException } from '@nestjs/common';
 import { UpdateAdLikeDto } from './dto/update-like.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Like } from './entities/like.entity';
@@ -20,11 +20,14 @@ export class LikesService {
   ){
 
   }
-  async create(userId: number, advertisement_id: string) {
-    const user: User = await this.userRepository.findOne({ where: { user_id: userId } });
+  async create(userReq: User, advertisement_id: string) {
+    const user: User = await this.userRepository.findOne({ where: { user_id: userReq.user_id } });
   
+    if(user.removed){
+      throw new ForbiddenException();
+    }
     if (!user) {
-      throw new NotFoundException();
+      throw new UnauthorizedException();
     }
   
     const bookReview: BookReview = await this.bookReviewRepository.findOne({ where: { bookReviewId: Number(advertisement_id) } });
@@ -54,7 +57,13 @@ export class LikesService {
     return this.likeRepository.find({ where: { bookReviewId: Number(bookReviewId) } });
   }
 
-  async findOne(bookReviewId: number, userId: number) {
+  async findOne(bookReviewId: number, user: User) {
+    const userId: number = user.user_id;
+
+    if(user.removed){
+      throw new ForbiddenException();
+    }
+
     return await this.likeRepository.findOne({ where: { bookReviewId, userId } });
   }
 
@@ -62,7 +71,13 @@ export class LikesService {
     throw new MethodNotAllowedException();
   }
 
-  async remove(bookReviewId: number, userId: number) {
+  async remove(bookReviewId: number, user: User) {
+
+    if(user.removed){
+      throw new ForbiddenException();
+    }
+    
+    const userId: number = user.user_id;
     const like: Like = await this.likeRepository.findOne({ where: { bookReviewId, userId } });
 
     if (!like) {
