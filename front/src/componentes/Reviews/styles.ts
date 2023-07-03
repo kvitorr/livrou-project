@@ -3,7 +3,9 @@ import { theme } from "../../styles/theme";
 
 export const Wrapper = styled.div`
     display: flex;
+    flex-direction: column;
     height: 100%;
+    padding-bottom: 2rem;
 `
 
 export const ReviewsContainer = styled.div`
@@ -35,7 +37,7 @@ export const ReviewsHeader = styled.div`
 
 export const ImgWrapper = styled.div`
     img {
-        width: 150px;
+        width: 170px;
     }
 `
 
@@ -64,4 +66,14 @@ export const BookAutor = styled.div`
 
 export const BookSinopse = styled.div`
     font-size: 1rem;
+`
+
+export const ButtonReview = styled.button`
+    width: 120px;
+    margin: auto;
+    color: white;
+    background-color: #1A2B88;
+    border-radius: 10px;
+    padding: .3rem;
+    cursor: pointer;
 `

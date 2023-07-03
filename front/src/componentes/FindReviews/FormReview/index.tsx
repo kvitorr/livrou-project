@@ -12,6 +12,7 @@ interface FormReviewProps {
 
 const ReviewForm: React.FC<BooksProps & FormReviewProps> = ({book_id, title, setShowReviewModal, showReviewModal}) => {
   const [content, setContent] = useState<string>('')
+  const [titleReview, setTitleReview] = useState<string>('')
 
 
   const handleContentChange = (event: any) => {
@@ -19,8 +20,18 @@ const ReviewForm: React.FC<BooksProps & FormReviewProps> = ({book_id, title, set
     setContent(value);
   };
 
+  
+  const handleTitleReviewChange = (event: any) => {
+    const { value } = event.target;
+    setTitleReview(value);
+  };
+
   const handleSubmit = async () => {
-    const response = await axiosPrivate.post(`books/${book_id}/book-review`, {content})
+    const review = {
+      content,
+      title: titleReview
+    }
+    const response = await axiosPrivate.post(`books/${book_id}/book-review`, review)
 
     if( response && response.status === 201){
       setShowReviewModal(false)
@@ -48,8 +59,10 @@ const ReviewForm: React.FC<BooksProps & FormReviewProps> = ({book_id, title, set
           </div>
         }
       <form>
+        <p className='label-input'>Título da sua avaliação?</p>
+        <input className='input-style' value={titleReview} onChange={handleTitleReviewChange} placeholder='Digite o título...'/>
         <p className='label-input'>O que você achou do livro?</p>
-        <textarea className='input-style' value={content} onChange={handleContentChange} placeholder='Digite o descrição...'/>
+        <textarea className='input-style' value={content} onChange={handleContentChange} placeholder='Digite a descrição...'/>
         <button className='buttonType' id='buttonPublish' onClick={handleSubmit} type='button'>Publicar</button>
       </form>
         

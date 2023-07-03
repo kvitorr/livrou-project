@@ -19,7 +19,6 @@ export const BookSearcher: React.FC<IBookSearcherProps> = ({ choosenBook, setCho
         const fetchData = async () => {
             const response = await axiosPublic(`books/filter?title=${debouncedSearch}`);
             const data = response.data
-            console.log(data)
             setBooks(data)
         }
 
@@ -35,8 +34,10 @@ export const BookSearcher: React.FC<IBookSearcherProps> = ({ choosenBook, setCho
         }
     }
 
-    const confirmBook = (book: BooksProps) => {
-        setChoosenBook(book)
+    const confirmBook = async (book: BooksProps) => {
+        const response = await axiosPublic(`books/${book.book_id}`)
+        const data = response.data
+        setChoosenBook(data)
     }
 
     return (

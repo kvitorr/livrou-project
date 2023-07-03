@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react'
+import React, { useEffect, useContext, useState } from 'react'
 import * as S from './styles'
 import { BookAd } from './BookAd'
 
@@ -14,70 +14,18 @@ export type BookAdProps = {
   autor: string
 }
 
-const anuncios = [{
-  id: 1,
-  title: "Amor e gelato",
-  urlImage: urlImage,
-  value: "15",
-  autor: "Katherine Patterson"
-},
-{
-  id: 2,
-  title: "Amor e gelato",
-  urlImage: urlImage,
-  value: "15",
-  autor: "Katherine Patterson"
-},
-{
-  id: 3,
-  title: "Amor e gelato",
-  urlImage: urlImage,
-  value: "15",
-  autor: "Katherine Patterson"
-},
-{
-  id: 4,
-  title: "Amor e gelato",
-  urlImage: urlImage,
-  value: "15",
-  autor: "Katherine Patterson"
-},
-{
-  id: 5,
-  title: "Amor e gelato",
-  urlImage: urlImage,
-  value: "15",
-  autor: "Katherine Patterson"
-},
-{
-  id: 6,
-  title: "Amor e gelato",
-  urlImage: urlImage,
-  value: "15",
-  autor: "Katherine Patterson"
-},
-{
-  id: 7,
-  title: "Amor e gelato",
-  urlImage: urlImage,
-  value: "15",
-  autor: "Katherine Patterson"
-},
-{
-  id: 8,
-  title: "Amor e gelato",
-  urlImage: urlImage,
-  value: "15",
-  autor: "Katherine Patterson"
-}]
-
-
 export const Timeline = () => {
 
   const { filterQuery, setFilterQuery } = useContext(FilterQueryContext)
+  const [anuncios, setAnuncios] = useState([])
 
   useEffect(()=> {
-    console.log(filterQuery)
+
+    
+
+
+
+
   }, [filterQuery])
 
   return (

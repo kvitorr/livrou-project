@@ -4,12 +4,14 @@ import { AiOutlineHeart } from 'react-icons/ai'
 import adeliaProfile from '/images/adelia.png'
 
 interface IReviewProps {
+    bookReviewId: number
+    title: string
     content: string
-    likes: string
+    amountLikes: number
 }
 
 
-export const Review = () => {
+export const Review: React.FC<IReviewProps> = ({title, content, amountLikes, bookReviewId}) => {
   return (
 
     <S.ReviewContainer>
@@ -19,18 +21,18 @@ export const Review = () => {
 
         <S.ReviewContentWrapper>
             <S.ReviewTitle>
-                Espetacular, Sensacional
+                {title}
             </S.ReviewTitle>
             
             <S.ReviewContent>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda debitis nesciunt sapiente, nostrum dolore nemo voluptates voluptas doloribus? Inventore illo dolorem unde expedita quo accusantium vero omnis harum magnam sequi!
+            {content}
             </S.ReviewContent>
 
         </S.ReviewContentWrapper>
 
         <S.ReviewInteraction>
             <AiOutlineHeart size={22}/>
-            <p>10</p>
+            <p>{amountLikes}</p>
         </S.ReviewInteraction>
 
     </S.ReviewContainer>

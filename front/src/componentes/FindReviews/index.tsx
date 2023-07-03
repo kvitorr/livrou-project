@@ -1,10 +1,11 @@
 import * as S from "./styles.ts";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { BookSearcher } from "./BookSearcher/index.tsx";
 import { AuthContext } from "../../contexts/AuthContext.tsx";
 import { FormModal } from "../FormModal/index.tsx";
 import ReviewForm from "./FormReview/index.tsx";
 import { Link } from "react-router-dom";
+import { axiosPublic } from "../../utils/api.ts";
 
 export interface BooksProps {
   book_id: string
@@ -13,6 +14,12 @@ export interface BooksProps {
   publishYear: number
   synopsis: string
   title: string
+  authors: [
+    {
+      author_id: number,
+      name: string
+    }
+  ]
 }
 
 export const FindReviews = () => {
@@ -48,7 +55,9 @@ export const FindReviews = () => {
             {choosenBook.title}
           </S.BookTitle>
           <S.BookAuthor>
-            Katherine Paterson
+            {choosenBook.authors.map((author) => (
+              <p>{author.name}</p>
+            ))}
           </S.BookAuthor>
           <S.BookSinopse>
             {choosenBook.synopsis}

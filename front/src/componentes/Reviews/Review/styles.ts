@@ -1,9 +1,10 @@
-import styled from 'styled-components';;
+import styled from 'styled-components';
 import { theme } from "../../../styles/theme";
 
 
 export const ReviewContainer = styled.div`
     width: 100%;
+    margin: 0 auto;
     display: flex;
     align-items: center;
 
@@ -13,7 +14,7 @@ export const ReviewContainer = styled.div`
 `
 
 export const ProfileImgWrapper = styled.div`
-    min-width: 60px;
+    min-width: 75px;
     display: flex;
     margin-left: 1rem;
 
@@ -24,6 +25,7 @@ export const ProfileImgWrapper = styled.div`
 export const ReviewContentWrapper = styled.div`
     padding: 1rem 1rem;
     border-right: 1px solid #1A2B88;
+    width: 100%;
 
     display: flex;
     flex-direction: column;
@@ -32,13 +34,13 @@ export const ReviewContentWrapper = styled.div`
 `
 
 export const ReviewTitle = styled.p`
-    font-size: 1rem;
+    font-size: 1.1rem;
     color: #1A2B88;
     font-weight: ${theme.font.weight.bold};
 `
 
 export const ReviewContent = styled.p`
-    font-size: .7rem;
+    font-size: 1rem;
     text-align: justify;
 `
 
@@ -52,6 +54,9 @@ export const ReviewInteraction = styled.button`
 
     padding: 0 1rem;
     margin: 0.5rem auto 0 auto;
+    width: 100px;
+    
+
 
 
     > * {
