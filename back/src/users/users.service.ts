@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { ForbiddenException, Injectable, UnauthorizedException, BadRequestException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -26,6 +26,11 @@ export class UsersService {
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     const { password, ...userData } = createUserDto;
+    userData.removed = false;
+
+    if(!this.isPasswordSecure(password)){
+      throw new BadRequestException('A senha fornecida não atende aos critérios de segurança.');
+    }
     const hashedSenha: string = bcrypt.hashSync(password, 10);
     const user: User = this.userRepository.create({ ...userData, password: hashedSenha });
     return this.userRepository.save(user);
@@ -39,6 +44,7 @@ export class UsersService {
   }
 
   async findOne(id: number, user: User) {
+    console.log(user)
     if(user.isAdmin || user.user_id == id){
       return await this.userRepository.findOneBy({user_id: id}) ; 
     }
@@ -98,7 +104,6 @@ export class UsersService {
         }
         updateUserDto.isAdmin = userUpdated.isAdmin;
         updateUserDto.removed = false;
-
     }else{
       console.log(userReq)
       if(!userReq.isAdmin){
@@ -110,6 +115,26 @@ export class UsersService {
       }
     }
 
+    if(updateUserDto.removed){
+      await this.advertisementRepository
+      .createQueryBuilder('advertisement')
+      .update(Advertisement)
+      .set({ removed: true })
+      .where('advertisement.removed = :removed', { removed: false })
+      .andWhere('advertisement.user_id = :userId', { userId: updateUserDto.user_id })
+      .execute();
+
+      await this.bookReviewRepository
+      .createQueryBuilder('book_review')
+      .update(BookReview)
+      .set({ removed: true })
+      .where('book_review.removed = :removed', { removed: false })
+      .andWhere('book_review.user_id = :userId', { userId: updateUserDto.user_id })
+      .execute();
+      }
+
+
+
     return this.userRepository.save(updateUserDto);
 
   }
@@ -119,6 +144,29 @@ export class UsersService {
   }
 
   findOneByEmail(username: string) {
+    
+    
     return this.userRepository.findOneBy({ email: username });
+  }
+
+  isPasswordSecure(password: string): boolean {
+    const regexSpecialChar = /[!@#$%^&*(),.?":{}|<>]/;
+    const regexLowercase = /[a-z]/;
+    const regexUppercase = /[A-Z]/;
+    const regexNumber = /[0-9]/;
+  
+    const hasMinLength = password.length >= 8;
+    const hasSpecialChar = regexSpecialChar.test(password);
+    const hasLowercase = regexLowercase.test(password);
+    const hasUppercase = regexUppercase.test(password);
+    const hasNumber = regexNumber.test(password);
+  
+    return (
+      hasMinLength &&
+      hasSpecialChar &&
+      hasLowercase &&
+      hasUppercase &&
+      hasNumber
+    );
   }
 }
