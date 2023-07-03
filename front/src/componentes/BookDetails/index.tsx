@@ -5,12 +5,12 @@ import { ReviewBottom } from "./ReviewBottom/index.tsx";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { axiosPublic } from "../../utils/api.ts";
-import { BookProps } from "../Collection/BookAd/index.tsx";
+import { BooksProps } from "../FindReviews/index.tsx";
 
 
 export const BookDetails = () => {
   const { id } = useParams();
-  const [bookDetails, setBookDetails] = useState<BookProps>()
+  const [bookDetails, setBookDetails] = useState<BooksProps>()
 
   useEffect(() => {
     
@@ -39,9 +39,9 @@ export const BookDetails = () => {
           <S.BookTitle>
             {bookDetails?.title}
           </S.BookTitle>
-          <S.BookAuthor>
-            Katherine Paterson
-          </S.BookAuthor>
+            {bookDetails?.authors.map( (author) => (
+              <S.BookAuthor key={author.author_id}>{author.name}</S.BookAuthor>
+            ))}
           <S.BookSinopse>
             {bookDetails?.synopsis}
           </S.BookSinopse>

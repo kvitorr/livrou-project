@@ -21,7 +21,10 @@ export const Tag = styled.div`
 
 `
 
-export const ValueAndType = styled.p``
+export const ValueAndType = styled.p`
+    font-family: 'Poppins';
+    font-weight: 500;
+`
 
 export const ProfileWrapper = styled.div`
     padding: 1rem 1.5rem;
@@ -41,7 +44,7 @@ export const Advertiser = styled.div`
     display: flex;
     align-items: center;
     gap: 1rem;
-    padding-block: 1rem;
+    padding-block: .5rem;
 `
 
 export const ImgWrapper = styled.div`
@@ -61,13 +64,19 @@ export const Name = styled.p`
 export const AdvertiserDescription = styled.p`
     font-family: 'Poppins';
     font-size: 0.9rem;
-    padding-block: .5rem;
+    padding-block: .1rem;
     border-bottom: 1px dashed #d3d3d3;
 `
 
 export const ContactWrapper = styled.div`
     display: flex;
+    align-items: center;
+    gap: 2rem;
     padding-top: 1rem;
+
+    & > p {
+        font-family: 'Poppins';
+    }
 `
 
 export const ContactTitle = styled.p`

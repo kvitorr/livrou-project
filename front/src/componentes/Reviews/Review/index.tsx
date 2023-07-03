@@ -12,6 +12,7 @@ interface IReviewProps {
 
 
 export const Review: React.FC<IReviewProps> = ({title, content, amountLikes, bookReviewId}) => {
+    console.log(title)
   return (
 
     <S.ReviewContainer>

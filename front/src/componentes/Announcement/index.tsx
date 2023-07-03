@@ -1,15 +1,44 @@
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import * as S from './styles'
 
 import urlImage from '/images/ponteParaTerabia.jpg'
 import Advertiser from './Advertiser';
+import { BookAdProps } from '../Timeline';
+import { axiosPublic } from '../../utils/api';
 
 
-
+export interface IBookDetailsProps {
+  advertisementId: number
+  description: string
+  advertisementType: string
+  condition: string
+  locations: string[]
+  bookId: number
+  bookTitle: string
+  authors: string[]
+  synopsis: string;
+  bookImageUrl: string
+  price: number
+  advertiserImageUrl: string
+  advertiserName: string
+  accountCreationDate: string;
+  contactNumber: number
+}
 
 const Announcement = () => {
 
   const { id } = useParams();
+  const [book, setBook] = useState<IBookDetailsProps>()
+
+  useEffect(() => {
+    const fetchBookData = async () => {
+      const response = await axiosPublic(`advertisement/${id}/details`)
+      const data = response.data
+      setBook(data)
+    }
+    fetchBookData()
+  }, [id])
 
   return (
     <S.Wrapper>
@@ -21,7 +50,7 @@ const Announcement = () => {
           </S.SectionTitle>
         
           <S.DescriptionContent>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae ipsa necessitatibus eius similique? Quam nisi facere nostrum tempora nihil aperiam, neque vitae error beatae aspernatur ab optio ex, et qui?
+            {book?.description}
           </S.DescriptionContent>
         </S.Description>
 
@@ -32,10 +61,10 @@ const Announcement = () => {
 
           <S.SpecificDetailsWrapper>
             <S.SpecificDetailsType>
-              Tipo de anúncio:
+              Tipo de anúncio: 
             </S.SpecificDetailsType>
             <S.SpecificDetailsContent>
-              Troca e venda
+            {book?.advertisementType}
             </S.SpecificDetailsContent>
           </S.SpecificDetailsWrapper>
 
@@ -44,7 +73,7 @@ const Announcement = () => {
               Conservação:
             </S.SpecificDetailsType>
             <S.SpecificDetailsContent>
-                Bom estado
+                {book?.condition}
             </S.SpecificDetailsContent>
           </S.SpecificDetailsWrapper>
 
@@ -53,7 +82,7 @@ const Announcement = () => {
               Localização:
             </S.SpecificDetailsType>
             <S.SpecificDetailsContent>
-              Teresina - Piauí
+              {book?.locations[0]}
             </S.SpecificDetailsContent>
           </S.SpecificDetailsWrapper>
         </S.SpecificDetails>
@@ -65,19 +94,19 @@ const Announcement = () => {
 
           <S.BookWrapper>
             <S.BookImgWrapper>
-              <S.BookImg src={urlImage}/>
+              <S.BookImg src={book?.advertiserImageUrl}/>
             </S.BookImgWrapper>
 
             <S.BookInformation>
               <S.BookTitle>
-                Amor e Gelato
+                {book?.bookTitle}
               </S.BookTitle>
               <S.BookAutors>
-                Jenna Evans Welch
+                {book?.authors[0]}
               </S.BookAutors>
 
               <S.BookSinopse>
-              Depois da morte da mãe, Lina fica com a missão de realizar um último pedido: ir até a Itália para conhecer o pai. Do dia para a noite, ela se vê na famosa paisagem da Toscana, morando em uma casa localizada no mesmo terreno de um cemitério memorial de soldados americanos da Segunda Guerra Mundial, com um homem que nunca tinha ouvido falar. Apesar das belezas arquitetônicas, da história da cidade e das comidas maravilhosas, o que Lina mais quer é ir embora correndo dali.
+                {book?.synopsis}
               </S.BookSinopse>
             </S.BookInformation>
 
@@ -86,7 +115,7 @@ const Announcement = () => {
       </S.AdDetail>
 
       <S.ContactWrapper>
-        <Advertiser/>
+        {book && <Advertiser {...book}/>}
       </S.ContactWrapper>
 
     </S.Wrapper>

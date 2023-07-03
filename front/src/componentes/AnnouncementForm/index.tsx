@@ -75,19 +75,20 @@ const AnnouncementForm = () => {
       }
     } else {
       book = {
-        book_id: choosenBook?.book_id,
+        bookId: choosenBook?.book_id,
         conservationId: Number(estadoConservacao),
+        value: 0,
         description,
         transactionTypeId: Number(tipoVenda),
-        locations: {
+        locations: [{
           estado,
           cidade,
-        }
+        }]
       }
     }
-
-    //const response = await axiosPrivate.post('advertisement', book)
     console.log(book)
+    const response = await axiosPrivate.post('advertisement', book)
+    console.log(response)
 }
 
 

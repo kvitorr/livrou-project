@@ -1,34 +1,60 @@
+import { BookAdProps } from '..'
+import { axiosPublic } from '../../../utils/api'
+import { BooksProps } from '../../FindReviews'
 import * as S from './styles'
+import { useEffect, useState } from 'react'
 
-export type BookAdProps = {
-    title?: string
-    urlImage?: string
-    value?: string
-    autor: string
-}
+export const BookAd: React.FC<BookAdProps> = ({ bookId, value }) => {
 
-export const BookAd: React.FC<BookAdProps> = ({ title, urlImage, value, autor }) => {
+  const [book, setBook] = useState<BooksProps | null>(null)
+
+
+  useEffect(() => {
+    const fetchBook = async () => {
+      const response = await axiosPublic(`books/${bookId}`)
+      const data = response.data
+
+      setBook(data)
+    }
+    fetchBook()
+  })
+
+  function limitStringLength(string: string, maxLength: number) {
+    if (string.length <= maxLength) {
+      return string;
+    } else {
+      return string.slice(0, maxLength) + '...';
+    }
+  }
+
+
   return (
-    <S.BookAdWrapper>
-      <S.ImgWrapper>
-        <img src={urlImage} alt="" />
-      </S.ImgWrapper>
+    <>
+        {book &&
+          <S.BookAdWrapper>
+          <S.ImgWrapper>
+            <img src={book.imageUrl} alt="" />
+          </S.ImgWrapper>
 
-      <S.AdDescription>
-        <div>
-        <S.BookTitle>
-          {title}
-        </S.BookTitle>
+          <S.AdDescription>
+            <div>
+            <S.BookTitle>
+              {limitStringLength(book.title, 17)}
+            </S.BookTitle>
 
-        <S.BookAuthor>
-          {autor}
-        </S.BookAuthor>
-        </div>
+              {book?.authors?.map((author) => (
+                <S.BookAuthor key={author.author_id}>
+                  {author.name}
+                </S.BookAuthor>
+              ))}
+            </div>
 
-        <S.BookTradeDescription>
-          <p>R$ {value}</p>
-        </S.BookTradeDescription>
-      </S.AdDescription>
-    </S.BookAdWrapper>
+            <S.BookTradeDescription>
+              <p>R$ {value}</p>
+            </S.BookTradeDescription>
+          </S.AdDescription>
+        </S.BookAdWrapper>
+      }
+    </>
   )
 }

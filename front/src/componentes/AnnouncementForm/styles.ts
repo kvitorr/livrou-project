@@ -6,6 +6,7 @@ export const AnnouncementFormContainer = styled.div`
     padding: 2rem;
     border-radius: 5px;
     background-color: white;
+
     width: 550px;
     height: 700px;
 

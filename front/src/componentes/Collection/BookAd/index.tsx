@@ -1,15 +1,8 @@
+import { BooksProps } from '../../FindReviews'
 import * as S from './styles'
 
-export type BookProps = {
-    book_id: string
-    editionCount: string
-    imageUrl: string
-    publish_year: string
-    synopsis: string
-    title: string
-}
 
-export const BookAd: React.FC<BookProps> = ({ book_id, editionCount, imageUrl, publish_year, synopsis, title }) => {
+export const BookAd: React.FC<BooksProps> = ({ book_id, editionCount, imageUrl, publishYear, synopsis, title }) => {
   return (
     <S.BookAdWrapper>
       <S.ImgWrapper>

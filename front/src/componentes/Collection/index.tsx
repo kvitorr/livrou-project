@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react'
 import * as S from './styles'
-import { BookAd, BookProps } from './BookAd'
+import { BookAd } from './BookAd'
 import { useSearchParams } from 'react-router-dom';
 import { axiosPublic } from '../../utils/api'
+import { BooksProps } from '../FindReviews';
 
 
 export const Collection = () => {
-  const [books, setBooks] = useState<BookProps[]>([])
+  const [books, setBooks] = useState<BooksProps[]>([])
   const [queryExists, setQueryExists] = useState(false)
   const [searchParams] = useSearchParams();
 

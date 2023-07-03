@@ -54,11 +54,9 @@ export const FindReviews = () => {
           <S.BookTitle>
             {choosenBook.title}
           </S.BookTitle>
-          <S.BookAuthor>
             {choosenBook.authors.map((author) => (
-              <p>{author.name}</p>
+              <S.BookAuthor key={author.author_id}>{author.name}</S.BookAuthor>
             ))}
-          </S.BookAuthor>
           <S.BookSinopse>
             {choosenBook.synopsis}
           </S.BookSinopse>

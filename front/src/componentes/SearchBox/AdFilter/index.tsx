@@ -73,6 +73,7 @@ export const AdFilter = () => {
     setTipoVenda('');
     setEstadoConservacao('');
     setValorMaximo('');
+    setFilterQuery('')
   };
 
   return (    

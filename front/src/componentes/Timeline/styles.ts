@@ -31,6 +31,8 @@ export const StyledLink = styled(Link)`
     //text-decoration: none;
     //color: blue;
 
-    flex: 1 1 180px;
-    max-width: 230px;
+    display: flex;
+    flex: 1 1 200px;
+    max-width: 250px;
+    width: 100%;
 `;

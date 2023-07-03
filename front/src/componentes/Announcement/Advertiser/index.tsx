@@ -1,13 +1,35 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import * as S from './styles'
 import vitorIcon from '/images/vitorIcon.png'
+import { IBookDetailsProps } from '..'
+import { AuthContext } from '../../../contexts/AuthContext'
+import { IoLogoWhatsapp } from 'react-icons/io'
 
-const Advertiser = () => {
-  return (
+
+
+const Advertiser: React.FC<IBookDetailsProps> = ({advertisementType, price, advertiserName, accountCreationDate, contactNumber}) => {
+  
+    const { loggedIn } = useContext(AuthContext)
+    function formatLivroDate(dateString: string) {
+        const months = [
+          'janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho',
+          'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'
+        ];
+      
+        const date = new Date(dateString);
+        const month = months[date.getMonth()];
+        const year = date.getFullYear();
+      
+        return `Na livrou desde ${month} de ${year}`;
+      }  
+  
+  
+  
+ return (
     <S.Wrapper>
         <S.Tag>
             <S.ValueAndType>
-                R$ 20/Troca
+                R$ {price} {advertisementType.toUpperCase()}
             </S.ValueAndType>
         </S.Tag>
 
@@ -20,11 +42,11 @@ const Advertiser = () => {
                     <S.ImgProfile src={vitorIcon}/>
                 </S.ImgWrapper>
                 <S.Name>
-                    Vitor Araujo
+                    {advertiserName}
                 </S.Name>
             </S.Advertiser>
             <S.AdvertiserDescription>
-                Na livrou desde novembro de 2023
+            {accountCreationDate && formatLivroDate(accountCreationDate)}
             </S.AdvertiserDescription>
 
             <S.ContactWrapper>
@@ -32,7 +54,14 @@ const Advertiser = () => {
                     Entrar em Contato:
                 </S.ContactTitle>
 
-                <S.WhatsappIcon/>
+                {loggedIn && 
+                <a href={`https://wa.me/${contactNumber}`}>
+                    <IoLogoWhatsapp size={32}/>
+                </a>
+                    }
+                {!loggedIn && <p>Você precisa estar logado</p>}
+
+
             </S.ContactWrapper>
         </S.ProfileWrapper>
     </S.Wrapper>

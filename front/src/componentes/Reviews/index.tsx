@@ -35,6 +35,7 @@ export const Reviews = () => {
     const fetchBookReview = async () => {
       const response = await axiosPublic(`books/${id}/book-review?page=1`)
       const data = response.data
+      console.log(data)
       setReviews(data.items)
       setCurrentPage(data.meta.currentPage)
       setTotalPages(data.meta.totalPages)
@@ -73,7 +74,9 @@ export const Reviews = () => {
 
             </Link>
 
-              <S.BookAutor>Katherine Paterson</S.BookAutor>
+              <S.BookAutor>{bookDetails?.authors.map( (author) => (
+              <p key={author.author_id}>{author.name}</p>
+            ))}</S.BookAutor>
               <S.BookSinopse>{bookDetails?.synopsis}</S.BookSinopse>
             </S.BookDetails>
           </S.ReviewsHeader>
@@ -82,6 +85,7 @@ export const Reviews = () => {
         </S.HeaderContainer>
         
         {reviews.map((review) => (
+          
           <Review key={review.bookReviewId} {...review}/>
         ))}
 
