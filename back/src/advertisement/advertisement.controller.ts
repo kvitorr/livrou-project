@@ -52,6 +52,8 @@ export class AdvertisementController {
     @Query('limit') limit = 20,
   ): Promise<Pagination<Advertisement>> {
 
+    limit = Math.min(20, limit);
+
     const options: IPaginationOptions = {
       page,
       limit,
