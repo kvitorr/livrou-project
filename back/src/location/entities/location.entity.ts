@@ -11,7 +11,7 @@ export class Location {
   @Column()
   city: string;
 
-  @Column()
+  @Column({unique: true})
   state: string;
 
   @ManyToMany(() => Advertisement, ad => ad.locations)
