@@ -15,7 +15,6 @@ export class CreateAdvertisementDTO {
   @IsNumber()
   conservationId: number;
 
-  @IsNotEmpty()
   @IsNumber()
   value: number;
 
@@ -32,6 +31,8 @@ export class CreateAdvertisementDTO {
   removed: boolean;
   
   postingDate: Date;
+
+  completionDate: Date;
 
   @IsNotEmpty()
   @IsArray()

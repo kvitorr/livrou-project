@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Query, Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { LocationService } from './location.service';
 import { CreateLocationDto } from './dto/create-location.dto';
-import { UpdateLocationDto } from './dto/update-location.dto';
+import { Pagination, IPaginationOptions } from 'nestjs-typeorm-paginate';
+import { Location } from './entities/location.entity';
 
 @Controller('location')
 export class LocationController {
@@ -14,21 +15,28 @@ export class LocationController {
 
   @Get()
   findAll() {
-    return this.locationService.findAll();
+    return this.locationService.findAllStates();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.locationService.findOne(+id);
+  @Get('states/:stateName')
+  findAllCitysByStateName(@Param('stateName') stateName: string,
+   @Query('page') page = 1,
+  @Query('limit') limit = 20,
+): Promise<Pagination<Location>> {
+  limit = Math.min(20, limit)
+
+    const options: IPaginationOptions = {
+      page,
+      limit,
+      route: `location/states/${stateName}/advertisements`,
+    };
+
+    return this.locationService.findAllCitiesByStateName(stateName, options);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateLocationDto: UpdateLocationDto) {
-    return this.locationService.update(+id, updateLocationDto);
-  }
+  @Get('states')
+  findAllStates() {
+    return this.locationService.findAllStates();
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.locationService.remove(+id);
   }
 }

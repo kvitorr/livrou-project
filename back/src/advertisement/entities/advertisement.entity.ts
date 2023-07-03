@@ -20,8 +20,8 @@ export class Advertisement {
   @Column({ name: 'conservation_id' })
   conservationId: number;
 
-  @Column({ name: 'value', type: 'real' })
-  value: number; 
+  @Column({ name: 'value', type: 'real' , nullable: true})
+  value: number;   
 
   @Column({ name: 'description' })
   description: string;
