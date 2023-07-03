@@ -14,7 +14,6 @@ export const BookAdWrapper = styled.div`
     */
 
     width: 100%;
-    height: 360px;    
     
     margin-bottom: .4rem;
     overflow: hidden;

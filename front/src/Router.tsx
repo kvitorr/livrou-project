@@ -16,6 +16,7 @@ export const router = createBrowserRouter([
         children: [
             { path: "/", element: <Timeline/> },
             { path: "/acervo", element: <Collection/> },
+            { path: "/acervo/search", element: <Collection/> },
             { path: "/book", element:<Book/> }, 
             { path: "/bookads", element: <BookAds/> },
             { path: "/reviews", element: <Reviews/> },

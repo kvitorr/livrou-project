@@ -1,11 +1,14 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 export const SearchBarWrapper = styled.form`
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
 
     width: 100%;
+
+    position: relative;
     .inputSearch {
         width: 100%;
         padding: .64rem 1.5rem;
@@ -27,7 +30,7 @@ export const SearchBarWrapper = styled.form`
 
     .inputSearch:focus {
         outline: none;
-        border: 1px solid black;
+        border: 1px solid #d3d3d3;
     }
 
     .searchIcon {
@@ -42,6 +45,25 @@ export const SearchBarWrapper = styled.form`
         cursor: pointer;
         outline: none;
 
-        background-color: #d3d3d3;
     }
+
+    .searcherContainer {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        width: 100%;
+    }
+`
+
+export const TitlesWrapper = styled.div`
+    position: fixed;
+    top: 4rem;
+    background-color: blue;
+    max-width: 600px;
+    width: 100%;
+`
+
+export const StyledLink = styled(Link)`
+
 `
