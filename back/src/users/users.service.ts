@@ -5,12 +5,23 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt'
+import { Advertisement } from 'src/advertisement/entities/advertisement.entity';
+import { Pagination, IPaginationOptions,paginate } from 'nestjs-typeorm-paginate';
+import { query } from 'express';
+import { BookReview } from 'src/book-review/entities/book-review.entity';
+import { Book } from 'src/books/entities/book.entity';
+
+
 @Injectable()
 export class UsersService {
 
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
+    @InjectRepository(Advertisement)
+    private advertisementRepository: Repository<Advertisement>,
+    @InjectRepository(BookReview)
+    private bookReviewRepository: Repository<BookReview>,
   ){}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
@@ -35,6 +46,39 @@ export class UsersService {
     throw new UnauthorizedException();
 
   }
+
+  async findAdsByUserIdPaginate(id: number, user: User,options: IPaginationOptions): Promise<Pagination<Advertisement>> {
+    console.log(user)
+    if(user.isAdmin || user.user_id == id){
+      const queryBuilder = this.advertisementRepository.createQueryBuilder('advertisement');
+
+      queryBuilder.where('advertisement.removed = :removed', { removed: false });
+      queryBuilder.andWhere('user_id = :id', {id: id})
+  
+      return await paginate(queryBuilder, options);
+
+    }
+
+    throw new UnauthorizedException();
+
+  }
+
+  async findBookReviewByUserIdPaginate(id: number, user: User,options: IPaginationOptions): Promise<Pagination<BookReview>> {
+    if(user.isAdmin || user.user_id == id){
+      const queryBuilder = this.bookReviewRepository.createQueryBuilder('bookReview');
+
+      queryBuilder.where('removed = :removed', { removed: false });
+      queryBuilder.andWhere('user_id = :id', {id: id})
+  
+      return await paginate(queryBuilder, options);
+
+    }
+
+    throw new UnauthorizedException();
+
+  }
+
+   
 
   async update(idUserUpdated: number, updateUserDto: UpdateUserDto, userReq: User) {
    
