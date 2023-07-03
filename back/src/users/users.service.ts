@@ -26,6 +26,7 @@ export class UsersService {
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     const { password, ...userData } = createUserDto;
+    userData.removed = false;
     const hashedSenha: string = bcrypt.hashSync(password, 10);
     const user: User = this.userRepository.create({ ...userData, password: hashedSenha });
     return this.userRepository.save(user);
@@ -39,6 +40,7 @@ export class UsersService {
   }
 
   async findOne(id: number, user: User) {
+    console.log(user)
     if(user.isAdmin || user.user_id == id){
       return await this.userRepository.findOneBy({user_id: id}) ; 
     }
@@ -98,7 +100,6 @@ export class UsersService {
         }
         updateUserDto.isAdmin = userUpdated.isAdmin;
         updateUserDto.removed = false;
-
     }else{
       console.log(userReq)
       if(!userReq.isAdmin){
@@ -109,6 +110,26 @@ export class UsersService {
         updateUserDto.removed = false;
       }
     }
+
+    if(updateUserDto.removed){
+      await this.advertisementRepository
+      .createQueryBuilder('advertisement')
+      .update(Advertisement)
+      .set({ removed: true })
+      .where('advertisement.removed = :removed', { removed: false })
+      .andWhere('advertisement.user_id = :userId', { userId: updateUserDto.user_id })
+      .execute();
+
+      await this.bookReviewRepository
+      .createQueryBuilder('book_review')
+      .update(BookReview)
+      .set({ removed: true })
+      .where('book_review.removed = :removed', { removed: false })
+      .andWhere('book_review.user_id = :userId', { userId: updateUserDto.user_id })
+      .execute();
+      }
+
+
 
     return this.userRepository.save(updateUserDto);
 
