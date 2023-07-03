@@ -12,6 +12,7 @@ import { AdvertisementDetailsDto } from './dto/advertisement-details.dto';
 import { ContatoDto } from './dto/contato.dto';
 import { Pagination, IPaginationOptions,paginate } from 'nestjs-typeorm-paginate';
 import { SelectQueryBuilder } from 'typeorm';
+import { query } from 'express';
 
 
 
@@ -58,6 +59,7 @@ export class AdvertisementService {
 
   async paginate(queryBuilder: SelectQueryBuilder<Advertisement>, options: IPaginationOptions): Promise<Pagination<Advertisement>> {
     const paginatedResults = await paginate(queryBuilder, options);
+
     return paginatedResults;
   }
 
@@ -230,7 +232,6 @@ export class AdvertisementService {
     const { state, city, transactionType, conservation, maxPrice } = filter;
   
     const queryBuilder = this.advertisementRepository.createQueryBuilder('advertisement');
-    queryBuilder.leftJoinAndSelect('advertisement.locations', 'adPlace');
   
     if (state) {
       queryBuilder.andWhere('adPlace.state = :state', { state });
@@ -250,6 +251,7 @@ export class AdvertisementService {
   
     queryBuilder.andWhere('advertisement.completionDate IS NULL');
     queryBuilder.andWhere('advertisement.removed = false');
+
   
     return await this.paginate(queryBuilder, options);
   }
