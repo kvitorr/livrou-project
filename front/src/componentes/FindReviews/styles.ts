@@ -103,8 +103,7 @@ export const BookAdWrapper = styled.div`
 
 export const BookTitle = styled.p`
     font-size: 1.5rem;
-    color: #1A2B88;
-    font-weight: ${theme.font.weight.bold};
+    font-weight: 500;
     margin-bottom: 0.2rem;
 
     @media (max-width: 768px) {
@@ -139,6 +138,7 @@ export const Button = styled.button`
     font-size: 1rem;
     padding: 0.5rem 1rem;
     font-weight: ${theme.font.weight.medium};
+    cursor: pointer;
 `;
 
 
@@ -169,7 +169,6 @@ export const Line = styled.div`
 `
 export const ReviewsTitle = styled.h2`
     font-size: 1.5rem;
-    padding: 2rem 3rem 0 3rem; 
     font-weight: ${theme.font.weight.medium};
     margin-bottom: 1rem;
 `
@@ -191,3 +190,8 @@ export const SelectOptions = styled.select`
 export const ReviewsContainer = styled.div`
     overflow-y: scroll;
 `
+
+export const BookInformation = styled.div`
+`
+
+export const BookImg = styled.img``

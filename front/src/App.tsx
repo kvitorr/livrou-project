@@ -14,8 +14,9 @@ import { FormModal } from './componentes/FormModal'
 import LoginForm from './componentes/LoginForm'
 import RegisterForm from './componentes/RegisterForm'
 import { ShowRegisterModalContext } from './contexts/RegisterModalContext'
-import { AuthContext } from './contexts/AuthContext'
 import { NavMobile } from './componentes/NavMobile'
+import { ShowAnnouncementModalContext } from './contexts/AnnouncementModalContext'
+import AnnouncementForm from './componentes/AnnouncementForm'
 
 
 
@@ -24,7 +25,7 @@ function App() {
   const { showMenu } = useContext(ShowMenuContext);
   const { showLoginModal, setShowLoginModal } = useContext(ShowLoginModalContext);
   const { showRegisterModal, setShowRegisterModal } = useContext(ShowRegisterModalContext);
-  const { setLoggedIn } = useContext(AuthContext);
+  const { showAnnouncementModal, setShowAnnouncementModal } = useContext(ShowAnnouncementModalContext);
 
 
   return (
@@ -48,6 +49,10 @@ function App() {
 
           <FormModal showModal={showRegisterModal} setShowModal={setShowRegisterModal}>
             <RegisterForm/>
+          </FormModal>
+
+          <FormModal showModal={showAnnouncementModal} setShowModal={setShowAnnouncementModal}>
+            <AnnouncementForm/>
           </FormModal>
 
       </ThemeProvider>

@@ -1,4 +1,4 @@
-import styled from 'styled-components';;
+import styled from 'styled-components';
 import { theme } from "../../styles/theme";
 
 export const Wrapper = styled.div`
@@ -18,7 +18,6 @@ export const ReviewsContainer = styled.div`
 export const HeaderContainer = styled.div`
     display: flex;
     flex-direction: column;
-    
 
 `
 
@@ -36,7 +35,7 @@ export const ReviewsHeader = styled.div`
 
 export const ImgWrapper = styled.div`
     img {
-        width: 70px;
+        width: 150px;
     }
 `
 
@@ -54,7 +53,7 @@ export const Line = styled.div`
 
 export const BookTitle = styled.div`
     color: #1A2B88;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     font-weight: ${theme.font.weight.bold};
 `
 
@@ -64,5 +63,5 @@ export const BookAutor = styled.div`
 `
 
 export const BookSinopse = styled.div`
-    font-size: 0.8rem;
+    font-size: 1rem;
 `

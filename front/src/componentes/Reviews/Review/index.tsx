@@ -3,6 +3,12 @@ import { AiOutlineHeart } from 'react-icons/ai'
 
 import adeliaProfile from '/images/adelia.png'
 
+interface IReviewProps {
+    content: string
+    likes: string
+}
+
+
 export const Review = () => {
   return (
 

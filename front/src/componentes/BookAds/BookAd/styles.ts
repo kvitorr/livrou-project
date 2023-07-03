@@ -30,7 +30,7 @@ export const AdContentWrapper = styled.div`
     gap: .5rem;
 `
 
-export const AdHeader = styled.p`
+export const AdHeader = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -67,7 +67,7 @@ export const AdInteraction = styled.button`
     }
 
 `
-export const AdType = styled.button`
+export const AdType = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;

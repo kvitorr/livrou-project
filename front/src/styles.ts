@@ -24,7 +24,6 @@ export const MainContent = styled.main`
     min-height: 100vh;
     border-right: 1px solid #d3d3d3;
 
-
     @media (max-width: 1250px){
         margin-top: 70px;
     }

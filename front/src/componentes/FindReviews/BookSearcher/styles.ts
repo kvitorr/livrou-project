@@ -6,7 +6,7 @@ export const SearchBarWrapper = styled.form`
     flex-direction: column;
     align-items: center;
 
-    width: 100%;
+    width: 50%;
 
     position: relative;
     .inputSearch {
@@ -18,7 +18,7 @@ export const SearchBarWrapper = styled.form`
         border-left: 1px solid #d3d3d3;
         border-right: 1px solid #d3d3d3;
 
-        border-radius: 10px 0px 0px 10px;
+        border-radius: 10px 10px 10px 10px;
         transition: .1s;
     }
 
@@ -70,9 +70,8 @@ export const TitlesWrapper = styled.div`
     max-height: 500px;
     overflow-y: auto;
 `
-
-export const StyledLink = styled(Link)`
-    & > p {
+export const ButtonOption = styled.button`
+& > p {
         padding: .7rem;
         font-family: 'Poppins';
         font-size: .95rem;

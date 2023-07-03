@@ -1,5 +1,5 @@
 import { LogoWrapper, Line, LogoImg, NavWrapper, Profile, UlNav } from './styles'
-import { AiOutlineSetting, AiOutlineEllipsis} from 'react-icons/ai'
+import { AiOutlineEllipsis } from 'react-icons/ai'
 import { BiLogIn } from 'react-icons/bi'
 import { IoLibraryOutline } from 'react-icons/io5'
 
@@ -16,37 +16,9 @@ import { ShowLoginModalContext } from '../../contexts/LoginModalContext'
 import { ShowRegisterModalContext } from '../../contexts/RegisterModalContext'
 
 import jwt_decode from "jwt-decode";
+import { ShowAnnouncementModalContext } from '../../contexts/AnnouncementModalContext'
 
-
-
-
-const userLogado = {
-  id: 1,
-  name: "Vitor",
-  email: "kvitosantos@hotmail.com",
-  phone: "86999626417",
-  birthDate: new Date(),
-  registrationDate: new Date(),
-  
-  isAdmin: false,
-  authToken: "asdsadas",
-}
-
-const administrador = {
-  id: 1,
-  name: "Vitor",
-  email: "kvitosantos@hotmail.com",
-  phone: "86999626417",
-  birthDate: new Date(),
-  registrationDate: new Date(),
-  
-  isAdmin: true,
-  authToken: "asdsadas",
-}
-
-const authLogged = {
-  user: administrador
-}
+import { BiAddToQueue } from 'react-icons/bi'
 
 
 export const Nav = () => {
@@ -54,6 +26,7 @@ export const Nav = () => {
 
   const { setShowLoginModal } = useContext(ShowLoginModalContext)
   const { setShowRegisterModal } = useContext(ShowRegisterModalContext)
+  const { setShowAnnouncementModal } = useContext(ShowAnnouncementModalContext)
 
 
   useEffect(() => { 
@@ -126,7 +99,7 @@ export const Nav = () => {
           </li>
         </Link>
 
-        <Link to="#">
+        <Link to="/reviews">
           <li className='navOption'>
             <div className='iconOption'>
             <img src={reviewIcon} alt="" />
@@ -136,12 +109,13 @@ export const Nav = () => {
         </Link>
 
         { authContext.loggedIn && 
-          <li className='navOption'>
-            <div className='iconOption'>
-              <img src={newAdIcon} alt="" />
-            </div>
-            <p>Criar Anúncio</p>
-          </li> 
+          <div className='buttonNavWrapper' onClick={() => { setShowAnnouncementModal(true)}}>
+            <BiAddToQueue size="27"/>
+            <button className='buttonNav'>
+              Criar Anúncio
+            </button>
+          </div>
+          
         }
 
         <Line></Line>
@@ -171,15 +145,6 @@ export const Nav = () => {
             </div>
             <p>Alertas</p>
           </li> 
-        }
-
-        { authContext.loggedIn && 
-          <li className='navOption'>
-            <div className='iconOption'>
-              <AiOutlineSetting size={24}/>
-            </div>
-            <p>Configurações</p>
-          </li>
         }
         </UlNav>
 

@@ -1,11 +1,29 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Review } from './Review'
 import ponte from '/images/ponteParaTerabia.jpg'
 import * as S from './styles.ts'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
+import { axiosPublic } from '../../utils/api.ts'
+import { BooksProps } from '../FindReviews/index.tsx'
 
 
 export const Reviews = () => {
+  
+  const { id } = useParams();
+  const [bookDetails, setBookDetails] = useState<BooksProps>()
+
+  useEffect(() => {
+    
+    const fetchBookDetails = async () => {
+      const response = await axiosPublic(`/books/${id}`)
+      const data = response.data
+      setBookDetails(data)
+    }
+
+    fetchBookDetails()
+  }, [id])
+
+
   return (
     <S.Wrapper>
       <S.ReviewsContainer>
@@ -15,19 +33,18 @@ export const Reviews = () => {
             </S.ReviewsTitle>
           <S.ReviewsHeader>
             <S.ImgWrapper>
-              <img src={ponte} alt="" />
+              <img src={bookDetails?.imageUrl} alt="" />
             </S.ImgWrapper>
 
             <S.BookDetails>
-            <Link to="/bookdetails">
-              <S.BookTitle>Ponte para Terabítia</S.BookTitle>
+            <Link to={`/livro/${bookDetails?.book_id}`}>
+              <S.BookTitle>{bookDetails?.title}</S.BookTitle>
 
             </Link>
 
               <S.BookAutor>Katherine Paterson</S.BookAutor>
-              <S.BookSinopse>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Temporibus hic, aliquam nesciunt odit ea sunt autem! Excepturi odit amet, laboriosam accusantium odio fuga, quae ea repellat quia quod nam dolorum?</S.BookSinopse>
+              <S.BookSinopse>{bookDetails?.synopsis}</S.BookSinopse>
             </S.BookDetails>
-
           </S.ReviewsHeader>
             <S.Line></S.Line>
 
@@ -35,15 +52,6 @@ export const Reviews = () => {
 
 
         <Review/>
-        <Review/>
-        <Review/>
-        <Review/>
-        <Review/>
-        <Review/> 
-        <Review/>
-        <Review/>
-        <Review/>
-        <Review/> 
       </S.ReviewsContainer>
     </S.Wrapper>
   )

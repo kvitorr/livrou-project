@@ -7,21 +7,28 @@ import { Reviews } from "./componentes/Reviews";
 import { Timeline } from "./componentes/Timeline";
 import Announcement from "./componentes/Announcement";
 import { Collection } from "./componentes/Collection";
+import ErrorElement from "./componentes/Error/ErrorElement";
+import { FindReviews } from "./componentes/FindReviews";
 
 
 export const router = createBrowserRouter([
     {
         path: "/",
-        element: <App/>,
+        element: (
+              <App />
+          ),
+          errorElement: <ErrorElement/>,
         children: [
             { path: "/", element: <Timeline/> },
             { path: "/acervo", element: <Collection/> },
             { path: "/acervo/search", element: <Collection/> },
-            { path: "/book", element:<Book/> }, 
-            { path: "/bookads", element: <BookAds/> },
-            { path: "/reviews", element: <Reviews/> },
+            { path: "/reviews", element: <FindReviews/> },
+            
+            { path: "/bookads/:id", element: <BookAds/> },
             { path: "/anuncios/:id", element: <Announcement/> },
-            { path: "/livro/:id", element: <BookDetails/> }
+            { path: "/livro/:id", element: <BookDetails/> },
+            { path: "/reviews/:id", element: <Reviews/> }
+
         ]
     }
 ])

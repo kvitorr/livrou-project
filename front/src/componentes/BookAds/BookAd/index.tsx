@@ -13,9 +13,8 @@ export const BookAd = () => {
 
         <S.AdContentWrapper>
           <S.AdHeader>
-          <S.AdTitle>
+            <S.AdTitle>
                 Ponte Para Terabita
-              
             </S.AdTitle>
             <S.stateOfConservation>
                   <p>Ótimo estado</p>

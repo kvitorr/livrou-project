@@ -36,9 +36,15 @@ const IRegisterSchema = z.object({
     .trim()
     .min(8, 'Número de telefone deve ter ao menos 8 números'),
 
-  birth_date: z.preprocess((arg) => {
-    if (typeof arg == "string" || arg instanceof Date) return new Date(arg);
-  }, z.date())
+    birth_date: z
+    .preprocess((arg) => {
+      if (typeof arg === 'string' || arg instanceof Date) return new Date(arg);
+    }, z.date())
+    .refine((value) => {
+      const today = new Date();
+      const eighteenYearsAgo = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+      return value <= eighteenYearsAgo;
+    }, 'Você deve ter pelo menos 18 anos de idade'),
 
 }).refine((fields) => fields.password === fields.confirmPassword, {
   path: ['confirmPassword'],
@@ -117,8 +123,8 @@ const RegisterForm = () => {
           <div className='inputs'>
             <label htmlFor="birth_date">Data de Nascimento</label>
             <input {...register('birth_date')} type="date" id="birth_date" />
-            {errors.phone?.message && (
-              <p className='errorMessage'>{errors.phone.message}</p>
+            {errors.birth_date?.message && (
+              <p className='errorMessage'>{errors.birth_date.message}</p>
             )}
           </div>
 

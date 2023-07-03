@@ -109,7 +109,6 @@ export const AdFilter = () => {
             <option value="3">Com muitas marcas de uso</option>
 
           </S.SelectOptions>
-          <input type="search"/>
 
           <p className='label-input'>Preço Máximo</p>
           <input value={valorMaximo} onChange={handleValorMaximoChange}  className='preco-maximo' type="text" />

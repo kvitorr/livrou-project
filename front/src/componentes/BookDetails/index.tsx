@@ -47,24 +47,11 @@ export const BookDetails = () => {
           </S.BookSinopse>
 
           <S.ButtonWrapper>
-            <Link to="/bookads"><S.Button>Ver anúncios</S.Button></Link>
-            <Link to="/reviews"><S.Button>Ver reviews</S.Button></Link>
+            <Link to={`/bookads/${bookDetails?.book_id}`}><S.Button>Ver anúncios</S.Button></Link>
+            <Link to={`/reviews/${bookDetails?.book_id}`}><S.Button>Ver reviews</S.Button></Link>
           </S.ButtonWrapper>
         </S.DetailsContent>
       </S.DetailsContainer>
-
-      <S.Line></S.Line>
-
-
-          <S.SelectOptions>
-                  <option value="melhores avaliacoes">Melhores Avaliações</option>
-                  <option value="anuncios mais Recentes">Anúncios mais Recentes</option>
-          </S.SelectOptions>
-      <S.ReviewContainerBottom>
-            <ReviewBottom />
-            <ReviewBottom />
-            <ReviewBottom />
-      </S.ReviewContainerBottom>
     </S.Wrapper>
   );
 };

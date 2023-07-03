@@ -2,8 +2,11 @@ import React from 'react'
 import ponte from '/images/ponteParaTerabia.jpg'
 import * as S from './styles.ts'
 import { BookAd } from './BookAd'
+import { useParams } from 'react-router-dom'
 
 export const BookAds = () => {
+  const { id } = useParams();
+
   return (
     <S.Wrapper>
       <S.ReviewsContainer>
@@ -26,8 +29,8 @@ export const BookAds = () => {
 
         </S.HeaderContainer>
         <S.AdsTitle>
-              Anúncios Encontrados
-            </S.AdsTitle>
+          Anúncios Encontrados
+        </S.AdsTitle>
 
           <BookAd/>
           <BookAd/>

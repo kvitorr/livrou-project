@@ -8,21 +8,24 @@ import { AuthProvider } from './contexts/AuthContext';
 import { ShowLoginModalProvider } from './contexts/LoginModalContext';
 import { ShowRegisterModalProvider } from './contexts/RegisterModalContext';
 import { FilterQueryProvider } from './contexts/FilterQueryContext';
+import { ShowAnnouncementModalProvider } from './contexts/AnnouncementModalContext';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <AuthProvider>
-      <FilterQueryProvider>
-        <ShowRegisterModalProvider>
-          <ShowLoginModalProvider>
-            <ShowMenuProvider>
-              <ShowFilterProvider>
-                <RouterProvider router={router}/>
-              </ShowFilterProvider>
-            </ShowMenuProvider>
-          </ShowLoginModalProvider>
-        </ShowRegisterModalProvider>
-      </FilterQueryProvider>
+      <ShowAnnouncementModalProvider>
+          <FilterQueryProvider>
+            <ShowRegisterModalProvider>
+              <ShowLoginModalProvider>
+                <ShowMenuProvider>
+                  <ShowFilterProvider>
+                    <RouterProvider router={router}/>
+                  </ShowFilterProvider>
+                </ShowMenuProvider>
+              </ShowLoginModalProvider>
+            </ShowRegisterModalProvider>
+          </FilterQueryProvider>
+      </ShowAnnouncementModalProvider>
     </AuthProvider>
-  </React.StrictMode>,
+  </React.StrictMode>
 )
