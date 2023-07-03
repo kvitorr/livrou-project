@@ -41,7 +41,6 @@ export class UsersController {
     const options: IPaginationOptions = {
       page,
       limit,
-      route: 'advertisements',
     };
     const user: User = request.user as User;
     return this.usersService.findAdsByUserIdPaginate(+id,user, options);
