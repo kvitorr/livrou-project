@@ -22,7 +22,7 @@ export const SearchBar = () => {
         const fetchData = async () => {
             const response = await axiosPublic(`books/filter?title=${debouncedSearch}`);
             const data = response.data
-            setBooks(data)
+            setBooks(data.items)
         }
 
         if(debouncedSearch) fetchData();

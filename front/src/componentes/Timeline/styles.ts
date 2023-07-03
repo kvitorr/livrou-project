@@ -30,9 +30,8 @@ export const TimelineAdWrapper = styled.div`
 export const StyledLink = styled(Link)`
     //text-decoration: none;
     //color: blue;
-
     display: flex;
-    flex: 1 1 200px;
-    max-width: 250px;
-    width: 100%;
+    flex: 1 1 180px;
+    max-width: 230px;
+    min-height: 400px;
 `;

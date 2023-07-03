@@ -60,24 +60,11 @@ const AnnouncementForm = () => {
 
 
   const handleSubmit = async () => {
-    let book
-    if(tipoVenda !== '2') {
-      book = {
-        book_id: choosenBook?.book_id,
-        conservationId: Number(estadoConservacao),
-        value: Number(value),
-        description,
-        transactionTypeId: Number(tipoVenda),
-        locations: {
-          estado,
-          cidade,
-        }
-      }
-    } else {
-      book = {
+    const valueTratado = value ? null : 0
+    const book = {
         bookId: choosenBook?.book_id,
         conservationId: Number(estadoConservacao),
-        value: 0,
+        valueTratado,
         description,
         transactionTypeId: Number(tipoVenda),
         locations: [{
@@ -85,10 +72,8 @@ const AnnouncementForm = () => {
           cidade,
         }]
       }
-    }
-    console.log(book)
+
     const response = await axiosPrivate.post('advertisement', book)
-    console.log(response)
 }
 
 
