@@ -102,8 +102,7 @@ export class AdvertisementService {
       .getOne();
 
     if (!advertisement) {
-      // Trata o caso em que o anúncio não é encontrado
-      throw new Error(`Advertisement with ID ${id} not found`);
+      throw new NotFoundException(`Advertisement with ID ${id} not found`);
     }
 
     const advertisementDetails: AdvertisementDetailsDto = {
@@ -138,8 +137,7 @@ export class AdvertisementService {
       .getOne();
 
     if (!advertisement) {
-      // Trata o caso em que o anúncio não é encontrado
-      throw new Error(`Advertisement with ID ${id} not found`);
+      throw new NotFoundException(`Advertisement with ID ${id} not found`);
     }
 
     
@@ -171,7 +169,7 @@ export class AdvertisementService {
     updateAdvertisementDto.userId = advertisement.userId;
     updateAdvertisementDto.postingDate = advertisement.postingDate;
 
-    if(userReq.removed){
+    if(userReq.removed || advertisement.completionDate)  {
       throw new ForbiddenException();
     }
     if (!userReq.isAdmin) {

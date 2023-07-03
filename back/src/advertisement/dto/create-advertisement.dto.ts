@@ -32,6 +32,8 @@ export class CreateAdvertisementDTO {
   
   postingDate: Date;
 
+  completionDate: Date;
+
   @IsNotEmpty()
   @IsArray()
   @ValidateNested({ each: true })
