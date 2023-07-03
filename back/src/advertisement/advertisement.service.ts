@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import { UpdateAdvertisementDto } from './dto/update-advertisement.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -12,6 +12,7 @@ import { AdvertisementDetailsDto } from './dto/advertisement-details.dto';
 import { ContatoDto } from './dto/contato.dto';
 import { Pagination, IPaginationOptions,paginate } from 'nestjs-typeorm-paginate';
 import { SelectQueryBuilder } from 'typeorm';
+import { query } from 'express';
 
 
 
@@ -28,6 +29,10 @@ export class AdvertisementService {
   async create(createAdvertisementDto: CreateAdvertisementDTO, user: User): Promise<Advertisement> {
     if(user.removed){
       throw new ForbiddenException();
+    }
+
+    if(!createAdvertisementDto.value && createAdvertisementDto.transactionTypeId !== 2){
+      throw new BadRequestException('O parâmetro value é obrigatório e não pode ser nulo');
     }
     
     const { locations, ...advertisementData } = createAdvertisementDto;
@@ -58,6 +63,7 @@ export class AdvertisementService {
 
   async paginate(queryBuilder: SelectQueryBuilder<Advertisement>, options: IPaginationOptions): Promise<Pagination<Advertisement>> {
     const paginatedResults = await paginate(queryBuilder, options);
+
     return paginatedResults;
   }
 
@@ -96,8 +102,7 @@ export class AdvertisementService {
       .getOne();
 
     if (!advertisement) {
-      // Trata o caso em que o anúncio não é encontrado
-      throw new Error(`Advertisement with ID ${id} not found`);
+      throw new NotFoundException(`Advertisement with ID ${id} not found`);
     }
 
     const advertisementDetails: AdvertisementDetailsDto = {
@@ -132,8 +137,7 @@ export class AdvertisementService {
       .getOne();
 
     if (!advertisement) {
-      // Trata o caso em que o anúncio não é encontrado
-      throw new Error(`Advertisement with ID ${id} not found`);
+      throw new NotFoundException(`Advertisement with ID ${id} not found`);
     }
 
     
@@ -165,7 +169,7 @@ export class AdvertisementService {
     updateAdvertisementDto.userId = advertisement.userId;
     updateAdvertisementDto.postingDate = advertisement.postingDate;
 
-    if(userReq.removed){
+    if(userReq.removed || advertisement.completionDate)  {
       throw new ForbiddenException();
     }
     if (!userReq.isAdmin) {
@@ -174,6 +178,11 @@ export class AdvertisementService {
       } else {
         throw new ForbiddenException();
       }
+    }
+
+    
+    if(!updateAdvertisementDto.value && updateAdvertisementDto.transactionTypeId !== 2){
+      throw new BadRequestException('O parâmetro value é obrigatório e não pode ser nulo');
     }
 
     return this.advertisementRepository.save(updateAdvertisementDto);
@@ -230,7 +239,6 @@ export class AdvertisementService {
     const { state, city, transactionType, conservation, maxPrice } = filter;
   
     const queryBuilder = this.advertisementRepository.createQueryBuilder('advertisement');
-    queryBuilder.leftJoinAndSelect('advertisement.locations', 'adPlace');
   
     if (state) {
       queryBuilder.andWhere('adPlace.state = :state', { state });
@@ -250,6 +258,7 @@ export class AdvertisementService {
   
     queryBuilder.andWhere('advertisement.completionDate IS NULL');
     queryBuilder.andWhere('advertisement.removed = false');
+
   
     return await this.paginate(queryBuilder, options);
   }

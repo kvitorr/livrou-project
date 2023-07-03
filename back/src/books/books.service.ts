@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException, NotFoundException } from '@nestjs/common';
+import { Injectable, UnauthorizedException, NotFoundException, ForbiddenException } from '@nestjs/common';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -25,7 +25,7 @@ export class BooksService {
  
   async create(createBookDto: CreateBookDto, user: User): Promise<Book> {
     if(!user.isAdmin){
-      throw new UnauthorizedException();
+      throw new ForbiddenException();
     }
 
     const { authorNames, ...bookData } = createBookDto;

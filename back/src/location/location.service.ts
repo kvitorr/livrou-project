@@ -5,6 +5,8 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { plainToClass } from 'class-transformer';
 import { Location } from './entities/location.entity';
+import { Pagination, IPaginationOptions,paginate } from 'nestjs-typeorm-paginate';
+
 
 
 @Injectable()
@@ -21,9 +23,25 @@ export class LocationService {
     return this.locationRepository.save(location);
   }
   
+  async findAllStates(): Promise<Location[]> {
+    const query = this.locationRepository.createQueryBuilder('location_table').select('DISTINCT location_table.state', 'state');
+  
+    const result = await query.getRawMany();
+  
+    return result;
+  }
+  
+  
+  async findAllCitiesByStateName(state: string, options: IPaginationOptions): Promise<Pagination<Location>> {
+    console.log(state)
+    const queryBuilder = this.locationRepository.createQueryBuilder('location_table')
+      .where('location_table.state ilike :state', { state: '%' + state + '%' });
 
-  findAll() {
-    return `This action returns all location`;
+      const result = await queryBuilder.getRawMany();
+
+    const paginatedResults = await paginate(queryBuilder, options);
+    
+    return paginatedResults;
   }
 
   findOne(id: number) {
