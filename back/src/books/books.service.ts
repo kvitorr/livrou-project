@@ -8,6 +8,7 @@ import { Author } from 'src/authors/entities/author.entity';
 import { User } from 'src/users/entities/user.entity';
 import { IPaginationOptions } from 'nestjs-typeorm-paginate/dist/interfaces';
 import { Pagination, paginate } from 'nestjs-typeorm-paginate';
+import { Advertisement } from 'src/advertisement/entities/advertisement.entity';
 
 @Injectable()
 export class BooksService {
@@ -17,6 +18,8 @@ export class BooksService {
     private bookRepository: Repository<Book>,
     @InjectRepository(Author)
     private readonly authorRepository: Repository<Author>,
+    @InjectRepository(Advertisement)
+    private readonly advertisementRepository: Repository<Advertisement>,
   ) {}
 
  
@@ -75,6 +78,15 @@ export class BooksService {
     };
   }
 
+  async findAdsByBoodId(id: number, options: IPaginationOptions): Promise<Pagination<Advertisement>> {
+    const queryBuilder = this.advertisementRepository.createQueryBuilder('advertisement');
+
+    queryBuilder.where('advertisement.removed = :removed', { removed: false });
+    queryBuilder.andWhere('book_id = :id', {id: id});
+  
+    return await paginate(queryBuilder, options);
+  }
+
   async findAll() {
     const books = await this.bookRepository
     .createQueryBuilder('book')
@@ -118,14 +130,13 @@ async findOne(id: number): Promise<Book> {
 
 async findBooksByFilter(filter: {
   title?: string;
-}): Promise<Book[]> {
+}, options: IPaginationOptions): Promise<Pagination<Book>> {
   const { title } = filter;
 
 
-  const books = await this.bookRepository.createQueryBuilder('book').where("title ilike :title", { title: '%' + title + '%' }).getMany();
+  const queryBuilder =  this.bookRepository.createQueryBuilder('book').where("title ilike :title", { title: '%' + title + '%' });
  
-  
-  return books;
+  return await paginate(queryBuilder, options);
 }
 
 
