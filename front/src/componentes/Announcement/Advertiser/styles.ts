@@ -11,8 +11,7 @@ export const Tag = styled.div`
     padding: 0.8rem 2rem;
     background-color: #1A2B88;
     color: white;
-    font-size: 1.5rem;
-
+    font-size: 1.2rem;
     font-family: 'Poppins';
     margin-bottom: 1rem;
 
@@ -29,6 +28,7 @@ export const Tag = styled.div`
 export const ValueAndType = styled.div`
     font-family: 'Poppins';
     font-weight: 500;
+    width: 100%;
 `
 
 export const ProfileWrapper = styled.div`

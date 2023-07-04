@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 import livrouLogo from '/images/livrouLogo2.svg'
 import logoutIcon from '/images/logoutIcon.svg'
 import vitorIcon from '/images/vitorIcon.png'
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../../contexts/AuthContext'
 import { ShowLoginModalContext } from '../../contexts/LoginModalContext'
 import { ShowRegisterModalContext } from '../../contexts/RegisterModalContext'
@@ -27,7 +27,17 @@ export const Nav = () => {
   const { setShowLoginModal } = useContext(ShowLoginModalContext)
   const { setShowRegisterModal } = useContext(ShowRegisterModalContext)
   const { setShowAnnouncementModal } = useContext(ShowAnnouncementModalContext)
+  const [nameUser, setNameUser] = useState('')
 
+  useEffect(() => {
+    const accessToken = localStorage.getItem('access_token');
+    if(accessToken) {
+        const decodedAccessToken: { name: string } = jwt_decode(accessToken);
+        setNameUser(decodedAccessToken.name)
+    } else {
+        setNameUser('Leléo')
+    }
+  }, [authContext.loggedIn])
 
   useEffect(() => { 
     const verifyExpirationDateJwt = async () => {
@@ -151,7 +161,7 @@ export const Nav = () => {
       { authContext.loggedIn &&
         <Profile>
           <img className='profileImg' src={vitorIcon} alt="" />
-          <p>Vitor</p>
+          <p>{nameUser}</p>
           <AiOutlineEllipsis/>
         </Profile> 
       }
