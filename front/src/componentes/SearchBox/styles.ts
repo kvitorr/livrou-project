@@ -7,7 +7,7 @@ export const BoxWrapper = styled.header`
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    gap: 1rem;
+    gap: 0.5rem;
 
     text-align: center;
     border-bottom: 1px solid #B3DBDB;
@@ -19,7 +19,7 @@ export const BoxWrapper = styled.header`
 
     .HeaderContainer {
         width: clamp(200px, 100%, 600px);
-        margin-right: 210px;
+        margin-right: 200px;
     }
 
     .MenuIcon, .FilterIcon {

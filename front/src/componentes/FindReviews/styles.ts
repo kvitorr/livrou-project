@@ -10,11 +10,15 @@ export const Wrapper = styled.div`
 
     height: calc(100vh - 70px);
     max-height: calc(100vh);
-    width: 1000px;
+    max-width: 1000px;
+    width: 100%;
     margin: auto;
 
     @media (max-width: 768px) {
         margin-right: 0;
+    }
+    @media (max-width: 1200){
+        justify-content: center;
     }
 `;
 
@@ -171,7 +175,8 @@ export const ReviewsTitle = styled.h2`
     font-size: 1.5rem;
     font-weight: ${theme.font.weight.medium};
     margin-bottom: 1rem;
-`
+    text-align: center;
+    `
 
 export const SelectOptions = styled.select`
     border: none;

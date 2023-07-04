@@ -11,6 +11,11 @@ export const CollectionWrapper = styled.main`
 
     display: flex;
     flex-direction: column;
+
+    @media(max-width: 1200px) {
+        justify-content: center;
+        padding-inline: 1rem;
+    }
 `
 
 export const CollectionTitle = styled.h2`
@@ -26,6 +31,9 @@ export const CollectionAdWrapper = styled.div`
     justify-content: flex-start;
     flex-wrap: wrap;
     gap: 1rem;
+    @media(max-width: 1200px) {
+        justify-content: center;
+    }
 `
 
 export const StyledLink = styled(Link)`

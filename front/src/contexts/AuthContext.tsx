@@ -41,6 +41,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     try {
 
       const response = await axiosPrivate.post('auth/login', userData);
+      console.log(response)
 
       localStorage.setItem('access_token', response.data.access_token);
       localStorage.setItem('refresh_token', response.data.refresh_token);

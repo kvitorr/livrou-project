@@ -5,6 +5,7 @@ export const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     height: 100%;
+    margin: auto;
     padding-bottom: 2rem;
 `
 
@@ -14,6 +15,10 @@ export const ReviewsContainer = styled.div`
     display: flex;
     flex-direction: column;
     gap: 1rem;
+
+    @media(max-width: 1250px) {
+        padding: 1rem 2rem;
+    }
 
 `
 
@@ -33,6 +38,10 @@ export const ReviewsHeader = styled.div`
     display: flex;
     gap: 2rem;
     align-items: center;
+
+    @media(max-width: 1250px) {
+        flex-direction: column;
+    }
 `
 
 export const ImgWrapper = styled.div`
@@ -55,7 +64,7 @@ export const Line = styled.div`
 
 export const BookTitle = styled.div`
     color: #1A2B88;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     font-weight: ${theme.font.weight.bold};
 `
 

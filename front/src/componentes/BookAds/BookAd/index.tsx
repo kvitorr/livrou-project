@@ -1,9 +1,23 @@
+import { IBookAds } from '../index.tsx'
 import * as S from './styles.ts'
-import { AiOutlineHeart } from 'react-icons/ai'
 
 import adeliaProfile from '/images/adelia.png'
 
-export const BookAd = () => {
+interface IBookAdsComplement {
+  title: string | undefined
+}
+
+function transaction(transationId: number) {
+  if(transationId === 1) {
+    return 'Venda'
+  } else if (transationId === 2) {
+    return 'Troca'
+  } else {
+    return 'Troca e Venda'
+  }
+}
+
+export const BookAd: React.FC<IBookAds & IBookAdsComplement> = ({ description, value, bookId, title, transactionTypeId }) => {
   return (
 
     <S.AdContainer>
@@ -14,11 +28,8 @@ export const BookAd = () => {
         <S.AdContentWrapper>
           <S.AdHeader>
             <S.AdTitle>
-                Ponte Para Terabita
+                {title}
             </S.AdTitle>
-            <S.stateOfConservation>
-                  <p>Ótimo estado</p>
-                </S.stateOfConservation>
           </S.AdHeader>
             
             
@@ -29,7 +40,8 @@ export const BookAd = () => {
         </S.AdContentWrapper>
         <S.AdInteraction>
         <S.AdType>
-            <p>R$20/Troca</p>
+        {(value != 0) && <p>R$ {value}</p>
+                } {transaction(transactionTypeId)}
         </S.AdType>
 
         </S.AdInteraction>

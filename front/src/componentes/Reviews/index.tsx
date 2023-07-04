@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext} from 'react'
 import { Review } from './Review'
 import * as S from './styles.ts'
 import { Link, useParams } from 'react-router-dom'
 import { axiosPublic } from '../../utils/api.ts'
 import { BooksProps } from '../FindReviews/index.tsx'
+import { AuthContext } from '../../contexts/AuthContext.tsx'
 
 interface IBookReviews {
   bookReviewId: number
@@ -20,6 +21,8 @@ export const Reviews = () => {
   const [reviews, setReviews] = useState<IBookReviews[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [userLiked, setUserLiked] = useState(false)
+  
 
   useEffect(() => { 
     const fetchBookDetails = async () => {
@@ -47,6 +50,7 @@ export const Reviews = () => {
   const fetchNewReviews = async (pageNumber: number) => {
       const response = await axiosPublic(`books/${id}/book-review?page=${pageNumber}`)
       const data = response.data
+      console.log(data)
       const currentReviews = reviews.concat(data.items)
 
       setReviews(currentReviews)
@@ -85,7 +89,6 @@ export const Reviews = () => {
         </S.HeaderContainer>
         
         {reviews.map((review) => (
-          
           <Review key={review.bookReviewId} {...review}/>
         ))}
 

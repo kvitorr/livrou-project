@@ -10,6 +10,12 @@ export const ReviewContainer = styled.div`
 
     border-radius: 20px;
     box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.5);
+    padding-block: .5rem;
+
+    @media(max-width:1200px){
+        flex-direction: column;
+        padding-block: .5rem;
+    }
 
 `
 

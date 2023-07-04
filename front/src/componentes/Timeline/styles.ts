@@ -11,6 +11,10 @@ export const TimelineWrapper = styled.main`
     display: flex;
     flex-direction: column;
     padding-bottom: 4rem;
+    
+    @media(max-width: 1200px){
+        padding-inline: 1rem;
+    }
 `
 
 export const TimelineTitle = styled.h2`
@@ -26,6 +30,10 @@ export const TimelineAdWrapper = styled.div`
     justify-content: flex-start;
     flex-wrap: wrap;
     gap: 1rem;
+
+    @media (max-width: 700px) {
+        justify-content: center;
+    }
 `
 
 export const StyledLink = styled(Link)`

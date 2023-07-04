@@ -4,11 +4,19 @@ import { BooksProps } from '../../FindReviews'
 import * as S from './styles'
 import { useEffect, useState } from 'react'
 
-export const BookAd: React.FC<BookAdProps> = ({ bookId, value }) => {
+export const BookAd: React.FC<BookAdProps> = ({ bookId, value, transactionTypeId }) => {
 
   const [book, setBook] = useState<BooksProps | null>(null)
 
-
+  function transaction(transationId: number) {
+    if(transationId === 1) {
+      return 'Venda'
+    } else if (transationId === 2) {
+      return 'Troca'
+    } else {
+      return 'Troca e Venda'
+    }
+  }
   useEffect(() => {
     const fetchBook = async () => {
       const response = await axiosPublic(`books/${bookId}`)
@@ -50,7 +58,9 @@ export const BookAd: React.FC<BookAdProps> = ({ bookId, value }) => {
             </div>
 
             <S.BookTradeDescription>
-              <p>R$ {value}</p>
+              { transactionTypeId === 2 ? <p>Troca</p> : 
+                <p>R$ {value}  | {transaction(transactionTypeId)}</p>
+              }
             </S.BookTradeDescription>
           </S.AdDescription>
         </S.BookAdWrapper>

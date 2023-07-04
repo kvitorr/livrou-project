@@ -19,7 +19,6 @@ export class LikesController {
   }
 
   @Get()
-  @UseGuards(AuthGuard('jwt'))
   findAll(@Param('bookReviewId') bookReviewId: string) {
     return this.adLikesService.findAll(bookReviewId);
   }

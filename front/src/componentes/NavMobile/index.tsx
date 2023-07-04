@@ -1,5 +1,6 @@
 import { NavWrapper, Profile, UlNav } from './styles'
 import { AiOutlineEllipsis} from 'react-icons/ai'
+import { BiAddToQueue } from 'react-icons/bi'
 
 import { Link } from 'react-router-dom';
 import vitorIcon from '/images/vitorIcon.png'
@@ -11,6 +12,7 @@ import { ShowRegisterModalContext } from '../../contexts/RegisterModalContext'
 import jwt_decode from "jwt-decode";
 import { ShowMenuContext } from '../../contexts/MenuContext';
 
+import { ShowAnnouncementModalContext } from '../../contexts/AnnouncementModalContext'
 
 
 
@@ -49,6 +51,7 @@ export const NavMobile = () => {
   const { setShowLoginModal } = useContext(ShowLoginModalContext)
   const { setShowRegisterModal } = useContext(ShowRegisterModalContext)
   const { setShowMenu } = useContext(ShowMenuContext)
+  const { setShowAnnouncementModal } = useContext(ShowAnnouncementModalContext)
 
 
   useEffect(() => { 
@@ -109,22 +112,24 @@ export const NavMobile = () => {
           </li>
         </Link>
 
-        <Link to="#">
-          <li className='navOption'>
-            
+        <Link to="/reviews">
+          <li className='navOption'> 
             <button onClick={() => setShowMenu(false)}>Reviews</button>
           </li>
         </Link>
 
         { authContext.loggedIn && 
-          <li className='navOption'>
-            <button onClick={() => setShowMenu(false)}>Criar Anúncio</button>
-          </li> 
+          <div className='navOption' onClick={() => { setShowAnnouncementModal(true); setShowMenu(false)}}>
+            <button className='buttonNav'>
+              Criar Anúncio
+            </button>
+          </div>
+          
         }
 
         { authContext.loggedIn && 
 
-          <div className='buttonNavWrapper' onClick={() => { authContext.logout() }}>
+          <div className='buttonNavWrapper' onClick={() => { authContext.logout(); setShowMenu(false); }}>
             <button className='buttonNav'>
               Logout
             </button>
@@ -144,22 +149,7 @@ export const NavMobile = () => {
             <button onClick={() => setShowMenu(false)}>Alertas</button>
           </li> 
         }
-
-        { authContext.loggedIn && 
-          <li className='navOption'>
-            <button onClick={() => setShowMenu(false)}>Configurações</button>
-          </li>
-        }
         </UlNav>
-
-
-      { authContext.loggedIn &&
-        <Profile>
-          <img className='profileImg' src={vitorIcon} alt="" />
-          <p>Vitor</p>
-          <AiOutlineEllipsis/>
-        </Profile> 
-      }
 
       { !authContext.loggedIn &&
           <div className='navOption' onClick={() => { setShowRegisterModal(true)}}>

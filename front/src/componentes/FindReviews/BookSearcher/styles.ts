@@ -5,8 +5,9 @@ export const SearchBarWrapper = styled.form`
     display: flex;
     flex-direction: column;
     align-items: center;
-
+    margin: 0 auto;
     width: 50%;
+    z-index: -1;
 
     position: relative;
     .inputSearch {
