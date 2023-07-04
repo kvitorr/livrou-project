@@ -238,13 +238,14 @@ export class AdvertisementService {
   }, options: IPaginationOptions): Promise<Pagination<Advertisement>> {
     const { state, city, transactionType, conservation, maxPrice } = filter;
   
-    const queryBuilder = this.advertisementRepository.createQueryBuilder('advertisement');
-  
+    const queryBuilder = this.advertisementRepository.createQueryBuilder('advertisement')
+    .leftJoinAndSelect('advertisement.locations', 'location_table')
+
     if (state) {
-      queryBuilder.andWhere('adPlace.state = :state', { state });
+      queryBuilder.andWhere('location_table.state = :state', { state });
     }
     if (city) {
-      queryBuilder.andWhere('adPlace.city = :city', { city });
+      queryBuilder.andWhere('location_table.city = :city', { city });
     }
     if (transactionType) {
       queryBuilder.andWhere('advertisement.transactionType = :transactionType', { transactionType });
@@ -258,7 +259,6 @@ export class AdvertisementService {
   
     queryBuilder.andWhere('advertisement.completionDate IS NULL');
     queryBuilder.andWhere('advertisement.removed = false');
-
   
     return await this.paginate(queryBuilder, options);
   }
