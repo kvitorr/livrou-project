@@ -13,5 +13,5 @@ export class AdvertisementDetailsDto {
   advertiserName: string;
   advertiserImageUrl: string | null;
   accountCreationDate: Date;
-  contactNumber: number;
+  contactNumber: string;
 }
