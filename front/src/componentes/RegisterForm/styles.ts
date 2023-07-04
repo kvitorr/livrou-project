@@ -7,7 +7,7 @@ export const RegisterContainer = styled.div`
     border-radius: 10px;
     background-color: white;
     width: 570px;
-    height: 700px;
+    max-height: 700px;
 
     overflow-y: auto;
 
@@ -134,4 +134,10 @@ export const LogoImg = styled.img`
 export const ImgWrapper = styled.div`
     width: 50px;
     margin: 0 auto;
+`
+
+export const Sucess = styled.p`
+    font-size: 1rem;
+    font-weight: 500;
+    font-family: 'Poppins';
 `

@@ -1,5 +1,5 @@
-import { useContext } from 'react'
-
+import { useContext, useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom';
 import { BoxWrapper, ButtonWrapper } from './styles'
 import { SearchBar } from './SearchBar'
 import { AiOutlineMenu } from 'react-icons/ai'
@@ -10,6 +10,16 @@ import { AdFilter } from './AdFilter'
 export const SearchBox = () => {
   const { showMenu, setShowMenu } = useContext(ShowMenuContext);
   const { showFilter, setShowFilter } = useContext(ShowFilterContext);
+  const [ showButton, setShowButton ] = useState(true)
+  const location = useLocation();
+  
+
+  useEffect(() => {
+
+    if (location.pathname !== '/') setShowButton(false)
+    else setShowButton(true)
+
+  }, [location])
 
   return (
     <BoxWrapper>
@@ -22,9 +32,9 @@ export const SearchBox = () => {
           <SearchBar/>
       </div>
 
-      <ButtonWrapper onClick={() => setShowFilter(!showFilter)}>
+      {showButton && <ButtonWrapper onClick={() => setShowFilter(!showFilter)}>
         Filtrar Anúncios
-      </ButtonWrapper>
+      </ButtonWrapper> }
         {showFilter && <AdFilter/>}
     </BoxWrapper>  
   )

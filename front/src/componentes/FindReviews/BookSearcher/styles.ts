@@ -7,7 +7,7 @@ export const SearchBarWrapper = styled.form`
     align-items: center;
     margin: 0 auto;
     width: 50%;
-    z-index: -1;
+    z-index: 0;
 
     position: relative;
     .inputSearch {
