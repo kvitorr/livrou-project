@@ -6,6 +6,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { plainToClass } from 'class-transformer';
 import { Location } from './entities/location.entity';
 import { Pagination, IPaginationOptions,paginate } from 'nestjs-typeorm-paginate';
+import { ConservationModule } from 'src/conservation/conservation.module';
 
 
 
@@ -19,8 +20,9 @@ export class LocationService {
   
 
   async create(createLocationDto: CreateLocationDto): Promise<Location> {
+    console.log(createLocationDto)
     const location: Location = plainToClass(Location, createLocationDto);
-    return this.locationRepository.save(location);
+    return await this.locationRepository.save(location);
   }
   
   async findAllStates(): Promise<Location[]> {

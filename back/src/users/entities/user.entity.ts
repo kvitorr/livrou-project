@@ -14,8 +14,8 @@ export class User {
   @Column()
   birth_date: Date;
 
-  @Column()
-  phone: number;
+  @Column({nullable: true})
+  phone: string;
 
   @Column({ default: false })
   removed: boolean;
