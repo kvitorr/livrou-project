@@ -8,14 +8,17 @@ import { User } from 'src/users/entities/user.entity';
 import { Request } from 'express';
 import { Pagination, IPaginationOptions } from 'nestjs-typeorm-paginate';
 import { Advertisement } from './entities/advertisement.entity';
+import {ApiBody, ApiTags , ApiParam,ApiResponse , ApiBearerAuth, ApiHeader} from '@nestjs/swagger';
 
-
+@ApiTags('advertisement')
 @Controller('advertisement')
 export class AdvertisementController {
   constructor(private readonly advertisementService: AdvertisementService) { }
 
   @Post()
   @UseGuards(AuthGuard('jwt')) // Decorator responsável pelo Guard
+  @ApiBearerAuth()
+  @ApiResponse({ status: 200, description: 'Cria um anúncio' })
   create(@Body() createAdvertisementDto: CreateAdvertisementDTO, @Req() request: Request) {
     const user: User = request.user as User;
     createAdvertisementDto.userId = user.user_id;

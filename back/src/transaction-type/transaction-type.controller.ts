@@ -2,7 +2,9 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { TransactionTypeService } from './transaction-type.service';
 import { CreateTransactionTypeDto } from './dto/create-transaction-type.dto';
 import { UpdateTransactionTypeDto } from './dto/update-transaction-type.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('transaction type')
 @Controller('transaction-type')
 export class TransactionTypeController {
   constructor(private readonly transactionTypeService: TransactionTypeService) {}

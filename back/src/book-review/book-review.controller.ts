@@ -7,8 +7,9 @@ import { User } from 'src/users/entities/user.entity';
 import { AuthGuard } from '@nestjs/passport';
 import{IPaginationOptions, Pagination } from 'nestjs-typeorm-paginate';
 import { BookReview } from './entities/book-review.entity';
+import { ApiTags } from '@nestjs/swagger';
 
-
+@ApiTags('Book review')
 @Controller('books/:bookId/book-review')
 export class BookReviewController {
   constructor(private readonly bookReviewService: BookReviewService) {}

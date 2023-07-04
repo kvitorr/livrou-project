@@ -8,8 +8,9 @@ import { User } from 'src/users/entities/user.entity';
 import { Book } from './entities/book.entity';
 import { Pagination, IPaginationOptions } from 'nestjs-typeorm-paginate';
 import { Advertisement } from 'src/advertisement/entities/advertisement.entity';
+import { ApiTags } from '@nestjs/swagger';
 
-
+@ApiTags('books')
 @Controller('books')
 export class BooksController {
   constructor(private readonly booksService: BooksService) {}

@@ -13,6 +13,7 @@ async function bootstrap() {
    .setTitle('API livrou')
    .setDescription('Api da Plataforma Livrou')
    .setVersion('1.0')
+   .addBearerAuth()
    .build();
 
  const document = SwaggerModule.createDocument(app, config);
