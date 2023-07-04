@@ -34,7 +34,7 @@ export const BookAd: React.FC<IBookAds & IBookAdsComplement> = ({ description, v
             
             
             <S.AdContent>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda debitis nesciunt sapiente, nostrum dolore nemo voluptates voluptas doloribus? Inventore illo dolorem unde expedita quo accusantium vero omnis harum magnam sequi!
+            {description}
             </S.AdContent>
 
         </S.AdContentWrapper>

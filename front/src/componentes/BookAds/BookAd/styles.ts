@@ -37,6 +37,7 @@ export const AdContentWrapper = styled.div`
     flex-direction: column;
     justify-content: space-between;
     gap: .5rem;
+    width: 100%;
 `
 
 export const AdHeader = styled.div`
@@ -66,6 +67,9 @@ export const AdInteraction = styled.button`
 
     padding: 0 1rem;
     margin: 0.5rem auto 0 auto;
+
+    width: 200px;
+
 
 
     > * {
