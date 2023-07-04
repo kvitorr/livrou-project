@@ -7,7 +7,6 @@ export const Wrapper = styled.div`
     height: 100%;
     margin: auto;
     padding-bottom: 2rem;
-    background-color: blue;
 `
 
 export const ReviewsContainer = styled.div`
