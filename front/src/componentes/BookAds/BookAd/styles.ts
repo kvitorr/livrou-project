@@ -10,6 +10,11 @@ export const AdContainer = styled.div`
     border-radius: 20px;
     box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.5);
 
+    @media(max-width: 1200px) {
+        flex-direction: column;
+        padding-top: 0.5rem;
+    }
+
 `
 
 export const ProfileImgWrapper = styled.div`
@@ -19,6 +24,10 @@ export const ProfileImgWrapper = styled.div`
 
     img {
         width: 100%;
+    }
+
+    @media(max-width: 1250px) {
+        display: none;
     }
 `
 export const AdContentWrapper = styled.div`
@@ -36,13 +45,14 @@ export const AdHeader = styled.div`
     align-items: center;
 `
 export const AdTitle = styled.p`
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     color: #1A2B88;
     font-weight: ${theme.font.weight.bold};
 `
 
 export const AdContent = styled.p`
     font-size: 1rem;
+    font-family: 'Poppins';
     text-align: justify;
 `
 
@@ -66,6 +76,10 @@ export const AdInteraction = styled.button`
         font-size: .7rem;
     }
 
+    @media(max-width: 1200px) {
+        margin-bottom: .5rem;
+    }
+
 `
 export const AdType = styled.div`
     display: flex;
@@ -77,8 +91,11 @@ export const AdType = styled.div`
     border: none;
     padding: .5rem 1rem;
     font-weight: ${theme.font.weight.bold};
+    min-width: 100px;
+    width: 100%;
 
     border-radius: 40px;
+    font-family: 'Poppins';
 
 
 
@@ -87,7 +104,12 @@ export const AdType = styled.div`
     }
 
     p {
-        font-size: .7rem;
+        font-size: .8rem;
+        font-weight: 500;
+    }
+
+    @media(max-width:1200px) {
+        border-radius: 10px;
     }
 
 `

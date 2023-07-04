@@ -1,16 +1,25 @@
 import { AnnouncementFormContainer, SelectOptions } from './styles'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { AiOutlineClose } from 'react-icons/ai'
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { ShowAnnouncementModalContext } from '../../contexts/AnnouncementModalContext'
 import { BookSearcher } from './BookSearcher'
-import { axiosPrivate } from '../../utils/api'
+import { axiosPrivate, axiosPublic } from '../../utils/api'
 
 interface BooksProps {
   book_id: string
   title: string
 }
 
+interface IEstados {
+  state: string
+}
+
+interface ICidades {
+  location_id: number
+  city: string
+  state: string
+}
 
 // extract the inferred type
 
@@ -26,8 +35,42 @@ const AnnouncementForm = () => {
   const [description, setDescription] = useState<string>('')
   const [estado, setEstado] = useState('');
   const [cidade, setCidade] = useState('');
-
   const [showValue, setShowValue] = useState(false)
+
+  const [estados, setEstados] = useState<IEstados[]>([])
+  const [cidades, setCidades] = useState<ICidades[]>([])
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
+  useEffect(() => {
+    const fetchEstados = async () => {
+      const response = await axiosPublic('location')
+      const data = response.data
+      setEstados(data)
+    }
+    fetchEstados();
+  })
+
+  useEffect(() => {
+    const fetchCidades = async () => {
+      const response = await axiosPublic(`location/states/${estado}`)
+      const data = response.data
+      setCidades(data.items)
+    }
+    if(estado) fetchCidades();
+    else setCidades([])
+  }, [estado])
+
+
+  const fetchNewCidades = async (pageNumber: number) => {
+    const response = await axiosPublic(`location/states/Piauí?page=${pageNumber}`)
+    const data = response.data
+    const currentCidades = cidades.concat(data.items)
+
+    setCidades(currentCidades)
+    setCurrentPage(data.meta.currentPage)
+  }
 
 
   const handleEstadoChange = (event: any) => {
@@ -64,11 +107,11 @@ const AnnouncementForm = () => {
 
 
   const handleSubmit = async () => {
-    const valueTratado = value ? null : 0
+    const valueTratado = value ? value : null
     const book = {
         bookId: choosenBook?.book_id,
         conservationId: Number(estadoConservacao),
-        valueTratado,
+        value: valueTratado,
         description,
         transactionTypeId: Number(tipoVenda),
         locations: [{
@@ -76,7 +119,7 @@ const AnnouncementForm = () => {
           cidade,
         }]
       }
-
+      console.log(book)
     const response = await axiosPrivate.post('advertisement', book)
 }
 
@@ -108,6 +151,7 @@ const AnnouncementForm = () => {
             <button type='button' onClick={() => setChoosenBook(null)}>Mudar Livro</button>
           </div>
         }
+
       <form>
         <p className='label-input'>Tipo de Venda</p>
           <SelectOptions required value={tipoVenda} onChange={handleTipoVendaChange}>
@@ -136,12 +180,28 @@ const AnnouncementForm = () => {
             <input required className='input-style' value={description} onChange={handleDescriptionChange} type="text" placeholder='Digite o descrição...'/>
 
             <p className='label-input'>Estado</p>
-            <input required className='input-style' value={estado} onChange={handleEstadoChange} type="text" placeholder='Digite o estado ...'/>
+            <SelectOptions required value={estado} onChange={handleEstadoChange}>
+              <option value=""></option>
+              {
+                estados.map((estado, id) => (
+                  <option key={id} value={estado.state}>{estado.state}</option>
+                ))
+              }
+            </SelectOptions>
 
             <p className='label-input'>Cidade</p>
-            <input required className='input-style' value={cidade} onChange={handleCidadeChange} type="text" placeholder='Digite a cidade...'/>
-
-          
+            <SelectOptions required value={cidade} onChange={handleCidadeChange}>
+              <option value=""></option>
+              {
+                cidades.map((cidade, id) => (
+                  <option key={id} value={cidade.city}>{cidade.city}</option>
+                ))
+              }
+              {currentPage < totalPages && <option onClick={() => fetchNewCidades(currentPage + 1)}>
+                Carregar mais cidades
+              </option>}
+            </SelectOptions>
+           
         <button className='buttonType' id='buttonPublish' onClick={handleSubmit} type='button'>Publicar</button>
       </form>
         

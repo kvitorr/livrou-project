@@ -29,7 +29,8 @@ const Advertiser: React.FC<IBookDetailsProps> = ({advertisementType, price, adve
     <S.Wrapper>
         <S.Tag>
             <S.ValueAndType>
-                R$ {price} {advertisementType.toUpperCase()}
+                 {price && <p>R$ {price}</p>
+                } {advertisementType.toUpperCase()}
             </S.ValueAndType>
         </S.Tag>
 

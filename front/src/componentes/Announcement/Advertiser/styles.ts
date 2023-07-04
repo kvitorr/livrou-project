@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 export const Wrapper = styled.div`
     width: 80%;
-    margin: 0 auto 10rem auto;
+    margin: 0 auto 0rem auto;
 `
 
 export const Tag = styled.div`
@@ -19,9 +19,14 @@ export const Tag = styled.div`
     border-bottom-left-radius: 50px;
     border-top-left-radius: 50px;
 
+    @media(max-width: 1250px){
+        border-radius: 10px;
+        padding: 0.4rem 2rem;
+    }
+
 `
 
-export const ValueAndType = styled.p`
+export const ValueAndType = styled.div`
     font-family: 'Poppins';
     font-weight: 500;
 `

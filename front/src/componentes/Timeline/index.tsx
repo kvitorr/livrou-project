@@ -2,7 +2,6 @@ import React, { useEffect, useContext, useState } from 'react'
 import * as S from './styles'
 import { BookAd } from './BookAd'
 
-import urlImage from '/images/ponteParaTerabia.jpg'
 import { FilterQueryContext } from '../../contexts/FilterQueryContext'
 import { axiosPublic } from '../../utils/api'
 

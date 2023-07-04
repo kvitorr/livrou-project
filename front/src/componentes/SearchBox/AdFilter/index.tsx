@@ -1,7 +1,18 @@
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import * as S from './styles'
-import { useForm, SubmitHandler } from 'react-hook-form'
+
 import { FilterQueryContext } from '../../../contexts/FilterQueryContext';
+import { axiosPublic } from '../../../utils/api';
+
+interface IEstados {
+  state: string
+}
+
+interface ICidades {
+  location_id: number
+  city: string
+  state: string
+}
 
 export const AdFilter = () => {
   const [estado, setEstado] = useState('');
@@ -12,6 +23,45 @@ export const AdFilter = () => {
   const [messageError, setMessageError] = useState(false)
 
   const { filterQuery, setFilterQuery } = useContext(FilterQueryContext)
+
+  const [estados, setEstados] = useState<IEstados[]>([])
+  const [cidades, setCidades] = useState<ICidades[]>([])
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
+  useEffect(() => {
+    const fetchEstados = async () => {
+      const response = await axiosPublic('location')
+      const data = response.data
+      setEstados(data)
+    }
+    fetchEstados();
+  })
+
+  useEffect(() => {
+    const fetchCidades = async () => {
+      const response = await axiosPublic(`location/states/${estado}`)
+      const data = response.data
+      setCidades(data.items)
+    }
+    if(estado) fetchCidades();
+    else setCidades([])
+  }, [estado])
+
+
+  const fetchNewCidades = async (pageNumber: number) => {
+    const response = await axiosPublic(`location/states/Piauí?page=${pageNumber}`)
+    const data = response.data
+    const currentCidades = cidades.concat(data.items)
+
+    setCidades(currentCidades)
+    setCurrentPage(data.meta.currentPage)
+  }
+
+
+
+
 
   const handleEstadoChange = (event: any) => {
     const { value } = event.target;
@@ -46,6 +96,8 @@ export const AdFilter = () => {
     if(valorMaximo) query += `maxPrice=${valorMaximo}&`
     if(estadoConservacao) query += `conservation=${estadoConservacao}&`
     if(tipoVenda) query += `type=${tipoVenda}&`
+
+    console.log(query)
 
     setFilterQuery(query)
   }
@@ -83,16 +135,27 @@ export const AdFilter = () => {
       </div>
         <S.FormFilter>  
           <p className='label-input'>Estado</p>
-          <S.SelectOptions value={estado} onChange={handleEstadoChange}>
-            <option value=""></option>
-            <option value="piaui">Piauí</option>
-          </S.SelectOptions>
+            <S.SelectOptions required value={estado} onChange={handleEstadoChange}>
+              <option value=""></option>
+              {
+                estados.map((estado, id) => (
+                  <option key={id} value={estado.state}>{estado.state}</option>
+                ))
+              }
+            </S.SelectOptions>
 
-          <p className='label-input'>Cidade</p>
-          <S.SelectOptions value={cidade} onChange={handleCidadeChange}>
-            <option value=""></option>
-            <option value="teresina">Teresina</option>
-          </S.SelectOptions>
+            <p className='label-input'>Cidade</p>
+            <S.SelectOptions required value={cidade} onChange={handleCidadeChange}>
+              <option value=""></option>
+              {
+                cidades.map((cidade, id) => (
+                  <option key={id} value={cidade.city}>{cidade.city}</option>
+                ))
+              }
+              {currentPage < totalPages && <option onClick={() => fetchNewCidades(currentPage + 1)}>
+                Carregar mais cidades
+              </option>}
+            </S.SelectOptions>
 
           <p className='label-input'>Tipo de Venda</p>
           <S.SelectOptions value={tipoVenda} onChange={handleTipoVendaChange}>

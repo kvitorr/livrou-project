@@ -7,6 +7,7 @@ export const UlNav = styled.ul`
         flex-direction: column;
         justify-content: space-between;
         gap: 1.5rem;
+        z-index: 1;
 
         width: 100%;
         margin: 0 auto 0rem auto;

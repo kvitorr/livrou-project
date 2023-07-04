@@ -85,7 +85,6 @@ export const Reviews = () => {
         </S.HeaderContainer>
         
         {reviews.map((review) => (
-          
           <Review key={review.bookReviewId} {...review}/>
         ))}
 

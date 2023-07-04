@@ -10,7 +10,8 @@ export const Wrapper = styled.div`
 
     height: calc(100vh - 70px);
     max-height: calc(100vh);
-    width: 1000px;
+    max-width: 1000px;
+    width: 100%;
     margin: auto;
 
     @media (max-width: 768px) {
