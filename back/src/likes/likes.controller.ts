@@ -5,7 +5,9 @@ import { UpdateAdLikeDto } from './dto/update-like.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
 import { User } from 'src/users/entities/user.entity';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Likes')
 @Controller('bookreview/:bookReviewId/like')
 export class LikesController {
   constructor(private readonly adLikesService: LikesService) {}

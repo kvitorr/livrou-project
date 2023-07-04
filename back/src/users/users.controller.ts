@@ -8,9 +8,10 @@ import { Request } from 'express';
 import { Pagination, IPaginationOptions } from 'nestjs-typeorm-paginate';
 import { Advertisement } from 'src/advertisement/entities/advertisement.entity';
 import { BookReview } from 'src/book-review/entities/book-review.entity';
-
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('users')
+@ApiTags('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 

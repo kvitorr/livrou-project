@@ -4,6 +4,10 @@ import { CreateLocationDto } from './dto/create-location.dto';
 import { Pagination, IPaginationOptions } from 'nestjs-typeorm-paginate';
 import { Location } from './entities/location.entity';
 
+
+import { ApiTags } from '@nestjs/swagger';
+
+@ApiTags('Location')
 @Controller('location')
 export class LocationController {
   constructor(private readonly locationService: LocationService) {}

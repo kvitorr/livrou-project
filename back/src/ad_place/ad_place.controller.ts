@@ -6,7 +6,7 @@ import { UpdateAdPlaceDto } from './dto/update-ad_place.dto';
 @Controller('ad-place')
 export class AdPlaceController {
   constructor(private readonly adPlaceService: AdPlaceService) {}
-
+/*
   @Post()
   create(@Body() createAdPlaceDto: CreateAdPlaceDto) {
     return this.adPlaceService.create(createAdPlaceDto);
@@ -30,5 +30,5 @@ export class AdPlaceController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.adPlaceService.remove(+id);
-  }
+  }*/
 }

@@ -3,7 +3,9 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { AuthorBookService } from './author-book.service';
 import { CreateAuthorBookDto } from './dto/create-author-book.dto';
 import { UpdateAuthorBookDto } from './dto/update-author-book.dto';
+import {ApiBody, ApiTags , ApiParam,ApiResponse , ApiBearerAuth, ApiHeader} from '@nestjs/swagger';
 
+@ApiTags('author-book')
 @Controller('author-book')
 export class AuthorBookController {
   constructor(private readonly authorBookService: AuthorBookService) {}
