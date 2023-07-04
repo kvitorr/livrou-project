@@ -28,7 +28,8 @@ export class AuthService {
 
   async generateToken(payload: User) {
     const accessToken = this.jwtService.sign(
-      { email: payload.email },
+      { email: payload.email,
+      user_id: payload.user_id },
       {
         secret: process.env.SECRET_KEY,
         expiresIn: '3000s',
