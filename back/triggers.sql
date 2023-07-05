@@ -28,3 +28,14 @@ CREATE TRIGGER like_trigger
 AFTER INSERT OR DELETE ON "like"
 FOR EACH ROW
 EXECUTE FUNCTION update_book_review_likes();
+
+INSERT INTO conservacao VALUES 
+	(DEFAULT, 'Novo'),
+	(DEFAULT, 'Seminovo'),
+	(DEFAULT, 'Com muitas marcas de uso');
+	
+	
+INSERT INTO tipo_transacao VALUES 
+	(DEFAULT, 'Apenas venda'),
+	(DEFAULT, 'Apenas troca'),
+	(DEFAULT, 'Troca e venda');

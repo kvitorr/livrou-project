@@ -202,9 +202,9 @@ const books =
 
 
 async function sendBookData() {
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imt2aXRvcnNhbnRvc0Bob3RtYWlsLmNvbSIsImlhdCI6MTY4ODQyNDI3NCwiZXhwIjoxNjg4NDI3Mjc0fQ.z39zP9dxNDuvTNCnpSY5bXLD7UDeXtker062k34Doyk"
-   try{ for (let i = 0; i < books2.length; i++) {
-      const book = books2[i];
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkZWxpYUBnbWFpbC5jb20iLCJ1c2VyX2lkIjoxLCJuYW1lIjoiQWTDqWxpYSIsImlhdCI6MTY4ODQ4Mzg4MiwiZXhwIjoxNjg4NDg2ODgyfQ.goy9nZ9QMlMwPPrOwpgwbYXvdqrFamQnHG90pRKMuz4"
+   try{ for (let i = 0; i < books.length; i++) {
+      const book = books[i];
       const response = await fetch('http://localhost:3000/books/', {
         method: 'POST',
         headers: {
